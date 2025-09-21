@@ -5,18 +5,17 @@ import os
 app = Flask(__name__)
 app.secret_key = 'your-secret-key-here'  # Change this to a random secret key
 
-# Aiven MySQL connection
-def get_connection():
-    return mysql.connector.connect(
-        host="mysql-3f32765c-votingwebsite.i.aivencloud.com",
-        port=19840,
-        user="avnadmin",
-        password="password",  # replace with your real password
-        database="votingdb",
-        ssl_ca="ca.pem"  # if Aiven gives you a CA certificate, use it
-        
-        #AVNS_2VYcX4ttrhl8a9i8mP5
+# Database connection using environment variables
+def get_db_connection():
+    conn = mysql.connector.connect(
+        host=os.getenv("DB_HOST"),
+        port=os.getenv("DB_PORT"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
+        database=os.getenv("DB_NAME"),
+        ssl_ca="ca.pem"  # if Aiven requires SSL cert
     )
+    return conn
 
 # Initialize database tables
 def init_database():
