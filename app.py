@@ -11,9 +11,11 @@ def get_connection():
         host="mysql-3f32765c-votingwebsite.i.aivencloud.com",
         port=19840,
         user="avnadmin",
-        password="AVNS_2VYcX4ttrhl8a9i8mP5",  # replace with your real password
+        password="password",  # replace with your real password
         database="votingdb",
         ssl_ca="ca.pem"  # if Aiven gives you a CA certificate, use it
+        
+        #AVNS_2VYcX4ttrhl8a9i8mP5
     )
 
 # Initialize database tables
