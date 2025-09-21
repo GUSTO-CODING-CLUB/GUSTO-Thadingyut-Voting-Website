@@ -10,19 +10,28 @@ import json
 load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = os.getenv('SECRET_KEY', 'your-secret-key-here')
+app.secret_key = os.getenv('SECRET_KEY')
 
 # Initialize Firebase Admin SDK
 try:
-    # You'll need to download your Firebase service account key
-    # and place it in your project directory
-    cred_path = os.getenv("FIREBASE_CREDENTIALS", "firebase-service-account.json")
-    cred = credentials.Certificate(cred_path)
+    import json
+    # Get the Firebase service account JSON from environment variable
+    cred_json = os.getenv("FIREBASE_CREDENTIALS_JSON")
+    if not cred_json:
+        raise ValueError("FIREBASE_CREDENTIALS_JSON environment variable is not set!")
+
+    # Parse JSON string into dict
+    cred_dict = json.loads(cred_json)
+    cred = credentials.Certificate(cred_dict)
+
+    # Initialize Firebase
     firebase_admin.initialize_app(cred)
     print("Firebase Admin SDK initialized successfully!")
+
 except Exception as e:
     print(f"Firebase Admin SDK initialization failed: {e}")
-    print("Please ensure firebase-service-account.json is in your project directory")
+    print("Make sure FIREBASE_CREDENTIALS_JSON env variable is set correctly on Render")
+
 
 # Authentication helper functions
 def verify_firebase_token(token):
