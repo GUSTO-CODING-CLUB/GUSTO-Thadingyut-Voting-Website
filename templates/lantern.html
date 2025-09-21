@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GUSTO Thadingyut Voting</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
+  <link rel="icon" type="image/png" href="{{ url_for('serve_image', filename='favicon.png') }}" />
+  
+  <style>
+    /* Pill */
+    #nav-indicator{
+      position:absolute; border-radius:.5rem; background:#015486;
+      box-shadow:0 2px 8px rgba(0,0,0,.15);
+      transition:all .2s ease-out;
+      opacity:0; pointer-events:none;
+    }
+    /* Keep links above the pill */
+    .nav-a{ position:relative; z-index:10; }
+
+    /* ✅ Desktop-only: active link becomes white */
+    @media (min-width:768px){
+      .nav-a.is-active, .nav-a.is-active * { color:#fff !important; }
+    }
+    /* ✅ Mobile: keep active link dark on white background */
+    @media (max-width:767px){
+      .nav-a.is-active, .nav-a.is-active * { color:#111827 !important; } /* Tailwind gray-900 */
+    }
+    @keyframes diya-glow {
+      0%   { filter: brightness(1) drop-shadow(0 0 0px #FFD700); }
+      40%  { filter: brightness(1.3) drop-shadow(0 0 16px #FFD700); }
+      60%  { filter: brightness(1.1) drop-shadow(0 0 8px #FFD700); }
+      100% { filter: brightness(1) drop-shadow(0 0 0px #FFD700); }
+    }
+    .animate-diya-glow {
+      animation: diya-glow 2s infinite;
+    }
+  </style>
+
+
+</head>
+<body class="flex flex-col min-h-screen bg-white text-gray-800">
+
+  <!-- Navbar -->
+  <nav class="bg-white shadow sticky top-0 z-50">
+    <div class="flex items-center justify-between px-6 h-[72px]"> <!-- fixed height -->
+      
+      <!-- Logo -->
+      <div class="flex items-center space-x-2">
+        <a href="{{ url_for('home') }}" class="flex items-center">
+          <img src="{{ url_for('serve_image', filename='Gusto_Nav_Logo.png') }}"
+              alt="GUSTO Logo"
+              class="h-[70px] w-auto -my-4 rounded-full" /> <!-- logo bigger, negative margin -->
+        </a>
+            <div class="flex flex-col md:flex-row items-center">
+            <!-- GUSTO -->
+            <span class="font-extrabold lg:text-3xl font-[Merriweather,serif]">
+                GUSTO
+            </span>
+
+            <!-- Myanmar text -->
+            <span
+                class="ml-1 font-normal font-[Noto_Sans_Myanmar] whitespace-nowrap
+                    text-base md:text-xl max-[330px]:text-sm">
+                သီတင်းကျွတ်ပွဲတော်
+            </span>
+            </div>
+
+      </div>
+
+      <!-- Hamburger -->
+      <button id="menu-btn" class="block md:hidden text-2xl p-2" aria-label="Open menu">&#9776;</button>
+
+      <!-- Links -->
+      <div id="nav-links"
+          class="hidden md:flex flex-col md:flex-row items-start md:items-center
+                  space-y-2 md:space-y-0 md:space-x-4 bg-white px-4 py-4 md:p-0
+                  rounded-none md:rounded-full fixed md:static top-[64px] left-0
+                  w-full md:w-auto z-40 shadow md:shadow-none">
+
+        <div class="relative md:flex md:items-center">
+          <!-- Moving pill -->
+          <span id="nav-indicator" aria-hidden="true"
+                class="hidden md:block absolute top-0 left-0 rounded-lg bg-[#015486] shadow-lg transition-all duration-300"></span>
+
+          <ul class="flex flex-col md:flex-row w-full md:w-auto space-y-2 md:space-y-0 md:space-x-2 font-medium">
+            <li><a href="{{ url_for('home') }}"           class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">Home</a></li>
+            <li><a href="{{ url_for('candidates') }}" class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">Candidate</a></li>
+            <li><a href="{{ url_for('lantern') }}"        class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">Lantern</a></li>
+            <li><a href="{{ url_for('results') }}"  class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">Voting Result</a></li>
+            <li><a href="{{ url_for('about') }}"       class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">About Us</a></li>
+            <li><a href="{{ url_for('final') }}"          class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">Final</a></li>
+            <li><a href="{{ url_for('winner') }}"         class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">Winner</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+    <main class="flex-grow flex flex-col justify-center items-center text-center px-4 py-12 font-[fa-chevron-left]">
+    <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 mb-4">
+        Coming Soon!
+    </h1>
+    <p class="text-lg sm:text-xl text-gray-600 mb-6">
+        Please come back on September 30!!
+    </p>
+    <a href="javascript:void(0)"
+      aria-disabled="true" role="button"
+      class="inline-block px-8 py-3 rounded-full bg-orange-400 text-white
+              font-semibold text-lg shadow opacity-50 cursor-not-allowed select-none">
+      Vote Now
+    </a>
+
+    </main>
+
+
+  <!-- for after page -->
+  <!-- <h1 class="text-2xl font-bold text-center mb-6">Thank you for coming back!</h1>
+    <button id="voteBtn" class="w-32 py-2 font-semibold text-lg bg-gray-200 text-black rounded-[20px] shadow-lg transition hover:bg-[#BC4501] hover:text-white hover:backdrop-blur-sm hover:scale-105">
+        Vote Now
+    </button> -->
+
+   <!-- Footer -->
+   <footer class="bg-[#03254C] py-4 px-4 md:py-5 md:px-8 h-auto md:h-[200px]">
+    <div class="flex flex-col md:flex-row justify-between items-center h-full text-center">
+
+        <div class="text-orange-400 font-medium 
+                    text-base lg:text-xl 
+                    mb-3 md:mb-0 
+                    ml-0 md:ml-[100px] 
+                    pr-0 md:pr-4 order-1">
+        ပျော်ရွှင်စရာသတင်းကျွတ်အချိန်အခါလေးဖြစ်ပါစေ
+        </div>
+
+        <div class="flex justify-center items-center py-2 order-2 flex-grow-0">
+        <img src="{{ url_for('serve_image', filename='SeMeeKut.png') }}" alt="Diya" class="w-[36px] h-[36px] mx-1 md:w-[50px] md:h-[50px] animate-diya-glow" />
+        <img src="{{ url_for('serve_image', filename='SeMeeKut.png') }}" alt="Diya" class="w-[50px] h-[50px] -mt-3 mx-1 md:w-[70px] md:h-[70px] md:-mt-4 animate-diya-glow" />
+        <img src="{{ url_for('serve_image', filename='SeMeeKut.png') }}" alt="Diya" class="w-[36px] h-[36px] mx-1 md:w-[50px] md:h-[50px] animate-diya-glow" />
+        </div>
+
+        <div class="flex flex-col items-center md:items-end 
+                    text-orange-400 font-medium 
+                    text-base md:text-lg lg:text-xl 
+                    mt-3 md:mt-0 
+                    mr-0 md:mr-[100px] 
+                    pl-0 md:pl-4 order-3">
+        
+        <div class="flex flex-wrap justify-center md:justify-end w-[370px] lg:justify-center space-x-4 md:space-x-6 mb-1 md:mb-0 font-[fa-chevron-left]">
+            <a href="{{ url_for('home') }}" class="hover:text-yellow-400">Home</a>
+            <a href="{{ url_for('candidates') }}" class="hover:text-yellow-400">Candidate</a>
+            <a href="{{ url_for('lantern') }}" class="hover:text-yellow-400">Lantern</a>
+        </div>
+
+        <br>
+
+        <div class="flex flex-wrap justify-center md:justify-end space-x-4 md:space-x-6 mt-1 md:mt-1 font-[fa-chevron-left]">
+            <a href="{{ url_for('results') }}" class="hover:text-yellow-400">Voting Result</a>
+            <a href="{{ url_for('about') }}" class="hover:text-yellow-400">About us</a>
+            <a href="{{ url_for('final') }}" class="hover:text-yellow-400">Final</a>
+            <a href="{{ url_for('winner') }}" class="hover:text-yellow-400">Winner</a>
+        </div>
+        </div>
+
+    </div>
+    </footer>
+
+  <!-- Mobile nav toggle -->
+  <script>
+    const menuBtn = document.getElementById('menu-btn');
+    const navLinks = document.getElementById('nav-links');
+    if (menuBtn && navLinks) menuBtn.addEventListener('click', () => navLinks.classList.toggle('hidden'));
+  </script>
+  
+  <!-- Unified Navigation Script -->
+  <script src="{{ url_for('static', filename='js/navigation.js') }}"></script>
+
+  <!-- for after page -->
+  <!--     <script>
+      const voteBtn = document.getElementById('voteBtn');
+      voteBtn.addEventListener('click', function () {
+          window.location.href = "final.html";
+      });
+    </script> -->
+</body>
+</html>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GUSTO Thadingyut Voting</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="icon" type="image/png" href="img/favicon.png" />
+
+  <style>
+    /* Pill */
+    #nav-indicator{
+      position:absolute; border-radius:.5rem; background:#015486;
+      box-shadow:0 2px 8px rgba(0,0,0,.15);
+      transition:all .2s ease-out;
+      opacity:0; pointer-events:none;
+    }
+    /* Keep links above the pill */
+    .nav-a{ position:relative; z-index:10; }
+
+    /* ✅ Desktop-only: active link becomes white */
+    @media (min-width:768px){
+      .nav-a.is-active, .nav-a.is-active * { color:#fff !important; }
+    }
+    /* ✅ Mobile: keep active link dark on white background */
+    @media (max-width:767px){
+      .nav-a.is-active, .nav-a.is-active * { color:#111827 !important; } /* Tailwind gray-900 */
+    }
+    @keyframes diya-glow {
+      0%   { filter: brightness(1) drop-shadow(0 0 0px #FFD700); }
+      40%  { filter: brightness(1.3) drop-shadow(0 0 16px #FFD700); }
+      60%  { filter: brightness(1.1) drop-shadow(0 0 8px #FFD700); }
+      100% { filter: brightness(1) drop-shadow(0 0 0px #FFD700); }
+    }
+    .animate-diya-glow {
+      animation: diya-glow 2s infinite;
+    }
+  </style>
+
+
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- Navbar -->
+  <nav class="bg-white shadow sticky top-0 z-50">
+    <div class="flex items-center justify-between px-6 h-[72px]"> <!-- fixed height -->
+      
+      <!-- Logo -->
+      <div class="flex items-center space-x-2">
+        <a href="home.html" class="flex items-center">
+          <img src="img/Gusto_Nav_Logo.png"
+              alt="GUSTO Logo"
+              class="h-[70px] w-auto -my-4 rounded-full" /> <!-- logo bigger, negative margin -->
+        </a>
+            <div class="flex flex-col md:flex-row items-center">
+            <!-- GUSTO -->
+            <span class="font-extrabold lg:text-3xl font-[Merriweather,serif]">
+                GUSTO
+            </span>
+
+            <!-- Myanmar text -->
+            <span
+                class="ml-1 font-normal font-[Noto_Sans_Myanmar] whitespace-nowrap
+                    text-base md:text-xl max-[330px]:text-sm">
+                သီတင်းကျွတ်ပွဲတော်
+            </span>
+            </div>
+
+      </div>
+
+      <!-- Hamburger -->
+      <button id="menu-btn" class="block md:hidden text-2xl p-2" aria-label="Open menu">&#9776;</button>
+
+      <!-- Links -->
+      <div id="nav-links"
+          class="hidden md:flex flex-col md:flex-row items-start md:items-center
+                  space-y-2 md:space-y-0 md:space-x-4 bg-white px-4 py-4 md:p-0
+                  rounded-none md:rounded-full fixed md:static top-[64px] left-0
+                  w-full md:w-auto z-40 shadow md:shadow-none">
+
+        <div class="relative md:flex md:items-center">
+          <!-- Moving pill -->
+          <span id="nav-indicator" aria-hidden="true"
+                class="hidden md:block absolute top-0 left-0 rounded-lg bg-[#015486] shadow-lg transition-all duration-300"></span>
+
+          <ul class="flex flex-col md:flex-row w-full md:w-auto space-y-2 md:space-y-0 md:space-x-2 font-medium">
+            <li><a href="{{ url_for('home') }}"           class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">Home</a></li>
+            <li><a href="{{ url_for('candidates') }}" class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">Candidate</a></li>
+            <li><a href="{{ url_for('lantern') }}"        class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">Lantern</a></li>
+            <li><a href="{{ url_for('results') }}"  class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">Voting Result</a></li>
+            <li><a href="{{ url_for('about') }}"       class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">About Us</a></li>
+            <li><a href="{{ url_for('final') }}"          class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">Final</a></li>
+            <li><a href="{{ url_for('winner') }}"         class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">Winner</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- CONTENT -->
+  <main class="max-w-[75%] mx-auto px-4 sm:px-6 md:px-8 mt-6 mb-10">
+    <h2 class="text-2xl font-semibold text-center font-[fa-chevron-left]">Candidate Lists</h2>
+
+    <!-- Tabs -->
+    <div class="flex gap-3 mt-6 justify-center md:justify-start">
+      <button id="tab-king"
+        class="px-6 py-3 rounded-full font-semibold bg-orange-500 text-white font-[fa-chevron-left]">
+        King
+      </button>
+      <button id="tab-queen"
+        class="px-6 py-3 rounded-full font-semibold bg-gray-200 text-gray-800 font-[fa-chevron-left]">
+        Queen
+      </button>
+    </div>
+
+
+    <section id="grid"
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-8 font-[fa-chevron-left]">
+      <!-- King Candidates -->
+      {% for king in kings %}
+      <article class="bg-white rounded-2xl border shadow-[0_10px_20px_rgba(0,0,0,0.12)] overflow-hidden transition-all duration-300 ease-out hover:shadow-lg hover:-translate-y-1">
+        <img src="{{ king.image_path }}"
+            alt="{{ king.name }}"
+            class="w-full h-[239px] object-cover transition-transform duration-300 hover:scale-105">
+        <div class="px-5 py-4">
+          <div class="flex items-center justify-between leading-none font-medium text-gray-900 mb-3">
+            <span>{{ king.name }}</span><span>{{ king.batch }}</span>
+          </div>
+          <div class="flex gap-3">
+            <a href="{{ url_for('viewmore', id=king.name.replace(' ', '_')) }}"
+              class="flex-1 text-center text-[16px] py-2 rounded-full bg-gray-100 text-gray-800 hover:bg-gray-200 transition-colors duration-200 shadow">
+              View more
+            </a>
+            <button onclick="voteCandidate({{ king.id }}, 'king')"
+              class="flex-1 text-[16px] py-2 rounded-full bg-[#015486] text-white hover:bg-[#004469] transition-colors duration-200 shadow">
+              Vote
+            </button>
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </section>
+
+    
+    
+  </main>
+
+   <!-- Footer -->
+   <footer class="bg-[#03254C] py-4 px-4 md:py-5 md:px-8 h-auto md:h-[200px]">
+    <div class="flex flex-col md:flex-row justify-between items-center h-full text-center">
+
+        <div class="text-orange-400 font-medium 
+                    text-base lg:text-xl 
+                    mb-3 md:mb-0 
+                    ml-0 md:ml-[100px] 
+                    pr-0 md:pr-4 order-1">
+        ပျော်ရွှင်စရာသတင်းကျွတ်အချိန်အခါလေးဖြစ်ပါစေ
+        </div>
+
+        <div class="flex justify-center items-center py-2 order-2 flex-grow-0">
+        <img src="img/SeMeeKut.png" alt="Diya" class="w-[36px] h-[36px] mx-1 md:w-[50px] md:h-[50px] animate-diya-glow" />
+        <img src="img/SeMeeKut.png" alt="Diya" class="w-[50px] h-[50px] -mt-3 mx-1 md:w-[70px] md:h-[70px] md:-mt-4 animate-diya-glow" />
+        <img src="img/SeMeeKut.png" alt="Diya" class="w-[36px] h-[36px] mx-1 md:w-[50px] md:h-[50px] animate-diya-glow" />
+        </div>
+
+        <div class="flex flex-col items-center md:items-end 
+                    text-orange-400 font-medium 
+                    text-base md:text-lg lg:text-xl 
+                    mt-3 md:mt-0 
+                    mr-0 md:mr-[100px] 
+                    pl-0 md:pl-4 order-3">
+        
+        <div class="flex flex-wrap justify-center md:justify-end w-[370px] lg:justify-center space-x-4 md:space-x-6 mb-1 md:mb-0 font-[fa-chevron-left]">
+            <a href="{{ url_for('home') }}" class="hover:text-yellow-400">Home</a>
+            <a href="{{ url_for('candidates') }}" class="hover:text-yellow-400">Candidate</a>
+            <a href="{{ url_for('lantern') }}" class="hover:text-yellow-400">Lantern</a>
+        </div>
+
+        <br>
+
+        <div class="flex flex-wrap justify-center md:justify-end space-x-4 md:space-x-6 mt-1 md:mt-1 font-[fa-chevron-left]">
+            <a href="{{ url_for('results') }}" class="hover:text-yellow-400">Voting Result</a>
+            <a href="{{ url_for('about') }}" class="hover:text-yellow-400">About us</a>
+            <a href="{{ url_for('final') }}" class="hover:text-yellow-400">Final</a>
+            <a href="{{ url_for('winner') }}" class="hover:text-yellow-400">Winner</a>
+        </div>
+        </div>
+
+    </div>
+    </footer>
+
+    <!-- Mobile nav toggle -->
+    <script>
+    const menuBtn = document.getElementById('menu-btn');
+    const navLinks = document.getElementById('nav-links');
+    if (menuBtn && navLinks) {
+      menuBtn.addEventListener('click', () => navLinks.classList.toggle('hidden'));
+    }
+    </script>
+    
+    <!-- Unified Navigation Script -->
+    <script src="{{ url_for('static', filename='js/navigation.js') }}"></script>
+
+    <script>
+    /* ========== King / Queen tabs ========== */
+    const kingBtn = document.getElementById('tab-king');
+    const queenBtn = document.getElementById('tab-queen');
+    const grid = document.getElementById('grid');
+
+    if (kingBtn && queenBtn && grid) {
+      const kingHTML = grid.innerHTML;
+
+      // ✅ Queen tab cards - Generate dynamically from server data
+      const queenHTML = `
+        {% for queen in queens %}
+        <article class="bg-white rounded-2xl border shadow-[0_10px_20px_rgba(0,0,0,0.12)] overflow-hidden">
+          <img src="{{ queen.image_path }}"
+              alt="{{ queen.name }}"
+            class="w-full h-[239px] object-cover">
+        <div class="px-5 py-4">
+          <div class="flex items-center justify-between leading-none font-medium text-gray-900 mb-3">
+              <span>{{ queen.name }}</span><span>{{ queen.batch }}</span>
+          </div>
+          <div class="flex gap-3">
+              <a href="{{ url_for('viewmore', id=queen.name.replace(' ', '_')) }}"
+              class="flex-1 text-center text-[16px] py-2 rounded-full bg-gray-100 text-gray-800 hover:bg-gray-200 transition shadow">
+              View more
+            </a>
+              <button onclick="voteCandidate({{ queen.id }}, 'queen')"
+              class="flex-1 text-[16px] py-2 rounded-full bg-[#015486] text-white hover:bg-[#004469] transition shadow">
+              Vote
+            </button>
+          </div>
+        </div>
+      </article>
+        {% endfor %}
+      `;
+
+      function setActive(on, off){
+        on.classList.remove('bg-gray-200','text-gray-800');
+        on.classList.add('bg-orange-500','text-white','rounded-full','px-6','py-2');
+        off.classList.remove('bg-orange-500','text-white');
+        off.classList.add('bg-gray-200','text-gray-800','rounded-full','px-6','py-2');
+      }
+
+      kingBtn.addEventListener('click', () => {
+        setActive(kingBtn, queenBtn);
+        grid.innerHTML = kingHTML;
+      });
+
+      queenBtn.addEventListener('click', () => {
+        setActive(queenBtn, kingBtn);
+        grid.innerHTML = queenHTML;
+      });
+    }
+
+    // Voting functionality
+    function voteCandidate(candidateId, candidateType) {
+      // Show loading state
+      const button = event.target;
+      const originalText = button.textContent;
+      button.textContent = 'Voting...';
+      button.disabled = true;
+      
+      // Send vote to server
+      fetch('/vote', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `candidate_id=${candidateId}&candidate_type=${candidateType}`
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          // Show success message
+          button.textContent = 'Voted!';
+          button.classList.remove('bg-[#015486]', 'hover:bg-[#004469]');
+          button.classList.add('bg-green-500', 'hover:bg-green-600');
+          
+          // Show success alert
+          alert('Vote recorded successfully! Thank you for voting.');
+          
+          // Optional: Redirect to results page after 2 seconds
+          setTimeout(() => {
+            window.location.href = '{{ url_for("results") }}';
+          }, 2000);
+        } else {
+          // Show error message
+          button.textContent = 'Error';
+          button.classList.add('bg-red-500');
+          alert('Error: ' + data.message);
+          
+          // Reset button after 3 seconds
+          setTimeout(() => {
+            button.textContent = originalText;
+            button.disabled = false;
+            button.classList.remove('bg-red-500');
+          }, 3000);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        button.textContent = 'Error';
+        button.classList.add('bg-red-500');
+        alert('Network error. Please try again.');
+        
+        // Reset button after 3 seconds
+        setTimeout(() => {
+          button.textContent = originalText;
+          button.disabled = false;
+          button.classList.remove('bg-red-500');
+        }, 3000);
+      });
+    }
+    </script>
+
+
+
+</body>
+</html>

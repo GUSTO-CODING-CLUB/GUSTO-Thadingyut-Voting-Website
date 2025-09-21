@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GUSTO Thadingyut Voting - Final</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
+  <link rel="icon" type="image/png" href="{{ url_for('serve_image', filename='favicon.png') }}" />
+    <link href="https://fonts.googleapis.com/css2?family=Jomolhari&display=swap" rel="stylesheet">
+    <style>
+    /* Simple Professional Pill */
+        #nav-indicator{
+      position:absolute; border-radius:.5rem; background:#015486;
+      box-shadow:0 2px 8px rgba(0,0,0,.15);
+      transition:all .2s ease-out;
+            opacity:0; pointer-events:none;
+        }
+        .nav-a{ position:relative; z-index:10; }
+        @media (min-width:768px){
+            .nav-a.is-active, .nav-a.is-active * { color:#fff !important; }
+        }
+        @media (max-width:767px){
+            .nav-a.is-active, .nav-a.is-active * { color:#111827 !important; }
+      }
+      @keyframes diya-glow {
+      0%   { filter: brightness(1) drop-shadow(0 0 0px #FFD700); }
+      40%  { filter: brightness(1.3) drop-shadow(0 0 16px #FFD700); }
+      60%  { filter: brightness(1.1) drop-shadow(0 0 8px #FFD700); }
+      100% { filter: brightness(1) drop-shadow(0 0 0px #FFD700); }
+    }
+    .animate-diya-glow {
+      animation: diya-glow 2s infinite;
+    }
+    </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="bg-white shadow sticky top-0 z-50">
+    <div class="flex items-center justify-between px-6 h-[72px]">
+      
+      <!-- Logo -->
+      <div class="flex items-center space-x-2">
+        <a href="{{ url_for('home') }}" class="flex items-center">
+          <img src="{{ url_for('serve_image', filename='Gusto_Nav_Logo.png') }}"
+              alt="GUSTO Logo"
+              class="h-[70px] w-auto -my-4 rounded-full" />
+        </a>
+            <div class="flex flex-col md:flex-row items-center">
+            <span class="font-extrabold lg:text-3xl font-[Merriweather,serif]">
+                GUSTO
+            </span>
+          <span class="ml-1 font-normal font-[Noto_Sans_Myanmar] whitespace-nowrap
+                    text-base md:text-xl max-[330px]:text-sm">
+                သီတင်းကျွတ်ပွဲတော်
+            </span>
+            </div>
+      </div>
+
+      <!-- Hamburger -->
+      <button id="menu-btn" class="block md:hidden text-2xl p-2" aria-label="Open menu">&#9776;</button>
+
+      <!-- Links -->
+      <div id="nav-links"
+          class="hidden md:flex flex-col md:flex-row items-start md:items-center
+                  space-y-2 md:space-y-0 md:space-x-4 bg-white px-4 py-4 md:p-0
+                  rounded-none md:rounded-full fixed md:static top-[64px] left-0
+                  w-full md:w-auto z-40 shadow md:shadow-none">
+
+        <div class="relative md:flex md:items-center">
+          <span id="nav-indicator" aria-hidden="true"
+                class="hidden md:block absolute top-0 left-0 rounded-lg bg-[#015486] shadow-lg transition-all duration-300"></span>
+
+          <ul class="flex flex-col md:flex-row w-full md:w-auto space-y-2 md:space-y-0 md:space-x-2 font-medium">
+            <li><a href="{{ url_for('home') }}"           class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">Home</a></li>
+            <li><a href="{{ url_for('candidates') }}" class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">Candidate</a></li>
+            <li><a href="{{ url_for('lantern') }}"        class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">Lantern</a></li>
+            <li><a href="{{ url_for('results') }}"  class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">Voting Result</a></li>
+            <li><a href="{{ url_for('about') }}"       class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">About Us</a></li>
+            <li><a href="{{ url_for('final') }}"          class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">Final</a></li>
+            <li><a href="{{ url_for('winner') }}"         class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">Winner</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="bg-white min-h-screen">
+    
+    <!-- Hero Section with Animated Images -->
+    <section class="py-16 px-4">
+      <div class="max-w-6xl mx-auto">
+        <h1 class="text-4xl md:text-6xl font-bold text-center text-gray-800 mb-12">
+          Finalists
+        </h1>
+        
+        <!-- Animated Image Carousel -->
+        <div class="relative w-full h-[400px] md:h-[500px] overflow-hidden rounded-2xl shadow-2xl">
+          <div id="heroCarousel" class="relative w-full h-full">
+            <!-- Images will be dynamically inserted here -->
+    </div>
+
+          <!-- Navigation arrows -->
+          <button id="prevHero" class="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/80 rounded-full flex items-center justify-center shadow-lg hover:bg-white transition-all z-10">
+          <i class="fa-solid fa-chevron-left text-gray-600"></i>
+        </button>
+          <button id="nextHero" class="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/80 rounded-full flex items-center justify-center shadow-lg hover:bg-white transition-all z-10">
+          <i class="fa-solid fa-chevron-right text-gray-600"></i>
+        </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final Kings Section -->
+    <section class="py-16 px-4 bg-gray-50">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">
+          Final Kings
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- King cards will be dynamically inserted here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Final Queens Section -->
+    <section class="py-16 px-4">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">
+          Final Queens
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Queen cards will be dynamically inserted here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Final Lanterns Section -->
+    <section class="py-16 px-4 bg-gray-50">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">
+          Final Lanterns
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Lantern cards will be dynamically inserted here -->
+      </div>
+    </div>
+    </section>
+
+    </main>
+
+    <footer class="bg-[#03254C] py-4 px-4 md:py-5 md:px-8 h-auto md:h-[200px]">
+      <div class="flex flex-col md:flex-row justify-between items-center h-full text-center">
+
+          <div class="text-orange-400 font-medium 
+                      text-base lg:text-xl 
+                      mb-3 md:mb-0 
+                      ml-0 md:ml-[100px] 
+                      pr-0 md:pr-4 order-1">
+          ပျော်ရွှင်စရာသတင်းကျွတ်အချိန်အခါလေးဖြစ်ပါစေ
+          </div>
+
+          <div class="flex justify-center items-center py-2 order-2 flex-grow-0">
+        <img src="{{ url_for('serve_image', filename='SeMeeKut.png') }}" alt="Diya" class="w-[36px] h-[36px] mx-1 md:w-[50px] md:h-[50px] animate-diya-glow" />
+        <img src="{{ url_for('serve_image', filename='SeMeeKut.png') }}" alt="Diya" class="w-[50px] h-[50px] -mt-3 mx-1 md:w-[70px] md:h-[70px] md:-mt-4 animate-diya-glow" />
+        <img src="{{ url_for('serve_image', filename='SeMeeKut.png') }}" alt="Diya" class="w-[36px] h-[36px] mx-1 md:w-[50px] md:h-[50px] animate-diya-glow" />
+          </div>
+
+          <div class="flex flex-col items-center md:items-end 
+                      text-orange-400 font-medium 
+                      text-base md:text-lg lg:text-xl 
+                      mt-3 md:mt-0 
+                      mr-0 md:mr-[100px] 
+                      pl-0 md:pl-4 order-3">
+          
+          <div class="flex flex-wrap justify-center md:justify-end w-[370px] lg:justify-center space-x-4 md:space-x-6 mb-1 md:mb-0 font-[fa-chevron-left]">
+            <a href="{{ url_for('home') }}" class="hover:text-yellow-400">Home</a>
+            <a href="{{ url_for('candidates') }}" class="hover:text-yellow-400">Candidate</a>
+            <a href="{{ url_for('lantern') }}" class="hover:text-yellow-400">Lantern</a>
+          </div>
+
+          <br>
+
+          <div class="flex flex-wrap justify-center md:justify-end space-x-4 md:space-x-6 mt-1 md:mt-1 font-[fa-chevron-left]">
+            <a href="{{ url_for('results') }}" class="hover:text-yellow-400">Voting Result</a>
+            <a href="{{ url_for('about') }}" class="hover:text-yellow-400">About us</a>
+            <a href="{{ url_for('final') }}" class="hover:text-yellow-400">Final</a>
+            <a href="{{ url_for('winner') }}" class="hover:text-yellow-400">Winner</a>
+          </div>
+          </div>
+
+      </div>
+      </footer>
+
+  <!-- Mobile nav toggle -->
+    <script>
+  const menuBtn = document.getElementById('menu-btn');
+      const navLinks = document.getElementById('nav-links');
+      if (menuBtn) menuBtn.addEventListener('click', () => navLinks.classList.toggle('hidden'));
+  </script>
+  
+  <!-- Unified Navigation Script -->
+  <script src="{{ url_for('static', filename='js/navigation.js') }}"></script>
+
+  <script>
+      document.addEventListener('DOMContentLoaded', () => {
+    // All images will be king&queen.jpg for now
+    const kingQueenImage = "{{ url_for('serve_image', filename='king&queen.jpg')|safe }}";
+    const heroImages = [
+      kingQueenImage,
+      kingQueenImage,
+      kingQueenImage,
+      kingQueenImage,
+      kingQueenImage
+    ];
+
+    // Finalist data (all using king&queen.jpg)
+    const finalists = {
+      kings: [
+        { name: "Final King 1", batch: "HND-01", image: kingQueenImage },
+        { name: "Final King 2", batch: "HND-02", image: kingQueenImage },
+        { name: "Final King 3", batch: "HND-03", image: kingQueenImage },
+        { name: "Final King 4", batch: "HND-04", image: kingQueenImage },
+        { name: "Final King 5", batch: "HND-05", image: kingQueenImage }
+      ],
+      queens: [
+        { name: "Final Queen 1", batch: "HND-11", image: kingQueenImage },
+        { name: "Final Queen 2", batch: "HND-12", image: kingQueenImage },
+        { name: "Final Queen 3", batch: "HND-13", image: kingQueenImage },
+        { name: "Final Queen 4", batch: "HND-14", image: kingQueenImage },
+        { name: "Final Queen 5", batch: "HND-15", image: kingQueenImage }
+      ],
+      lanterns: [
+        { name: "Final Lantern 1", batch: "Lantern-01", image: kingQueenImage },
+        { name: "Final Lantern 2", batch: "Lantern-02", image: kingQueenImage },
+        { name: "Final Lantern 3", batch: "Lantern-03", image: kingQueenImage },
+        { name: "Final Lantern 4", batch: "Lantern-04", image: kingQueenImage },
+        { name: "Final Lantern 5", batch: "Lantern-05", image: kingQueenImage }
+      ]
+    };
+
+    let currentHeroIndex = 0;
+    const heroCarousel = document.getElementById('heroCarousel');
+    const prevHeroBtn = document.getElementById('prevHero');
+    const nextHeroBtn = document.getElementById('nextHero');
+
+    // Initialize hero carousel
+    function initHeroCarousel() {
+      heroImages.forEach((src, index) => {
+            const img = document.createElement('img');
+        img.src = src;
+        img.alt = `Finalist ${index + 1}`;
+        img.className = `absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${index === 0 ? 'opacity-100' : 'opacity-0'}`;
+        heroCarousel.appendChild(img);
+      });
+    }
+
+    // Auto-rotate hero images
+    function rotateHeroImages() {
+      const images = heroCarousel.querySelectorAll('img');
+      images[currentHeroIndex].classList.remove('opacity-100');
+      images[currentHeroIndex].classList.add('opacity-0');
+      
+      currentHeroIndex = (currentHeroIndex + 1) % images.length;
+      
+      images[currentHeroIndex].classList.remove('opacity-0');
+      images[currentHeroIndex].classList.add('opacity-100');
+    }
+
+    // Hero carousel controls
+    prevHeroBtn.addEventListener('click', () => {
+      const images = heroCarousel.querySelectorAll('img');
+      images[currentHeroIndex].classList.remove('opacity-100');
+      images[currentHeroIndex].classList.add('opacity-0');
+      
+      currentHeroIndex = currentHeroIndex === 0 ? images.length - 1 : currentHeroIndex - 1;
+      
+      images[currentHeroIndex].classList.remove('opacity-0');
+      images[currentHeroIndex].classList.add('opacity-100');
+    });
+
+    nextHeroBtn.addEventListener('click', () => {
+      rotateHeroImages();
+    });
+
+    // Create candidate cards
+    function createCandidateCard(candidate, type) {
+      return `
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+          <div class="relative h-64 overflow-hidden">
+            <img src="${candidate.image}" alt="${candidate.name}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105">
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-gray-800 mb-2">${candidate.name}</h3>
+            <p class="text-gray-600 mb-4">${candidate.batch}</p>
+            <button class="w-full bg-[#015486] text-white py-2 px-4 rounded-lg font-semibold hover:bg-[#0b6aa8] transition-colors duration-300" disabled>
+              Vote (Coming Soon)
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    // Render sections
+    function renderSections() {
+      // Render Kings
+      const kingsSection = document.querySelector('section:nth-of-type(2) .grid');
+      kingsSection.innerHTML = finalists.kings.map(king => createCandidateCard(king, 'king')).join('');
+
+      // Render Queens
+      const queensSection = document.querySelector('section:nth-of-type(3) .grid');
+      queensSection.innerHTML = finalists.queens.map(queen => createCandidateCard(queen, 'queen')).join('');
+
+      // Render Lanterns
+      const lanternsSection = document.querySelector('section:nth-of-type(4) .grid');
+      lanternsSection.innerHTML = finalists.lanterns.map(lantern => createCandidateCard(lantern, 'lantern')).join('');
+    }
+
+    // Initialize everything
+    initHeroCarousel();
+    renderSections();
+    
+    // Start auto-rotation
+    setInterval(rotateHeroImages, 4000);
+      });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>King & Queen choosing web</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body class="min-h-screen m-0 flex items-center justify-center bg-[url('img/tamemepone2.jpg')] bg-cover backdrop-blur-lg from-[#FFCFB2] to-[#E86C00]">
+  <div
+    class="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg bg-white/0 rounded-3xl shadow-xl mx-auto
+           max-[480px]:max-w-[340px]">
+
+    <!-- Header image -->
+    <div class="w-full flex justify-center mb-0">
+      <img
+        src="{{ url_for('serve_image', filename='thadingyutMeePone.jpg') }}"
+        alt="Lanterns"
+        class="rounded-t-3xl w-full h-48 sm:h-56 md:h-72 lg:h-80 object-cover
+               max-[480px]:h-40"
+      />
+    </div>
+
+    <!-- Floating logos -->
+    <div class="relative w-full flex justify-center">
+      <!-- Gusto Logo -->
+      <a href="https://www.gusto-education.com/" target="_blank" rel="noopener noreferrer">
+        <div 
+          class="absolute -top-16 md:-top-20 right-3 sm:right-6 md:right-12 bg-white rounded-full shadow-lg p-2 z-30
+                max-[480px]:-top-16 max-[480px]:right-2 max-[480px]:p-1.5">
+          <img src="{{ url_for('serve_image', filename='Gusto.png') }}" alt="GUSTO Logo"
+              class="w-12 h-12 md:w-16 md:h-16 rounded-full max-[480px]:w-10 max-[480px]:h-10" />
+        </div>
+      </a>
+
+      <!-- King & Queen -->
+      <div 
+        class="absolute top-[-40px] sm:top-[-40px] left-[150px] sm:left-[200px] transform -translate-x-1/2 z-30">
+        <img src="{{ url_for('serve_image', filename='king&Queen.png') }}"
+            alt="King & Queen"
+            class="w-10 h-14 sm:w-[50px] sm:h-[70px] rounded-full" />
+      </div>
+    </div>
+
+    <!-- Form card -->
+    <div class="relative bg-white rounded-2xl w-full mx-auto mt-[-40px] p-4 sm:p-6 shadow-lg z-10">
+      <div class="w-full max-w-md mx-auto">
+        
+        <!-- Title aligned left -->
+        <h2 class="text-black text-xl md:text-2xl font-bold mb-4 text-left">
+          Mingalar Br
+        </h2>
+
+        <!-- Form -->
+        <form class="w-full flex flex-col items-center">
+        <!-- Student ID -->
+        <div class="w-11/12 sm:w-full flex items-center mb-4 bg-gray-100 rounded-full px-3 py-2 shadow">
+          <span class="mr-3 text-gray-500 text-base sm:text-lg">
+            <i class="fa-regular fa-user"></i>
+          </span>
+          <input
+            class="w-full bg-gray-100 border-none outline-none text-sm sm:text-base"
+            type="text"
+            placeholder="Student-ID"
+            required
+          />
+        </div>
+
+        <!-- Gmail -->
+        <div class="w-11/12 sm:w-full flex items-center mb-6 bg-gray-100 rounded-full px-3 py-2 shadow">
+          <span class="mr-3 text-gray-500 text-base sm:text-lg">
+            <i class="fa-solid fa-envelope"></i>
+          </span>
+          <input
+            class="w-full bg-gray-100 border-none outline-none text-sm sm:text-base"
+            type="email"
+            placeholder="Gmail"
+            required
+          />
+        </div>
+
+
+          <!-- Button stays centered -->
+          <button
+            class="w-36 md:w-40 py-2 font-semibold text-base md:text-lg
+                  bg-gray-200 text-black rounded-[20px] shadow-lg transition
+                  hover:bg-[#BC4501] hover:text-white
+                  hover:backdrop-blur-sm hover:scale-105"
+            type="submit">
+            Submit
+          </button>
+        </form>
+      </div>
+    </div>
+
+
+
+  <script>
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      if (confirm('please confirm your information')) {
+        window.location.href = "home.html";
+      }
+    });
+  </script>
+</body>
+
+</html>
