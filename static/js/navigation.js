@@ -32,6 +32,10 @@ function initializeNavigation() {
     // Handle navigation clicks
     navLinks.forEach(link => {
         link.addEventListener('click', handleNavClick);
+        
+        // Add smooth hover effects
+        link.addEventListener('mouseenter', handleNavHover);
+        link.addEventListener('mouseleave', handleNavLeave);
     });
     
     // Handle window resize
@@ -64,7 +68,7 @@ function setActivePage() {
     
     // Remove active state from all links
     navLinks.forEach(link => {
-        link.classList.remove('is-active', 'text-white');
+        link.classList.remove('is-active', 'text-black');
         link.classList.add('text-gray-700');
     });
     
@@ -79,7 +83,7 @@ function setActivePage() {
     });
     
     if (activeLink) {
-        activeLink.classList.add('is-active', 'text-white');
+        activeLink.classList.add('is-active', 'text-black');
         activeLink.classList.remove('text-gray-700');
         
         // Move indicator on desktop with simple animation
@@ -97,8 +101,8 @@ function moveIndicatorTo(element) {
     
     const wrapperRect = wrapper.getBoundingClientRect();
     const elementRect = element.getBoundingClientRect();
-    const paddingX = 8;
-    const paddingY = 2;
+    const paddingX = 12;
+    const paddingY = 4;
     
     // Calculate position and size
     const width = elementRect.width + paddingX * 2;
@@ -106,7 +110,8 @@ function moveIndicatorTo(element) {
     const x = elementRect.left - wrapperRect.left - paddingX;
     const y = elementRect.top - wrapperRect.top - paddingY;
     
-    // Apply simple, fast transition
+    // Apply smooth, professional transition with easing
+    indicator.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
     indicator.style.width = `${width}px`;
     indicator.style.height = `${height}px`;
     indicator.style.transform = `translate(${x}px, ${y}px)`;
@@ -126,11 +131,11 @@ function handleNavClick(event) {
     // Set active state immediately
     const navLinks = Array.from(document.querySelectorAll('.nav-a'));
     navLinks.forEach(l => {
-        l.classList.remove('is-active', 'text-white');
+        l.classList.remove('is-active', 'text-black');
         l.classList.add('text-gray-700');
     });
     
-    link.classList.add('is-active', 'text-white');
+    link.classList.add('is-active', 'text-black');
     link.classList.remove('text-gray-700');
     
     // Move indicator on desktop
@@ -146,5 +151,37 @@ function handleResize() {
     const activeLink = document.querySelector('.nav-a.is-active');
     if (activeLink && window.innerWidth >= 768) {
         moveIndicatorTo(activeLink);
+    }
+}
+
+function handleNavHover(event) {
+    const link = event.currentTarget;
+    
+    // Only show hover effect on desktop and if not already active
+    if (window.innerWidth >= 768 && !link.classList.contains('is-active')) {
+        const indicator = document.getElementById('nav-indicator');
+        if (indicator) {
+            // Create a subtle hover effect with reduced opacity
+            indicator.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+            moveIndicatorTo(link);
+            indicator.style.opacity = '0.6';
+        }
+    }
+}
+
+function handleNavLeave(event) {
+    const link = event.currentTarget;
+    
+    // Only handle leave on desktop and if not active
+    if (window.innerWidth >= 768 && !link.classList.contains('is-active')) {
+        const indicator = document.getElementById('nav-indicator');
+        const activeLink = document.querySelector('.nav-a.is-active');
+        
+        if (indicator && activeLink) {
+            // Return to active link position
+            indicator.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+            moveIndicatorTo(activeLink);
+            indicator.style.opacity = '1';
+        }
     }
 }

@@ -1,111 +1,285 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>King & Queen choosing web</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+    integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    .google-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 300px;
+      margin-top: 1rem;
+      padding: 0.75rem 1rem;
+      background-color: #fff;
+      color: #757575;
+      font-weight: 600;
+      border: 1px solid #ccc;
+      border-radius: 9999px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .google-btn:hover {
+      background-color: #f5f5f5;
+    }
+
+    .google-btn img {
+      width: 24px;
+      height: 24px;
+      margin-right: 12px;
+    }
+  </style>
+
 </head>
 
-<body class="min-h-screen m-0 flex items-center justify-center bg-[url('img/tamemepone2.jpg')] bg-cover backdrop-blur-lg from-[#FFCFB2] to-[#E86C00]">
-  <div
-    class="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg bg-white/0 rounded-3xl shadow-xl mx-auto
+<body
+  class="min-h-screen m-0 flex items-center justify-center bg-[url('img/tamemepone2.jpg')] bg-cover backdrop-blur-lg from-[#FFCFB2] to-[#E86C00]">
+  <div class="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg bg-white/0 rounded-3xl shadow-xl mx-auto
            max-[480px]:max-w-[340px]">
 
-    <!-- Header image -->
     <div class="w-full flex justify-center mb-0">
-      <img
-        src="{{ url_for('serve_image', filename='thadingyutMeePone.jpg') }}"
-        alt="Lanterns"
-        class="rounded-t-3xl w-full h-48 sm:h-56 md:h-72 lg:h-80 object-cover
-               max-[480px]:h-40"
-      />
+      <img src="img/thadingyutMeePone.jpg" alt="Lanterns" class="rounded-t-3xl w-full h-48 sm:h-56 md:h-72 lg:h-80 object-cover
+               max-[480px]:h-40" />
     </div>
 
-    <!-- Floating logos -->
     <div class="relative w-full flex justify-center">
-      <!-- Gusto Logo -->
       <a href="https://www.gusto-education.com/" target="_blank" rel="noopener noreferrer">
-        <div 
-          class="absolute -top-16 md:-top-20 right-3 sm:right-6 md:right-12 bg-white rounded-full shadow-lg p-2 z-30
+        <div class="absolute -top-16 md:-top-20 right-3 sm:right-6 md:right-12 bg-white rounded-full shadow-lg p-2 z-30
                 max-[480px]:-top-16 max-[480px]:right-2 max-[480px]:p-1.5">
-          <img src="{{ url_for('serve_image', filename='Gusto.png') }}" alt="GUSTO Logo"
-              class="w-12 h-12 md:w-16 md:h-16 rounded-full max-[480px]:w-10 max-[480px]:h-10" />
+          <img src="img/Gusto.png" alt="GUSTO Logo"
+            class="w-12 h-12 md:w-16 md:h-16 rounded-full max-[480px]:w-10 max-[480px]:h-10" />
         </div>
       </a>
 
-      <!-- King & Queen -->
-      <div 
-        class="absolute top-[-40px] sm:top-[-40px] left-[150px] sm:left-[200px] transform -translate-x-1/2 z-30">
-        <img src="{{ url_for('serve_image', filename='king&Queen.png') }}"
-            alt="King & Queen"
-            class="w-10 h-14 sm:w-[50px] sm:h-[70px] rounded-full" />
+      <div class="absolute top-[-40px] sm:top-[-40px] left-[150px] sm:left-[200px] transform -translate-x-1/2 z-30">
+        <img src="img/king&Queen.png" alt="King & Queen" class="w-10 h-14 sm:w-[50px] sm:h-[70px] rounded-full" />
       </div>
     </div>
 
-    <!-- Form card -->
     <div class="relative bg-white rounded-2xl w-full mx-auto mt-[-40px] p-4 sm:p-6 shadow-lg z-10">
       <div class="w-full max-w-md mx-auto">
-        
-        <!-- Title aligned left -->
-        <h2 class="text-black text-xl md:text-2xl font-bold mb-4 text-left">
-          Mingalar Br
+
+        <h2 id="formTitle" class="text-black text-xl md:text-2xl font-bold mb-4 text-left">
+          မင်္ဂလာပါ
         </h2>
 
-        <!-- Form -->
-        <form class="w-full flex flex-col items-center">
-        <!-- Student ID -->
-        <div class="w-11/12 sm:w-full flex items-center mb-4 bg-gray-100 rounded-full px-3 py-2 shadow">
-          <span class="mr-3 text-gray-500 text-base sm:text-lg">
-            <i class="fa-regular fa-user"></i>
-          </span>
-          <input
-            class="w-full bg-gray-100 border-none outline-none text-sm sm:text-base"
-            type="text"
-            placeholder="Student-ID"
-            required
-          />
-        </div>
+        <form id="loginForm" class="w-full flex flex-col items-center">
+          <div class="w-11/12 sm:w-full flex items-center mb-4 bg-gray-100 rounded-full px-3 py-2 shadow">
+            <span class="mr-3 text-gray-500 text-base sm:text-lg">
+              <i class="fa-solid fa-envelope"></i>
+            </span>
+            <input id="loginEmail" class="w-full bg-gray-100 border-none outline-none text-sm sm:text-base" type="email"
+              placeholder="Gmail" required />
+          </div>
+          <div class="w-11/12 sm:w-full flex items-center mb-6 bg-gray-100 rounded-full px-3 py-2 shadow">
+            <span class="mr-3 text-gray-500 text-base sm:text-lg">
+              <i class="fa-solid fa-lock"></i>
+            </span>
+            <input id="loginPassword" class="w-full bg-gray-100 border-none outline-none text-sm sm:text-base"
+              type="password" placeholder="Password" required />
+          </div>
 
-        <!-- Gmail -->
-        <div class="w-11/12 sm:w-full flex items-center mb-6 bg-gray-100 rounded-full px-3 py-2 shadow">
-          <span class="mr-3 text-gray-500 text-base sm:text-lg">
-            <i class="fa-solid fa-envelope"></i>
-          </span>
-          <input
-            class="w-full bg-gray-100 border-none outline-none text-sm sm:text-base"
-            type="email"
-            placeholder="Gmail"
-            required
-          />
-        </div>
-
-
-          <!-- Button stays centered -->
-          <button
-            class="w-36 md:w-40 py-2 font-semibold text-base md:text-lg
+          <button class="w-36 md:w-40 py-2 font-semibold text-base md:text-lg
                   bg-gray-200 text-black rounded-[20px] shadow-lg transition
                   hover:bg-[#BC4501] hover:text-white
-                  hover:backdrop-blur-sm hover:scale-105"
-            type="submit">
-            Submit
+                  hover:backdrop-blur-sm hover:scale-105" type="submit">
+            Log In
           </button>
         </form>
+
+        <form id="registerForm" class="w-full flex flex-col items-center hidden">
+          <div class="w-11/12 sm:w-full flex items-center mb-4 bg-gray-100 rounded-full px-3 py-2 shadow">
+            <span class="mr-3 text-gray-500 text-base sm:text-lg">
+              <i class="fa-regular fa-user"></i>
+            </span>
+            <input id="registerName" class="w-full bg-gray-100 border-none outline-none text-sm sm:text-base"
+              type="text" placeholder="Student Name (Optional)" />
+          </div>
+          <div class="w-11/12 sm:w-full flex items-center mb-4 bg-gray-100 rounded-full px-3 py-2 shadow">
+            <span class="mr-3 text-gray-500 text-base sm:text-lg">
+              <i class="fa-solid fa-envelope"></i>
+            </span>
+            <input id="registerEmail" class="w-full bg-gray-100 border-none outline-none text-sm sm:text-base"
+              type="email" placeholder="Gmail" required />
+          </div>
+          <div class="w-11/12 sm:w-full flex items-center mb-6 bg-gray-100 rounded-full px-3 py-2 shadow">
+            <span class="mr-3 text-gray-500 text-base sm:text-lg">
+              <i class="fa-solid fa-lock"></i>
+            </span>
+            <input id="registerPassword" class="w-full bg-gray-100 border-none outline-none text-sm sm:text-base"
+              type="password" placeholder="Password" required />
+          </div>
+
+          <button class="w-36 md:w-40 py-2 font-semibold text-base md:text-lg
+                  bg-gray-200 text-black rounded-[20px] shadow-lg transition
+                  hover:bg-[#BC4501] hover:text-white
+                  hover:backdrop-blur-sm hover:scale-105" type="submit">
+            Register
+          </button>
+        </form>
+
+        <div class="text-center mt-4 text-sm sm:text-base">
+          <a id="toggleFormLink" href="#" class="text-blue-600 hover:underline">Create an account</a>
+        </div>
+
+        <button id="googleBtn" class="google-btn">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo">
+          Sign in with Google
+        </button>
       </div>
     </div>
 
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+      import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, sendEmailVerification, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
 
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyBC-umPJ6ORL_6QY535rb3GehuqyYa2LyM",
+        authDomain: "coding-c282b.firebaseapp.com",
+        projectId: "coding-c282b",
+        storageBucket: "coding-c282b.firebasestorage.app",
+        messagingSenderId: "308668141775",
+        appId: "1:308668141775:web:1ba8bb620ad267227a27ba"
+      };
 
-  <script>
-    const form = document.querySelector('form');
-    form.addEventListener('submit', function (event) {
-      event.preventDefault();
-      if (confirm('please confirm your information')) {
-        window.location.href = "home.html";
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+
+      const loginForm = document.getElementById('loginForm');
+      const registerForm = document.getElementById('registerForm');
+      const toggleFormLink = document.getElementById('toggleFormLink');
+      const formTitle = document.getElementById('formTitle');
+      const googleBtn = document.getElementById('googleBtn');
+
+      // Google Sign-In function
+      const signInWithGoogle = async () => {
+        const provider = new GoogleAuthProvider();
+        try {
+          const result = await signInWithPopup(auth, provider);
+          const user = result.user;
+          
+          // Get the ID token
+          const idToken = await user.getIdToken();
+          
+          // Send token to Flask backend
+          const response = await fetch('/auth', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ idToken: idToken })
+          });
+          
+          const data = await response.json();
+          
+          if (data.success) {
+            // Redirect to home page
+            window.location.href = "{{ url_for('home') }}";
+          } else {
+            alert("Authentication failed: " + data.message);
+          }
+        } catch (error) {
+          console.error("Google Sign-In error:", error);
+          alert("Google Sign-In failed: " + error.message);
+        }
+      };
+
+      if (googleBtn) {
+        googleBtn.addEventListener('click', signInWithGoogle);
       }
-    });
-  </script>
+
+      // Existing toggle and form submission logic
+      toggleFormLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        if (loginForm.classList.contains('hidden')) {
+          loginForm.classList.remove('hidden');
+          registerForm.classList.add('hidden');
+          formTitle.textContent = "မင်္ဂလာပါ";
+          toggleFormLink.textContent = "Create an account";
+        } else {
+          loginForm.classList.add('hidden');
+          registerForm.classList.remove('hidden');
+          formTitle.textContent = "မင်္ဂလာပါ";
+          toggleFormLink.textContent = "Back to Log In";
+        }
+      });
+
+      // Login Form Submission
+      loginForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+
+        try {
+          const userCredential = await signInWithEmailAndPassword(auth, email, password);
+          const user = userCredential.user;
+
+          if (user.emailVerified) {
+            // Get the ID token
+            const idToken = await user.getIdToken();
+            
+            // Send token to Flask backend
+            const response = await fetch('/auth', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ idToken: idToken })
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+              alert("Login successful. Please confirm your information to proceed.");
+              window.location.href = "{{ url_for('home') }}";
+            } else {
+              alert("Authentication failed: " + data.message);
+            }
+          } else {
+            alert("Please verify your email address before logging in.");
+            await signOut(auth);
+          }
+        } catch (error) {
+          console.error("Login error:", error);
+          alert("Login failed: " + error.message);
+        }
+      });
+
+      // Register Form Submission
+      registerForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const email = document.getElementById('registerEmail').value;
+        const password = document.getElementById('registerPassword').value;
+
+        try {
+          const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+          const user = userCredential.user;
+
+          await sendEmailVerification(user);
+
+          await signOut(auth);
+
+          alert("Registration successful! An email verification link has been sent to your email address. Please verify your email before logging in.");
+          window.location.href = "{{ url_for('login') }}";
+        } catch (error) {
+          console.error("Registration error:", error);
+          alert("Registration failed: " + error.message);
+        }
+      });
+    </script>
 </body>
 
 </html>

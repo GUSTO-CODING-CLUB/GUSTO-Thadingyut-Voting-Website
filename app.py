@@ -1,11 +1,51 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, send_from_directory
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, send_from_directory, session
 import mysql.connector
 import os
+from dotenv import load_dotenv
+import firebase_admin
+from firebase_admin import credentials, auth
+import requests
+import json
+
+load_dotenv()
 
 app = Flask(__name__)
+app.secret_key = os.getenv('SECRET_KEY', 'your-secret-key-here')
+
+# Initialize Firebase Admin SDK
+try:
+    # You'll need to download your Firebase service account key
+    # and place it in your project directory
+    cred_path = os.getenv("FIREBASE_CREDENTIALS", "firebase-service-account.json")
+    cred = credentials.Certificate(cred_path)
+    firebase_admin.initialize_app(cred)
+    print("Firebase Admin SDK initialized successfully!")
+except Exception as e:
+    print(f"Firebase Admin SDK initialization failed: {e}")
+    print("Please ensure firebase-service-account.json is in your project directory")
+
+# Authentication helper functions
+def verify_firebase_token(token):
+    """Verify Firebase ID token"""
+    try:
+        decoded_token = auth.verify_id_token(token)
+        return decoded_token
+    except Exception as e:
+        print(f"Token verification failed: {e}")
+        return None
+
+def require_auth(f):
+    """Decorator to require authentication for routes"""
+    def decorated_function(*args, **kwargs):
+        # Check if user is logged in via session
+        if 'user_id' not in session:
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    decorated_function.__name__ = f.__name__
+    return decorated_function
 
 # Database connection using environment variables
-def get_db_connection():
+def get_connection():
     conn = mysql.connector.connect(
         host=os.getenv("DB_HOST"),
         port=os.getenv("DB_PORT"),
@@ -105,11 +145,58 @@ def init_database():
         conn.close()
 
 # Routes
+@app.route("/login")
+def login():
+    return render_template("login.html")
+
+@app.route("/auth", methods=["POST"])
+def authenticate():
+    """Handle Firebase authentication"""
+    try:
+        data = request.get_json()
+        id_token = data.get('idToken')
+        
+        if not id_token:
+            return jsonify({"success": False, "message": "No token provided"}), 400
+        
+        # Verify the Firebase ID token
+        decoded_token = verify_firebase_token(id_token)
+        
+        if decoded_token:
+            # Store user info in session
+            session['user_id'] = decoded_token['uid']
+            session['user_email'] = decoded_token.get('email', '')
+            session['user_name'] = decoded_token.get('name', '')
+            
+            return jsonify({
+                "success": True, 
+                "message": "Authentication successful",
+                "user": {
+                    "uid": decoded_token['uid'],
+                    "email": decoded_token.get('email', ''),
+                    "name": decoded_token.get('name', '')
+                }
+            })
+        else:
+            return jsonify({"success": False, "message": "Invalid token"}), 401
+            
+    except Exception as e:
+        print(f"Authentication error: {e}")
+        return jsonify({"success": False, "message": "Authentication failed"}), 500
+
+@app.route("/logout")
+def logout():
+    """Handle user logout"""
+    session.clear()
+    return redirect(url_for('login'))
+
 @app.route("/")
+@require_auth
 def home():
     return render_template("home.html")
 
 @app.route("/candidates")
+@require_auth
 def candidates():
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
@@ -126,6 +213,7 @@ def candidates():
     return render_template("candidate-king.html", kings=kings, queens=queens)
 
 @app.route("/viewmore")
+@require_auth
 def viewmore():
     candidate_id = request.args.get('id')
     if not candidate_id:
@@ -153,35 +241,53 @@ def viewmore():
     return render_template("viewmore.html", candidate=candidate)
 
 @app.route("/vote", methods=["POST"])
+@require_auth
 def vote():
     try:
         candidate_id = request.form.get('candidate_id')
         candidate_type = request.form.get('candidate_type')  # 'king' or 'queen'
-        
+
         if not candidate_id or not candidate_type:
             return jsonify({"success": False, "message": "Missing candidate information"})
-        
+
         conn = get_connection()
         cursor = conn.cursor()
-        
-        # Update vote count
-        table_name = f"{candidate_type}s"  # kings or queens
+
+        # 1. Check if user already voted for this type
+        cursor.execute(
+            "SELECT * FROM votes WHERE user_uid = %s AND candidate_type = %s",
+            (session['user_id'], candidate_type)
+        )
+        if cursor.fetchone():
+            cursor.close()
+            conn.close()
+            return jsonify({"success": False, "message": f"You have already voted for a {candidate_type}!"})
+
+        # 2. Update vote count in candidate table
+        table_name = f"{candidate_type}s"
         cursor.execute(f"UPDATE {table_name} SET vote_count = vote_count + 1 WHERE id = %s", (candidate_id,))
-        
         if cursor.rowcount == 0:
             conn.rollback()
             cursor.close()
             conn.close()
             return jsonify({"success": False, "message": "Candidate not found"})
-        
+
+        # 3. Record that the user has voted
+        cursor.execute(
+            "INSERT INTO votes (user_uid, candidate_type, candidate_id) VALUES (%s, %s, %s)",
+            (session['user_id'], candidate_type, candidate_id)
+        )
+
         conn.commit()
         cursor.close()
         conn.close()
-        
-        return jsonify({"success": True, "message": "Vote recorded successfully!"})
-        
+
+        return jsonify({"success": True, "message": f"{candidate_type.capitalize()} vote recorded successfully!"})
+
     except Exception as e:
         return jsonify({"success": False, "message": f"Error: {str(e)}"})
+
+
 
 @app.route("/results")
 def results():

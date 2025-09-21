@@ -6,20 +6,28 @@
   <title>GUSTO Thadingyut Voting</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
-  <link rel="icon" type="image/png" href="img/favicon.png" />
+  <link rel="icon" type="image/png" href="{{ url_for('serve_image', filename='favicon.png') }}" />
 
   
 
   <style>
-    /* Pill */
+    /* Professional Smooth Navigation Indicator */
     #nav-indicator{
-      position:absolute; border-radius:.5rem; background:#015486;
-      box-shadow:0 2px 8px rgba(0,0,0,.15);
-      transition:all .2s ease-out;
+      position:absolute; border-radius:.75rem; background:#015486;
+      box-shadow:0 4px 12px rgba(1, 84, 134, 0.3);
+      transition:all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
       opacity:0; pointer-events:none;
+      transform-origin: center;
     }
     /* Keep links above the pill */
-    .nav-a{ position:relative; z-index:10; }
+    .nav-a{ 
+        position:relative; 
+        z-index:10; 
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .nav-a:hover {
+        transform: translateY(-1px);
+    }
 
     /* ✅ Desktop-only: active link becomes white */
     @media (min-width:768px){
@@ -50,8 +58,8 @@
       
       <!-- Logo -->
       <div class="flex items-center space-x-2">
-        <a href="home.html" class="flex items-center">
-          <img src="img/Gusto_Nav_Logo.png"
+        <a href="{{ url_for('home') }}" class="flex items-center">
+          <img src="{{ url_for('serve_image', filename='Gusto_Nav_Logo.png') }}"
               alt="GUSTO Logo"
               class="h-[70px] w-auto -my-4 rounded-full" /> <!-- logo bigger, negative margin -->
         </a>
@@ -84,7 +92,7 @@
         <div class="relative md:flex md:items-center">
           <!-- Moving pill -->
           <span id="nav-indicator" aria-hidden="true"
-                class="hidden md:block absolute top-0 left-0 rounded-lg bg-[#015486] shadow-lg transition-all duration-300"></span>
+                class="hidden md:block absolute top-0 left-0 rounded-xl bg-[#015486] shadow-lg"></span>
 
           <ul class="flex flex-col md:flex-row w-full md:w-auto space-y-2 md:space-y-0 md:space-x-2 font-medium">
             <li><a href="{{ url_for('home') }}"           class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">Home</a></li>
@@ -101,55 +109,13 @@
   </nav>
 
   <!-- MAIN -->
-    <main class="flex-grow px-4 py-12 font-[fa-chevron-left]">
-      <div class="max-w-6xl mx-auto">
-        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 mb-8 text-center">
-            Voting Results
-        </h1>
-        
-        <!-- Kings Results -->
-        <div class="mb-12">
-          <h2 class="text-3xl font-bold text-orange-500 mb-6 text-center">👑 Kings</h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {% for king in kings %}
-            <div class="bg-white rounded-xl shadow-lg p-6 border">
-              <img src="{{ king.image_path }}" alt="{{ king.name }}" class="w-full h-48 object-cover rounded-lg mb-4">
-              <h3 class="text-xl font-bold text-gray-900 mb-2">{{ king.name }}</h3>
-              <p class="text-gray-600 mb-2">{{ king.batch }}</p>
-              <div class="flex items-center justify-between">
-                <span class="text-lg font-semibold text-blue-600">{{ king.vote_count }} votes</span>
-                <span class="text-sm text-gray-500">#{{ loop.index }}</span>
-              </div>
-            </div>
-            {% endfor %}
-          </div>
-        </div>
-
-        <!-- Queens Results -->
-        <div class="mb-12">
-          <h2 class="text-3xl font-bold text-pink-500 mb-6 text-center">👸 Queens</h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {% for queen in queens %}
-            <div class="bg-white rounded-xl shadow-lg p-6 border">
-              <img src="{{ queen.image_path }}" alt="{{ queen.name }}" class="w-full h-48 object-cover rounded-lg mb-4">
-              <h3 class="text-xl font-bold text-gray-900 mb-2">{{ queen.name }}</h3>
-              <p class="text-gray-600 mb-2">{{ queen.batch }}</p>
-              <div class="flex items-center justify-between">
-                <span class="text-lg font-semibold text-blue-600">{{ queen.vote_count }} votes</span>
-                <span class="text-sm text-gray-500">#{{ loop.index }}</span>
-              </div>
-            </div>
-            {% endfor %}
-          </div>
-        </div>
-
-        <!-- Back to Voting Button -->
-        <div class="text-center">
-          <a href="{{ url_for('candidates') }}" class="inline-block bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-full text-lg transition-colors">
-            Back to Voting
-          </a>
-        </div>
-      </div>
+    <main class="flex-grow flex flex-col justify-center items-center text-center px-4 py-12 font-[fa-chevron-left]">
+    <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 mb-4">
+        Coming Soon!
+    </h1>
+    <p class="text-lg sm:text-xl text-gray-600 mb-6">
+        Voting Results will be shown here live soon!
+    </p>
     </main>
 
 
@@ -172,9 +138,9 @@
         </div>
 
         <div class="flex justify-center items-center py-2 order-2 flex-grow-0">
-        <img src="img/SeMeeKut.png" alt="Diya" class="w-[36px] h-[36px] mx-1 md:w-[50px] md:h-[50px] animate-diya-glow" />
-        <img src="img/SeMeeKut.png" alt="Diya" class="w-[50px] h-[50px] -mt-3 mx-1 md:w-[70px] md:h-[70px] md:-mt-4 animate-diya-glow" />
-        <img src="img/SeMeeKut.png" alt="Diya" class="w-[36px] h-[36px] mx-1 md:w-[50px] md:h-[50px] animate-diya-glow" />
+        <img src="{{ url_for('serve_image', filename='SeMeeKut.png') }}" alt="Diya" class="w-[36px] h-[36px] mx-1 md:w-[50px] md:h-[50px] animate-diya-glow" />
+        <img src="{{ url_for('serve_image', filename='SeMeeKut.png') }}" alt="Diya" class="w-[50px] h-[50px] -mt-3 mx-1 md:w-[70px] md:h-[70px] md:-mt-4 animate-diya-glow" />
+        <img src="{{ url_for('serve_image', filename='SeMeeKut.png') }}" alt="Diya" class="w-[36px] h-[36px] mx-1 md:w-[50px] md:h-[50px] animate-diya-glow" />
         </div>
 
         <div class="flex flex-col items-center md:items-end 
