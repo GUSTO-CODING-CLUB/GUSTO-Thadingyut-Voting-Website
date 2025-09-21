@@ -3,7 +3,6 @@ import mysql.connector
 import os
 
 app = Flask(__name__)
-app.secret_key = 'your-secret-key-here'  # Change this to a random secret key
 
 # Database connection using environment variables
 def get_db_connection():
