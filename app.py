@@ -350,4 +350,5 @@ def serve_static(filename):
 # Initialize database on startup
 if __name__ == "__main__":
     init_database()
-    app.run(host='0.0.0.0', port=port, debug=True)
+    port = int(os.environ.get("PORT", 5000))  # Use Render's PORT, default to 5000 locally
+    app.run(host="0.0.0.0", port=port, debug=True)
