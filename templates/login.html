@@ -16,12 +16,13 @@
       align-items: center;
       justify-content: center;
       width: 100%;
-      max-width: 300px;
-      margin-top: 1rem;
-      padding: 0.75rem 1rem;
+      max-width: 280px;
+      margin-top: 0.75rem;
+      padding: 0.6rem 0.8rem;
       background-color: #fff;
       color: #757575;
       font-weight: 600;
+      font-size: 0.875rem;
       border: 1px solid #ccc;
       border-radius: 9999px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -43,45 +44,46 @@
 </head>
 
 <body
-  class="min-h-screen m-0 flex items-center justify-center bg-[url('img/tamemepone2.jpg')] bg-cover backdrop-blur-lg from-[#FFCFB2] to-[#E86C00]">
+  class="min-h-screen m-0 flex items-center justify-center bg-[url('img/Image2.jpg')] bg-cover backdrop-blur-lg from-[#FFCFB2] to-[#E86C00]">
   <div class="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg bg-white/0 rounded-3xl shadow-xl mx-auto
-           max-[480px]:max-w-[340px]">
+           max-[480px]:max-w-[320px]">
 
     <div class="w-full flex justify-center mb-0">
-      <img src="img/thadingyutMeePone.jpg" alt="Lanterns" class="rounded-t-3xl w-full h-48 sm:h-56 md:h-72 lg:h-80 object-cover
+      <img src="img/Image1.jpg" alt="Lanterns" class="rounded-t-3xl w-full h-48 sm:h-56 md:h-72 lg:h-80 object-cover
                max-[480px]:h-40" />
     </div>
 
     <div class="relative w-full flex justify-center">
       <a href="https://www.gusto-education.com/" target="_blank" rel="noopener noreferrer">
-        <div class="absolute -top-16 md:-top-20 right-3 sm:right-6 md:right-12 bg-white rounded-full shadow-lg p-2 z-30
+        <div class="absolute -top-14 md:-top-20 right-3 sm:right-6 md:right-12 bg-white rounded-full shadow-lg p-2 z-30
                 max-[480px]:-top-16 max-[480px]:right-2 max-[480px]:p-1.5">
           <img src="img/Gusto.png" alt="GUSTO Logo"
             class="w-12 h-12 md:w-16 md:h-16 rounded-full max-[480px]:w-10 max-[480px]:h-10" />
         </div>
       </a>
 
-      <div class="absolute top-[-40px] sm:top-[-40px] left-[150px] sm:left-[200px] transform -translate-x-1/2 z-30">
-        <img src="img/king&Queen.png" alt="King & Queen" class="w-10 h-14 sm:w-[50px] sm:h-[70px] rounded-full" />
-      </div>
+      
     </div>
 
-    <div class="relative bg-white rounded-2xl w-full mx-auto mt-[-40px] p-4 sm:p-6 shadow-lg z-10">
+    <div class="relative bg-white rounded-2xl w-full mx-auto mt-[-40px] p-3 sm:p-5 shadow-lg z-10">
       <div class="w-full max-w-md mx-auto">
 
-        <h2 id="formTitle" class="text-black text-xl md:text-2xl font-bold mb-4 text-left">
-          မင်္ဂလာပါ
+        <div class="flex items-center justify-center mb-4">
+        <h2 id="formTitle" class="text-black text-xl md:text-2xl font-bold">
+        မင်္ဂလာပါ
         </h2>
+        <img src="img/king&Queen.png" alt="sticker" class="w-12 h-15 mr-2" />
+</div>
 
         <form id="loginForm" class="w-full flex flex-col items-center">
-          <div class="w-11/12 sm:w-full flex items-center mb-4 bg-gray-100 rounded-full px-3 py-2 shadow">
+          <div class="w-11/12 sm:w-full flex items-center mb-3 bg-gray-100 rounded-full px-3 py-2 shadow">
             <span class="mr-3 text-gray-500 text-base sm:text-lg">
               <i class="fa-solid fa-envelope"></i>
             </span>
             <input id="loginEmail" class="w-full bg-gray-100 border-none outline-none text-sm sm:text-base" type="email"
               placeholder="Gmail" required />
           </div>
-          <div class="w-11/12 sm:w-full flex items-center mb-6 bg-gray-100 rounded-full px-3 py-2 shadow">
+          <div class="w-11/12 sm:w-full flex items-center mb-4 bg-gray-100 rounded-full px-3 py-2 shadow">
             <span class="mr-3 text-gray-500 text-base sm:text-lg">
               <i class="fa-solid fa-lock"></i>
             </span>
@@ -89,7 +91,7 @@
               type="password" placeholder="Password" required />
           </div>
 
-          <button class="w-36 md:w-40 py-2 font-semibold text-base md:text-lg
+          <button class="w-32 md:w-36 py-2 font-semibold text-sm md:text-base
                   bg-gray-200 text-black rounded-[20px] shadow-lg transition
                   hover:bg-[#BC4501] hover:text-white
                   hover:backdrop-blur-sm hover:scale-105" type="submit">
@@ -98,21 +100,21 @@
         </form>
 
         <form id="registerForm" class="w-full flex flex-col items-center hidden">
-          <div class="w-11/12 sm:w-full flex items-center mb-4 bg-gray-100 rounded-full px-3 py-2 shadow">
+          <div class="w-11/12 sm:w-full flex items-center mb-3 bg-gray-100 rounded-full px-3 py-2 shadow">
             <span class="mr-3 text-gray-500 text-base sm:text-lg">
               <i class="fa-regular fa-user"></i>
             </span>
             <input id="registerName" class="w-full bg-gray-100 border-none outline-none text-sm sm:text-base"
               type="text" placeholder="Student Name (Optional)" />
           </div>
-          <div class="w-11/12 sm:w-full flex items-center mb-4 bg-gray-100 rounded-full px-3 py-2 shadow">
+          <div class="w-11/12 sm:w-full flex items-center mb-3 bg-gray-100 rounded-full px-3 py-2 shadow">
             <span class="mr-3 text-gray-500 text-base sm:text-lg">
               <i class="fa-solid fa-envelope"></i>
             </span>
             <input id="registerEmail" class="w-full bg-gray-100 border-none outline-none text-sm sm:text-base"
               type="email" placeholder="Gmail" required />
           </div>
-          <div class="w-11/12 sm:w-full flex items-center mb-6 bg-gray-100 rounded-full px-3 py-2 shadow">
+          <div class="w-11/12 sm:w-full flex items-center mb-4 bg-gray-100 rounded-full px-3 py-2 shadow">
             <span class="mr-3 text-gray-500 text-base sm:text-lg">
               <i class="fa-solid fa-lock"></i>
             </span>
@@ -120,7 +122,7 @@
               type="password" placeholder="Password" required />
           </div>
 
-          <button class="w-36 md:w-40 py-2 font-semibold text-base md:text-lg
+          <button class="w-32 md:w-36 py-2 font-semibold text-sm md:text-base
                   bg-gray-200 text-black rounded-[20px] shadow-lg transition
                   hover:bg-[#BC4501] hover:text-white
                   hover:backdrop-blur-sm hover:scale-105" type="submit">
@@ -128,14 +130,24 @@
           </button>
         </form>
 
-        <div class="text-center mt-4 text-sm sm:text-base">
-          <a id="toggleFormLink" href="#" class="text-blue-600 hover:underline">Create an account</a>
-        </div>
+         <div class="flex items-center justify-center mt-4">
+           <span class="h-px bg-gray-300 w-1/4 max-[480px]:w-1/6"></span>
+           <a id="toggleFormLink"
+             href="#"
+             class="mx-2 text-blue-600 font-medium hover:underline text-sm sm:text-base whitespace-nowrap">
+             Create an account
+           </a>
+           <span class="h-px bg-gray-300 w-1/4 max-[480px]:w-1/6"></span>
+         </div>
 
-        <button id="googleBtn" class="google-btn">
+
+        <div class="flex justify-center">
+          <button id="googleBtn" class="google-btn" >
           <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo">
           Sign in with Google
         </button>
+        </div>
+        
       </div>
     </div>
 

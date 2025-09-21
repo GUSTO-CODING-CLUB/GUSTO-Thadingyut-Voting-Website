@@ -10,7 +10,6 @@ import json
 load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = os.getenv('SECRET_KEY', 'your-secret-key-here')
 
 # Initialize Firebase Admin SDK
 try:
@@ -350,4 +349,4 @@ def serve_static(filename):
 # Initialize database on startup
 if __name__ == "__main__":
     init_database()
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=port, debug=True)
