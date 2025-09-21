@@ -10,6 +10,7 @@ import json
 load_dotenv()
 
 app = Flask(__name__)
+app.secret_key = os.getenv('SECRET_KEY', 'your-secret-key-here')
 
 # Initialize Firebase Admin SDK
 try:
