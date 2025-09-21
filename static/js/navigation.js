@@ -1,187 +1,92 @@
 /**
- * Simple Professional Navigation Script for Kings Queens Voting Website
- * Clean, fast, and professional navigation effects
+ * Professional Navigation (click-only indicator)
+ * - Indicator moves for: initial load, click, resize (desktop only)
+ * - No movement on hover
+ * - /viewmore* path maps to /candidates
  */
 
-// Navigation configuration mapping Flask routes to display names
-const NAV_ROUTES = {
-    '/': 'home',
-    '/candidates': 'candidates', 
-    '/lantern': 'lantern',
-    '/results': 'results',
-    '/about': 'about',
-    '/final': 'final',
-    '/winner': 'winner',
-    '/viewmore': 'viewmore'
-};
+document.addEventListener('DOMContentLoaded', initNav);
 
-// Initialize navigation when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    initializeNavigation();
-});
+function initNav() {
+  const links = Array.from(document.querySelectorAll('.nav-a'));
+  const indicator = document.getElementById('nav-indicator');
+  if (!links.length || !indicator) return;
 
-function initializeNavigation() {
-    const navLinks = Array.from(document.querySelectorAll('.nav-a'));
-    const indicator = document.getElementById('nav-indicator');
-    
-    if (!navLinks.length || !indicator) return;
+  // Set active from current URL
+  const active = findLinkForPath(window.location.pathname, links) || links[0];
+  setActiveLink(active, links);
+  if (isDesktop()) moveIndicatorTo(active);
 
-    // Set initial active state based on current page
-    setActivePage();
-    
-    // Handle navigation clicks
-    navLinks.forEach(link => {
-        link.addEventListener('click', handleNavClick);
-        
-        // Add smooth hover effects
-        link.addEventListener('mouseenter', handleNavHover);
-        link.addEventListener('mouseleave', handleNavLeave);
+  // Click: set active + move pill, then navigate
+  links.forEach(link => {
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href');
+      if (!href || href.startsWith('#')) return;
+
+      e.preventDefault();            // set state first for a crisp UX
+      setActiveLink(link, links);
+      if (isDesktop()) moveIndicatorTo(link);
+
+      // Navigate
+      window.location.href = href;
     });
-    
-    // Handle window resize
-    window.addEventListener('resize', handleResize);
+
+    // IMPORTANT: no hover movement — removed mouseenter/leave handlers
+  });
+
+  // On resize, keep pill under the active link (desktop only)
+  window.addEventListener('resize', () => {
+    const current = document.querySelector('.nav-a.is-active');
+    if (current && isDesktop()) moveIndicatorTo(current);
+  });
 }
 
-function getCurrentPage() {
-    const path = window.location.pathname;
-    
-    // Handle root path
-    if (path === '/' || path === '') {
-        return 'home';
-    }
-    
-    // Handle Flask routes
-    for (const [route, page] of Object.entries(NAV_ROUTES)) {
-        if (path === route) {
-            return page;
-        }
-    }
-    
-    // Fallback to first nav item
-    return 'home';
+function isDesktop() {
+  return window.innerWidth >= 768;
 }
 
-function setActivePage() {
-    const currentPage = getCurrentPage();
-    const navLinks = Array.from(document.querySelectorAll('.nav-a'));
-    const indicator = document.getElementById('nav-indicator');
-    
-    // Remove active state from all links
-    navLinks.forEach(link => {
-        link.classList.remove('is-active', 'text-black');
-        link.classList.add('text-gray-700');
-    });
-    
-    // Find and activate current page link
-    const activeLink = navLinks.find(link => {
-        const href = link.getAttribute('href');
-        if (!href) return false;
-        
-        // Check if this link corresponds to current page
-        return (currentPage === 'home' && href.includes('/')) ||
-               (currentPage !== 'home' && href.includes(`/${currentPage}`));
-    });
-    
-    if (activeLink) {
-        activeLink.classList.add('is-active', 'text-black');
-        activeLink.classList.remove('text-gray-700');
-        
-        // Move indicator on desktop with simple animation
-        if (window.innerWidth >= 768) {
-            moveIndicatorTo(activeLink);
-        }
-    }
+function normalizePath(p) {
+  if (!p) return '/';
+  const noHash = p.split('#')[0];
+  const noQuery = noHash.split('?')[0];
+  let clean = noQuery;
+  if (clean !== '/' && clean.endsWith('/')) clean = clean.slice(0, -1);
+  return clean || '/';
 }
 
-function moveIndicatorTo(element) {
-    const indicator = document.getElementById('nav-indicator');
-    const wrapper = element.closest('.relative');
-    
-    if (!indicator || !wrapper) return;
-    
-    const wrapperRect = wrapper.getBoundingClientRect();
-    const elementRect = element.getBoundingClientRect();
-    const paddingX = 12;
-    const paddingY = 4;
-    
-    // Calculate position and size
-    const width = elementRect.width + paddingX * 2;
-    const height = elementRect.height + paddingY * 2;
-    const x = elementRect.left - wrapperRect.left - paddingX;
-    const y = elementRect.top - wrapperRect.top - paddingY;
-    
-    // Apply smooth, professional transition with easing
-    indicator.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-    indicator.style.width = `${width}px`;
-    indicator.style.height = `${height}px`;
-    indicator.style.transform = `translate(${x}px, ${y}px)`;
-    indicator.style.opacity = '1';
+// Map detail pages to a nav item (e.g., /viewmore -> /candidates)
+function aliasPath(p) {
+  const n = normalizePath(p);
+  if (n.startsWith('/viewmore')) return '/candidates';
+  return n;
 }
 
-function handleNavClick(event) {
-    const link = event.currentTarget;
-    const href = link.getAttribute('href');
-    
-    // Skip if no href or internal anchor
-    if (!href || href.startsWith('#')) return;
-    
-    // Prevent default to handle navigation manually
-    event.preventDefault();
-    
-    // Set active state immediately
-    const navLinks = Array.from(document.querySelectorAll('.nav-a'));
-    navLinks.forEach(l => {
-        l.classList.remove('is-active', 'text-black');
-        l.classList.add('text-gray-700');
-    });
-    
-    link.classList.add('is-active', 'text-black');
-    link.classList.remove('text-gray-700');
-    
-    // Move indicator on desktop
-    if (window.innerWidth >= 768) {
-        moveIndicatorTo(link);
-    }
-    
-    // Navigate immediately for fast response
-    window.location.href = href;
+function findLinkForPath(pathname, links) {
+  const target = aliasPath(pathname);
+  return links.find(a => normalizePath(new URL(a.getAttribute('href'), location.origin).pathname) === target);
 }
 
-function handleResize() {
-    const activeLink = document.querySelector('.nav-a.is-active');
-    if (activeLink && window.innerWidth >= 768) {
-        moveIndicatorTo(activeLink);
-    }
+function setActiveLink(activeLink, links) {
+  links.forEach(a => {
+    a.classList.remove('is-active', 'text-black');
+    a.classList.add('text-gray-700');
+  });
+  activeLink.classList.add('is-active', 'text-black');
+  activeLink.classList.remove('text-gray-700');
 }
 
-function handleNavHover(event) {
-    const link = event.currentTarget;
-    
-    // Only show hover effect on desktop and if not already active
-    if (window.innerWidth >= 768 && !link.classList.contains('is-active')) {
-        const indicator = document.getElementById('nav-indicator');
-        if (indicator) {
-            // Create a subtle hover effect with reduced opacity
-            indicator.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
-            moveIndicatorTo(link);
-            indicator.style.opacity = '0.6';
-        }
-    }
-}
+function moveIndicatorTo(el) {
+  const indicator = document.getElementById('nav-indicator');
+  const wrapper = el.closest('.relative');
+  if (!indicator || !wrapper) return;
 
-function handleNavLeave(event) {
-    const link = event.currentTarget;
-    
-    // Only handle leave on desktop and if not active
-    if (window.innerWidth >= 768 && !link.classList.contains('is-active')) {
-        const indicator = document.getElementById('nav-indicator');
-        const activeLink = document.querySelector('.nav-a.is-active');
-        
-        if (indicator && activeLink) {
-            // Return to active link position
-            indicator.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
-            moveIndicatorTo(activeLink);
-            indicator.style.opacity = '1';
-        }
-    }
+  const wr = wrapper.getBoundingClientRect();
+  const r  = el.getBoundingClientRect();
+  const padX = 12, padY = 4;
+
+  indicator.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+  indicator.style.width  = `${r.width + padX * 2}px`;
+  indicator.style.height = `${r.height + padY * 2}px`;
+  indicator.style.transform = `translate(${r.left - wr.left - padX}px, ${r.top - wr.top - padY}px)`;
+  indicator.style.opacity = '1';
 }
