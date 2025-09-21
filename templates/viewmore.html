@@ -197,6 +197,16 @@
     <main class="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 mt-10 mb-16">
       <h2 class="text-2xl font-semibold text-center">Candidate Info</h2>
 
+      <!-- Back button -->
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 mt-2 mb-4">
+        <a id="backToList"
+           href="{{ url_for('candidates') }}?tab={{ candidate.type }}"
+           class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300 text-gray-800 shadow">
+          <i class="fa-solid fa-arrow-left"></i>
+          <span>Back to {{ 'Queen' if candidate.type == 'queen' else 'King' }} list</span>
+        </a>
+      </div>
+
       <!-- layout -->
       <div class="flex flex-col md:flex-row items-start md:items-center justify-center gap-10 md:gap-14 mt-8">
 
@@ -449,6 +459,16 @@
       });
     }
     </script>
+
+    <script>
+      document.getElementById('backToList')?.addEventListener('click', (e) => {
+        if (document.referrer && new URL(document.referrer, location.origin).pathname.includes('/candidates')) {
+          e.preventDefault();
+          history.back();
+        }
+      });
+    </script>
+
 
 </body>
 </html>
