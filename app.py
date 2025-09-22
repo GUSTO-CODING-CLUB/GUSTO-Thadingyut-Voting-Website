@@ -132,7 +132,7 @@ def init_database():
                 ("Ban Htoi Mai", "L3 Batch42", "Vote Me", "Queen/Ban Htoi Mai.png"),
                 ("Hla Wutt Hmone Oo", "HND-69", "Shinning Bright ✨", "Queen/Hla Wutt Hmone Oo.png"),
                 ("Hnin Oo Shwe Yie", "Level 3 B 41", "Vote Me", "Queen/Hnin Oo Shwe Yie.jpg"),
-                ("Hnin Thiri", "HND-68", "Taste like your sweetest dreams💭 💕", "Queen/Hnin Thiri.jpg"),
+                ("Hnin Thiri", "HND-68", "Taste like your sweetest dreams💭 💕", "Queen/Hnin Thiri.png"),
                 ("Hsu Wati Hnin", "HND-59", "Vote Me", "Queen/Hsu Wati Hnin.png"),
                 ("May Thu Lwin", "HND-8 Business", "💕 \"Brains, beauty, and a heart that shines 🌸\" 💕", "Queen/May Thu Lwin.png"),
                 ("Pan Myat Nadi", "Pre IGCse batch6", "Vote Me", "Queen/Ma Pan Myat Nadi.png"),
