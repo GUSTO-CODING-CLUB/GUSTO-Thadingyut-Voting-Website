@@ -101,12 +101,19 @@ def init_database():
         cursor.execute("SELECT COUNT(*) FROM kings")
         if cursor.fetchone()[0] == 0:
             kings_data = [
+                ("Aung Min Khant", "HND-65", "Bio", "Kings/Aung Min Khant.png"),
                 ("Aung Khant Paing", "HND-65", "Vote Me", "Kings/Aung Khant Paing.png"),
                 ("Aung Thaw Hein", "HND-60", "Vote Me", "Kings/Aung Thaw Hein.png"),
+                ("Bo Bo Linn", "HND-65", "Vote Me", "Kings/Bo Bo Linn.jpg"),
+                ("Han Htoo Naung", "HND-60", "A yin lu htet po myan say ya ml", "Kings/Han Htoo Naung.jpg"),
+                ("Hein Lin Thaw", "HND-60", "လူမရှိလို့ ဝင်ပြိုင်တာ မရှိတဲ့ a shyak တွေလည်း ကုန်ပါပြီ", "Kings/Hein Lin Thaw.png"),
+                ("Htet Oo Wai yan", "HND-58", "", "Kings/Htet Oo Wai Yan.png"),
                 ("Htoo Aung Linn", "HND-69", "✨Ready to wear the crown 👑", "Kings/Htoo Aung Linn.png"),
+                ("Kaung Zaw Hein", "HND-57", "I Developed This Website, Vote ME or Get BANNED!", "Kings/Kaung Zaw Hein.jpg"),
                 ("Lin Latt Maung", "HND-52", "Love is crowned with cuteness 👑", "Kings/Lin Latt Maung.png"),
                 ("Lin Sat Naing", "HND-68", "Vote Me", "Kings/Lin Sat Naing.png"),
                 ("Min Thu Ta", "HND-65", "Vote Me", "Kings/Min Thu Ta.png"),
+                ("Naing Aung Khant", "HND-59", "Vote Me", "Kings/Naing Aung Khant.jpg"),
                 ("Nyan Lynn Htun", "HND-60", "Vote Me", "Kings/Nyan Lynn Htun.png"),
                 ("Tun Lin Aung", "HND-68", "Hated, Dated, Still Celebrated.", "Kings/Tun Lin Aung.png"),
                 ("Tun Win Aung", "HND-64", "Vote Me", "Kings/Tun Win Aung.png")
@@ -124,10 +131,12 @@ def init_database():
                 ("Aye Thu Aung", "HND-60", "Vote Me", "Queen/Aye Thu Aung.png"),
                 ("Ban Htoi Mai", "L3 Batch42", "Vote Me", "Queen/Ban Htoi Mai.png"),
                 ("Hla Wutt Hmone Oo", "HND-69", "Shinning Bright ✨", "Queen/Hla Wutt Hmone Oo.png"),
-                ("Hnin Thiri", "HND-68", "Taste like your sweetest dreams💭 💕", "Queen/Hnin Thiri 3.png"),
+                ("Hnin Oo Shwe Yie", "Level 3 B 41", "Vote Me", "Queen/Hnin Oo Shwe Yie.jpg"),
+                ("Hnin Thiri", "HND-68", "Taste like your sweetest dreams💭 💕", "Queen/Hnin Thiri.jpg"),
                 ("Hsu Wati Hnin", "HND-59", "Vote Me", "Queen/Hsu Wati Hnin.png"),
-                ("Ma Pan Myat Nadi", "Pre IGCse batch6", "Vote Me", "Queen/Ma Pan Myat Nadi.png"),
-                ("May Thu Lwin", "HND-8 Business", "💕 \"Brains, beauty, and a heart that shines 🌸\" 💕", "Queen/May thu lwin.png"),
+                ("May Thu Lwin", "HND-8 Business", "💕 \"Brains, beauty, and a heart that shines 🌸\" 💕", "Queen/May Thu Lwin.png"),
+                ("Pan Myat Nadi", "Pre IGCse batch6", "Vote Me", "Queen/Ma Pan Myat Nadi.png"),
+                ("Pwint Phyu Soe", "HND-65", "Soft look, strong soul", "Queen/Pwint Phyu Soe.jpg"),
                 ("Shwe Phyo Wai", "HND-59", "Vote Me", "Queen/Shwe Phyo Wai.png"),
                 ("Thanzin Cho", "HND-69", "Progress, not perfection", "Queen/Thanzin Cho.png"),
                 ("Thet Htar Shwe Zin", "GUF-91", "A queen not only wears a crown but represents her people.", "Queen/Thet Htar Shwe Zin.png"),
@@ -135,7 +144,7 @@ def init_database():
                 ("Thiri Naing", "Level-3 Batch-38", "Vote Me", "Queen/Thiri Naing.png"),
                 ("Thoon Waddy", "HND-9 Business", "Vote Me", "Queen/Thoon Waddy.png"),
                 ("Thuu Thuu Han Wai", "HND-65", "Brown tones & soft vibes", "Queen/Thuu Thuu Han Wai.png"),
-                ("Zwe Sandar Htet", "HND-57", "Born to be a princess, destined to be a queen.", "Queen/Zwe Sandar Htet 2.jpg")
+                ("Zwe Sandar Htet", "HND-57", "Born to be a princess, destined to be a queen.", "Queen/Zwe Sandar Htet.png")
             ]
             
             cursor.executemany("""
