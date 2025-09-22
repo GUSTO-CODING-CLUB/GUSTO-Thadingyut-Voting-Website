@@ -107,7 +107,6 @@ def init_database():
                 ("Bo Bo Linn", "HND-65", "Vote Me", "Kings/Bo Bo Linn.jpg"),
                 ("Han Htoo Naung", "HND-60", "A yin lu htet po myan say ya ml", "Kings/Han Htoo Naung.jpg"),
                 ("Hein Lin Thaw", "HND-60", "လူမရှိလို့ ဝင်ပြိုင်တာ မရှိတဲ့ a shyak တွေလည်း ကုန်ပါပြီ", "Kings/Hein Lin Thaw.png"),
-                ("Htet Oo Wai yan", "HND-58", "", "Kings/Htet Oo Wai Yan.png"),
                 ("Htoo Aung Linn", "HND-69", "✨Ready to wear the crown 👑", "Kings/Htoo Aung Linn.png"),
                 ("Kaung Zaw Hein", "HND-57", "I Developed This Website, Vote ME or Get BANNED!", "Kings/Kaung Zaw Hein.jpg"),
                 ("Lin Latt Maung", "HND-52", "Love is crowned with cuteness 👑", "Kings/Lin Latt Maung.png"),
