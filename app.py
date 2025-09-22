@@ -127,6 +127,7 @@ def init_database():
                 ("Nyan Lynn Htun", "HND-60", "Vote Me", "Kings/Nyan Lynn Htun.png"),
                 ("Tun Lin Aung", "HND-68", "Hated, Dated, Still Celebrated.", "Kings/Tun Lin Aung.png"),
                 ("Tun Win Aung", "HND-64", "Vote Me", "Kings/Tun Win Aung.png")
+                ("Zin Htut Naing", "HND-65", "Vote Me", "Kings/Zin Htut Naing.png")
             ]
             
             cursor.executemany("""
