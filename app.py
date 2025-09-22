@@ -65,13 +65,12 @@ def get_connection():
     )
     return conn
 
-# Initialize database tables
 def init_database():
     conn = get_connection()
     cursor = conn.cursor()
     
     try:
-        # Create kings table
+        # Kings table
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS kings (
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -84,7 +83,7 @@ def init_database():
             )
         """)
         
-        # Create queens table
+        # Queens table
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS queens (
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -94,6 +93,18 @@ def init_database():
                 image_path VARCHAR(200),
                 vote_count INT DEFAULT 0,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        """)
+        
+        # Votes table
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS votes (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                user_uid VARCHAR(128) NOT NULL,
+                candidate_type ENUM('king','queen') NOT NULL,
+                candidate_id INT NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                UNIQUE KEY unique_vote (user_uid, candidate_type)
             )
         """)
         
