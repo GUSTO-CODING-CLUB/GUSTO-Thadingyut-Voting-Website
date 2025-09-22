@@ -310,26 +310,33 @@
       // ✅ Queen tab cards - Generate dynamically from server data
       const queenHTML = `
         {% for queen in queens %}
-        <article class="bg-white rounded-2xl border shadow-[0_10px_20px_rgba(0,0,0,0.12)] overflow-hidden">
+        <article class="bg-white rounded-2xl border 
+                       shadow-[0_10px_20px_rgba(0,0,0,0.12)] 
+                       overflow-hidden 
+                       transition-all duration-300 ease-out 
+                       hover:shadow-lg hover:-translate-y-1">
           <img src="{{ queen.image_path }}"
-              alt="{{ queen.name }}"
-            class="w-full h-[239px] object-cover">
-        <div class="px-5 py-4">
-          <div class="flex items-center justify-between leading-none  lg:h-[50px] sm:h-[50px] font-medium text-gray-900 mb-3">
+               alt="{{ queen.name }}"
+               class="w-full h-[239px] object-cover 
+                      transition-transform duration-300 hover:scale-105">
+          <div class="px-5 py-4">
+            <div class="flex items-center justify-between leading-none  
+                        lg:h-[50px] sm:h-[50px] font-medium text-gray-900 mb-3">
               <span>{{ queen.name }}</span><span>{{ queen.batch }}</span>
-          </div>
-          <div class="flex gap-3">
+            </div>
+            <div class="flex gap-3">
               <a href="{{ url_for('viewmore', id=queen.name.replace(' ', '_')) }}"
-              class="flex-1 text-center text-[16px] py-2 rounded-full bg-gray-100 text-gray-800 hover:bg-gray-200 transition shadow">
-              View more
-            </a>
+                 class="flex-1 text-center text-[16px] py-2 rounded-full bg-gray-100 text-gray-800 hover:bg-gray-200 transition shadow">
+                 View more
+              </a>
               <button onclick="voteCandidate({{ queen.id }}, 'queen')"
-              class="flex-1 text-[16px] py-2 rounded-full bg-[#015486] text-white hover:bg-[#004469] transition shadow">
-              Vote
-            </button>
+                 class="flex-1 text-[16px] py-2 rounded-full bg-[#015486] text-white hover:bg-[#004469] transition shadow">
+                 Vote
+              </button>
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
+
         {% endfor %}
       `;
 
