@@ -136,7 +136,7 @@ def init_database():
                 ("Hsu Wati Hnin", "HND-59", "Vote Me", "Queen/Hsu Wati Hnin.png"),
                 ("May Thu Lwin", "HND-8 Business", "💕 \"Brains, beauty, and a heart that shines 🌸\" 💕", "Queen/May Thu Lwin.png"),
                 ("Pan Myat Nadi", "Pre IGCse batch6", "Vote Me", "Queen/Ma Pan Myat Nadi.png"),
-                ("Pwint Phyu Soe", "HND-65", "Soft look, strong soul", "Queen/Pwint Phyu Soe.jpg"),
+                ("Pwint Phyu Soe", "HND-65", "Through pain, sadness, and loss, never give up 💕 Keep striving for your life’s best. I am cheering you on every step 🍀", "Queen/Pwint Phyu Soe.jpg"),
                 ("Shwe Phyo Wai", "HND-59", "Vote Me", "Queen/Shwe Phyo Wai.png"),
                 ("Thanzin Cho", "HND-69", "Progress, not perfection", "Queen/Thanzin Cho.png"),
                 ("Thet Htar Shwe Zin", "GUF-91", "A queen not only wears a crown but represents her people.", "Queen/Thet Htar Shwe Zin.png"),
