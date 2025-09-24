@@ -119,10 +119,10 @@
         <a href="{{ url_for('home') }}" class="flex items-center">
           <img src="img/Gusto_Nav_Logo.png" alt="GUSTO Logo" class="h-[70px] w-auto -my-4 rounded-full" />
         </a>
-        <div class="flex flex-col md:flex-row items-center">
+            <div class="flex flex-col md:flex-row items-center">
           <span class="font-extrabold lg:text-3xl font-[Merriweather,serif]">GUSTO</span>
           <span class="ml-1 font-normal whitespace-nowrap text-base md:text-xl max-[330px]:text-sm">သီတင်းကျွတ်ပွဲတော်</span>
-        </div>
+            </div>
       </div>
 
       <button id="menu-btn" class="block md:hidden text-2xl p-2" aria-label="Open menu">&#9776;</button>
@@ -269,45 +269,45 @@
   </main>
 
   <!-- Footer (unchanged) -->
-  <footer class="bg-[#03254C] py-4 px-4 md:py-5 md:px-8 h-auto md:h-[200px]">
+   <footer class="bg-[#03254C] py-4 px-4 md:py-5 md:px-8 h-auto md:h-[200px]">
     <div class="flex flex-col md:flex-row justify-between items-center h-full text-center">
       <div class="text-orange-400 font-medium text-base lg:text-xl mb-3 md:mb-0 ml-0 md:ml-[100px] pr-0 md:pr-4 order-1">
         ပျော်ရွှင်စရာသတင်းကျွတ်အချိန်အခါလေးဖြစ်ပါစေ
-      </div>
-      <div class="flex justify-center items-center py-2 order-2 flex-grow-0">
+        </div>
+        <div class="flex justify-center items-center py-2 order-2 flex-grow-0">
         <img src="img/SeMeeKut.png" alt="Diya" class="w-[36px] h-[36px] mx-1 md:w-[50px] md:h-[50px] animate-diya-glow" />
         <img src="img/SeMeeKut.png" alt="Diya" class="w-[50px] h-[50px] -mt-3 mx-1 md:w-[70px] md:h-[70px] md:-mt-4 animate-diya-glow" />
         <img src="img/SeMeeKut.png" alt="Diya" class="w-[36px] h-[36px] mx-1 md:w-[50px] md:h-[50px] animate-diya-glow" />
-      </div>
+        </div>
       <div class="flex flex-col items-center md:items-end text-orange-400 font-medium text-base md:text-lg lg:text-xl mt-3 md:mt-0 mr-0 md:mr-[100px] pl-0 md:pl-4 order-3">
         <div class="flex flex-wrap justify-center md:justify-end w-[370px] lg:justify-center space-x-4 md:space-x-6 mb-1 md:mb-0 font-[fa-chevron-left]">
-          <a href="{{ url_for('home') }}" class="hover:text-yellow-400">Home</a>
-          <a href="{{ url_for('candidates') }}" class="hover:text-yellow-400">Candidate</a>
-          <a href="{{ url_for('lantern') }}" class="hover:text-yellow-400">Lantern</a>
+            <a href="{{ url_for('home') }}" class="hover:text-yellow-400">Home</a>
+            <a href="{{ url_for('candidates') }}" class="hover:text-yellow-400">Candidate</a>
+            <a href="{{ url_for('lantern') }}" class="hover:text-yellow-400">Lantern</a>
         </div>
         <br>
         <div class="flex flex-wrap justify-center md:justify-end space-x-4 md:space-x-6 mt-1 md:mt-1 font-[fa-chevron-left]">
-          <a href="{{ url_for('results') }}" class="hover:text-yellow-400">Voting Result</a>
-          <a href="{{ url_for('about') }}" class="hover:text-yellow-400">About us</a>
-          <a href="{{ url_for('final') }}" class="hover:text-yellow-400">Final</a>
-          <a href="{{ url_for('winner') }}" class="hover:text-yellow-400">Winner</a>
+            <a href="{{ url_for('results') }}" class="hover:text-yellow-400">Voting Result</a>
+            <a href="{{ url_for('about') }}" class="hover:text-yellow-400">About us</a>
+            <a href="{{ url_for('final') }}" class="hover:text-yellow-400">Final</a>
+            <a href="{{ url_for('winner') }}" class="hover:text-yellow-400">Winner</a>
         </div>
-      </div>
+        </div>
     </div>
-  </footer>
+    </footer>
 
-  <!-- Mobile nav toggle -->
-  <script>
+    <!-- Mobile nav toggle -->
+    <script>
     const menuBtn = document.getElementById('menu-btn');
     const navLinks = document.getElementById('nav-links');
     if (menuBtn && navLinks) menuBtn.addEventListener('click', () => navLinks.classList.toggle('hidden'));
-  </script>
-
+    </script>
+    
   <!-- Your navigation.js -->
-  <script src="{{ url_for('static', filename='js/navigation.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/navigation.js') }}"></script>
 
   <!-- Flip countdown logic -->
-  <script>
+    <script>
   (() => {
     const root = document.getElementById('launch-countdown');
     if (!root) return;
@@ -412,18 +412,95 @@
     if(tabKing) tabKing.addEventListener('click', () => setActiveTab('king'));
     if(tabQueen) tabQueen.addEventListener('click', () => setActiveTab('queen'));
 
-    // Simple vote handler — currently does a GET redirect to /vote
-    // Replace with fetch POST to your vote endpoint if needed (and handle CSRF)
+    // Professional Message Box helper
+    function showMessageBox(type, title, message){
+      const existing = document.querySelector('.message-box-overlay');
+      if (existing) existing.remove();
+      const overlay = document.createElement('div');
+      overlay.className = 'message-box-overlay';
+      const box = document.createElement('div');
+      box.className = `message-box ${type}`;
+      const icon = type === 'success' ? '🎉' : '⚠️';
+      box.innerHTML = `
+        <div class="message-box-content">
+          <div class="message-box-icon">${icon}</div>
+          <div class="message-box-title">${title}</div>
+          <div class="message-box-message">${message}</div>
+        </div>
+      `;
+      overlay.appendChild(box);
+      document.body.appendChild(overlay);
+      setTimeout(()=>{
+        if (!overlay.parentNode) return;
+        overlay.style.animation = 'messageBoxFadeIn .3s ease-out reverse';
+        setTimeout(()=> overlay.remove(), 300);
+      }, 4000);
+      overlay.addEventListener('click', (e)=>{
+        if (e.target === overlay){
+          overlay.style.animation = 'messageBoxFadeIn .3s ease-out reverse';
+          setTimeout(()=> overlay.remove(), 300);
+        }
+      });
+    }
+
+    // Direct vote (no confirmation) — mirrors viewmore behavior
     function voteCandidate(id, role){
-      if(!confirm('Are you sure you want to vote?')) return;
-      // adjust endpoint to your backend route; this example navigates with query params
-      window.location.href = `/vote?id=${encodeURIComponent(id)}&role=${encodeURIComponent(role)}`;
+      const button = event && event.target ? event.target : null;
+      const originalText = button ? button.textContent : '';
+      if (button){
+      button.textContent = 'Voting...';
+      button.disabled = true;
+      }
+      
+      fetch('/vote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `candidate_id=${encodeURIComponent(id)}&candidate_type=${encodeURIComponent(role)}`
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data.success){
+          if (button){
+          button.textContent = 'Voted!';
+            button.classList.remove('bg-[#015486]','hover:bg-[#004469]');
+            button.classList.add('bg-green-500','hover:bg-green-600');
+          }
+          showMessageBox('success', 'Vote Recorded!', data.message || 'Thank you for voting!');
+        } else {
+          if (button){
+          button.textContent = 'Error';
+          button.classList.add('bg-red-500');
+          }
+          showMessageBox('error', 'Voting Error', data.message || 'Please try again.');
+          setTimeout(()=>{
+            if (button){
+            button.textContent = originalText;
+            button.disabled = false;
+            button.classList.remove('bg-red-500');
+            }
+          }, 3000);
+        }
+      })
+      .catch(err => {
+        if (button){
+        button.textContent = 'Error';
+        button.classList.add('bg-red-500');
+        }
+        showMessageBox('error', 'Network Error', 'Please check your connection and try again.');
+        setTimeout(()=>{
+          if (button){
+          button.textContent = originalText;
+          button.disabled = false;
+          button.classList.remove('bg-red-500');
+          }
+        }, 3000);
+      });
     }
     // expose for inline onclick
     window.voteCandidate = voteCandidate;
 
     // initialize
     setActiveTab('king');
-  </script>
+    </script>
 </body>
 </html>
