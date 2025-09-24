@@ -110,13 +110,24 @@
   </nav>
 
   <!-- MAIN -->
-    <main class="flex-grow flex flex-col justify-center items-center text-center px-4 py-12 font-[fa-chevron-left]">
-    <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 mb-4">
-        Coming Soon!
-    </h1>
-    <p class="text-lg sm:text-xl text-gray-600 mb-6">
+    <main class="relative flex-grow flex flex-col justify-center items-center text-center px-4 py-12 font-[fa-chevron-left] overflow-hidden min-h-[calc(100vh-180px)] md:min-h-[calc(100vh-200px)]">
+    <!-- Video background -->
+    <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover">
+      <source src="img/main_page_hero.mp4" type="video/mp4">
+    </video>
+    <!-- Soft dark overlay for readability -->
+    <div class="absolute inset-0 bg-black/40"></div>
+
+    <!-- Foreground content -->
+    <div class="relative z-10 max-w-3xl mx-auto px-3">
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white drop-shadow-md">
+          မကြာမီ လာမည် မျှော်!
+      </h1>
+      <p class="mt-6 text-lg sm:text-xl text-white/95 drop-shadow mb-2">
         Voting Results will be shown here live soon!
-    </p>
+      </p>
+    </div>
+
     </main>
 
 
