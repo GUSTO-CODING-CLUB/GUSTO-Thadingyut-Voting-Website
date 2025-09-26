@@ -243,7 +243,7 @@
           <p class="mb-4"><span class="font-semibold text-xl">Batch</span> - <span id="batch">{{ candidate.batch }}</span></p>
           <p class="mb-6"><span class="font-semibold text-xl">Bio</span> - <span id="bio">{{ candidate.bio }}</span></p>
 
-          <button onclick="voteCandidate({{ candidate.id }}, '{{ candidate.type }}')" class="w-full bg-orange-500 hover:bg-orange-600 text-white py-2.5 rounded-md font-semibold">
+          <button disabled class="w-full bg-gray-400 text-white py-2.5 rounded-md font-semibold cursor-not-allowed opacity-60">
             Vote
           </button>
         </div>

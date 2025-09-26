@@ -242,7 +242,7 @@
           </div>
           <div class="flex gap-3">
             <a href="{{ url_for('viewmore', id=king.name.replace(' ', '_')) }}" class="flex-1 text-center text-[16px] py-2 rounded-full bg-gray-100 text-gray-800 hover:bg-gray-200 transition-colors duration-200 shadow">View more</a>
-            <button onclick="voteCandidate({{ king.id }}, 'king')" class="flex-1 text-[16px] py-2 rounded-full bg-[#015486] text-white hover:bg-[#004469] transition-colors duration-200 shadow">Vote</button>
+            <button disabled class="flex-1 text-[16px] py-2 rounded-full bg-gray-400 text-white cursor-not-allowed transition-colors duration-200 shadow opacity-60">Vote</button>
           </div>
         </div>
       </article>
@@ -260,7 +260,7 @@
           </div>
           <div class="flex gap-3">
             <a href="{{ url_for('viewmore', id=queen.name.replace(' ', '_')) }}" class="flex-1 text-center text-[16px] py-2 rounded-full bg-gray-100 text-gray-800 hover:bg-gray-200 transition-colors duration-200 shadow">View more</a>
-            <button onclick="voteCandidate({{ queen.id }}, 'queen')" class="flex-1 text-[16px] py-2 rounded-full bg-[#015486] text-white hover:bg-[#004469] transition-colors duration-200 shadow">Vote</button>
+            <button disabled class="flex-1 text-[16px] py-2 rounded-full bg-gray-400 text-white cursor-not-allowed transition-colors duration-200 shadow opacity-60">Vote</button>
           </div>
         </div>
       </article>
