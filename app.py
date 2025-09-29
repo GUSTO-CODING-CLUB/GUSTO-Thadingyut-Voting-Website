@@ -208,6 +208,20 @@ def init_database():
         conn.close()
 
 # Routes
+
+@app.route("/api/final-ids")
+def api_final_ids():
+    conn = get_connection()
+    cur = conn.cursor(dictionary=True)
+
+    cur.execute("SELECT id, name, batch FROM final_kings ORDER BY id")
+    kings = cur.fetchall()
+    cur.execute("SELECT id, name, batch FROM final_queens ORDER BY id")
+    queens = cur.fetchall()
+
+    cur.close(); conn.close()
+    return jsonify({"kings": kings, "queens": queens})
+
 @app.route("/login")
 def login():
     return render_template("login.html")
@@ -455,34 +469,35 @@ def final_vote():
                 """,
                 (session['user_id'], token)
             )
-        else:
-            # Ensure candidate exists
-            table_name = f"{category}s"
-            cursor.execute(f"SELECT id FROM {table_name} WHERE id = %s", (candidate_id,))
-            if not cursor.fetchone():
-                cursor.close()
-                conn.close()
-                return jsonify({"success": False, "message": f"{category.capitalize()} not found"}), 404
+            
+        # Ensure candidate exists
+        valid = {
+            "king": "final_kings",
+            "queen": "final_queens",
+            "lantern": "lanterns"  # you don't have final_lanterns; keep using lanterns
+        }
+        table_name = valid.get(category)
+        if not table_name:
+            return jsonify({"success": False, "message": "Invalid voting category"}), 400
 
-            # Record vote
-            cursor.execute(
-                "INSERT INTO final_votes (token, category, candidate_id) VALUES (%s, %s, %s)",
-                (token, category, candidate_id)
-            )
+        # Record vote
+        cursor.execute(
+            "INSERT INTO final_votes (token, category, candidate_id) VALUES (%s, %s, %s)",
+            (token, category, candidate_id)
+        )
 
-            # Mark token as used and store vote details
-            update_query = f"""
-                UPDATE final_tokens
-                SET {used_column} = 1,
-                    candidate_{category} = %s,
-                    used_by_{category} = %s,
-                    used_at_{category} = NOW()
-                WHERE token = %s
-            """
-            cursor.execute(update_query, (candidate_id, session['user_id'], token))
+        # Mark token as used and store vote details
+        update_query = f"""
+            UPDATE final_tokens
+            SET {used_column} = 1,
+                candidate_{category} = %s,
+                used_by_{category} = %s,                    used_at_{category} = NOW()
+            WHERE token = %s
+        """
+        cursor.execute(update_query, (candidate_id, session['user_id'], token))
 
-            # Increase candidate vote count where applicable
-            cursor.execute(f"UPDATE {table_name} SET vote_count = vote_count + 1 WHERE id = %s", (candidate_id,))
+        # Increase candidate vote count where applicable
+        cursor.execute(f"UPDATE {table_name} SET vote_count = vote_count + 1 WHERE id = %s", (candidate_id,))
 
         conn.commit()
         cursor.close()

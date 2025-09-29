@@ -116,7 +116,7 @@
             <li><a href="{{ url_for('home') }}"           class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">Home</a></li>
             <li><a href="{{ url_for('candidates') }}" class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">Candidate</a></li>
             <li><a href="{{ url_for('lantern') }}"        class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">Lantern</a></li>
-            <li><a href="{{ url_for('mote_phoe') }}"        class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">Mote Phoe</a></li>
+            <li><a href="{{ url_for('mote_phoe') }}"      class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">Mote Phoe</a></li>
             <li><a href="{{ url_for('results') }}"  class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">Voting Result</a></li>
             <li><a href="{{ url_for('about') }}"       class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">About Us</a></li>
             <li><a href="{{ url_for('final') }}"          class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">Final</a></li>
@@ -143,7 +143,6 @@
               class="absolute z-20 top-4 left-1/2 -translate-x-1/2 flex gap-2 bg-white/80 backdrop-blur rounded-full p-1">
             <button data-cat="kings"     class="tab-btn px-4 py-1.5 text-sm md:text-base rounded-full font-semibold">Kings</button>
             <button data-cat="queens"    class="tab-btn px-4 py-1.5 text-sm md:text-base rounded-full font-semibold">Queens</button>
-            <button data-cat="lanterns"  class="tab-btn px-4 py-1.5 text-sm md:text-base rounded-full font-semibold">Lanterns</button>
           </div>
 
           <!-- Circular Gallery host -->
@@ -177,48 +176,30 @@
 
     </main>
 
-    <footer class="bg-[#03254C] py-4 px-4 md:py-5 md:px-8 h-auto md:h-[200px]">
-      <div class="flex flex-col md:flex-row justify-between items-center h-full text-center">
-
-          <div class="text-orange-400 font-medium 
-                      text-base lg:text-xl 
-                      mb-3 md:mb-0 
-                      ml-0 md:ml-[100px] 
-                      pr-0 md:pr-4 order-1">
-          ပျော်ရွှင်စရာသတင်းကျွတ်အချိန်အခါလေးဖြစ်ပါစေ
+    <!-- Token Modal (same styling as lantern.html) -->
+    <div id="token-modal" class="fixed inset-0 z-[60] hidden">
+      <div class="absolute inset-0 bg-black/60" onclick="closeTokenModal()"></div>
+      <div class="relative mx-auto my-8 w-[92%] max-w-[560px]">
+        <div class="relative rounded-2xl overflow-hidden shadow-2xl">
+          <div class="relative w-full" style="--modal-h: 520px;">
+            <div class="relative w-full" style="height: var(--modal-h);">
+              <img src="{{ url_for('serve_image', filename='token.png') }}" alt="Token" class="absolute inset-0 w-full h-full object-contain bg-transparent" />
+              <div class="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(0,0,0,0)_0%,rgba(0,0,0,0)_60%,rgba(0,0,0,0.25)_100%)]"></div>
+              <div class="absolute left-1/2 top-[58%] -translate-x-1/2 -translate-y-1/2 w-[78%] max-w-xs">
+                <div class="backdrop-blur-[2px] bg-white/40 rounded-lg shadow p-2">
+                  <input id="token-text" maxlength="6" autocomplete="off" inputmode="latin" pattern="[A-Za-z0-9]{6}" class="w-full text-center tracking-widest uppercase rounded-md border border-white/60 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 px-3 py-2 font-mono text-base bg-transparent placeholder-white/70 text-gray-900" placeholder="TOKEN" />
+                </div>
+                <p id="token-error" class="hidden text-red-600 text-sm mt-2 text-center">Enter 6 characters.</p>
+                <div class="mt-3 flex items-center justify-center gap-2">
+                  <button type="button" onclick="submitToken()" class="min-w-[96px] px-4 py-2.5 rounded-md bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold shadow hover:from-orange-600 hover:to-orange-700">OK</button>
+                  <button type="button" onclick="closeTokenModal()" class="min-w-[96px] px-4 py-2.5 rounded-md border border-white/70 text-white bg-black/20 hover:bg-black/30">Cancel</button>
+                </div>
+              </div>
+            </div>
           </div>
-
-          <div class="flex justify-center items-center py-2 order-2 flex-grow-0">
-        <img src="{{ url_for('serve_image', filename='SeMeeKut.png') }}" alt="Diya" class="w-[36px] h-[36px] mx-1 md:w-[50px] md:h-[50px] animate-diya-glow" />
-        <img src="{{ url_for('serve_image', filename='SeMeeKut.png') }}" alt="Diya" class="w-[50px] h-[50px] -mt-3 mx-1 md:w-[70px] md:h-[70px] md:-mt-4 animate-diya-glow" />
-        <img src="{{ url_for('serve_image', filename='SeMeeKut.png') }}" alt="Diya" class="w-[36px] h-[36px] mx-1 md:w-[50px] md:h-[50px] animate-diya-glow" />
-          </div>
-
-          <div class="flex flex-col items-center md:items-end 
-                      text-orange-400 font-medium 
-                      text-base md:text-lg lg:text-xl 
-                      mt-3 md:mt-0 
-                      mr-0 md:mr-[100px] 
-                      pl-0 md:pl-4 order-3">
-          
-          <div class="flex flex-wrap justify-center md:justify-end w-[370px] lg:justify-center space-x-4 md:space-x-6 mb-1 md:mb-0 font-[fa-chevron-left]">
-            <a href="{{ url_for('home') }}" class="hover:text-yellow-400">Home</a>
-            <a href="{{ url_for('candidates') }}" class="hover:text-yellow-400">Candidate</a>
-            <a href="{{ url_for('lantern') }}" class="hover:text-yellow-400">Lantern</a>
-          </div>
-
-          <br>
-
-          <div class="flex flex-wrap justify-center md:justify-end space-x-4 md:space-x-6 mt-1 md:mt-1 font-[fa-chevron-left]">
-            <a href="{{ url_for('results') }}" class="hover:text-yellow-400">Voting Result</a>
-            <a href="{{ url_for('about') }}" class="hover:text-yellow-400">About us</a>
-            <a href="{{ url_for('final') }}" class="hover:text-yellow-400">Final</a>
-            <a href="{{ url_for('winner') }}" class="hover:text-yellow-400">Winner</a>
-          </div>
-          </div>
-
+        </div>
       </div>
-      </footer>
+    </div>
 
   <!-- Mobile nav toggle -->
     <script>
@@ -231,684 +212,721 @@
   <script src="{{ url_for('static', filename='js/navigation.js') }}"></script>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // 1) Image base you already have
-      const kingQueenImage = "{{ url_for('serve_image', filename='king&queen.jpg')|safe }}";
+  // Modal + Toast utilities (reused from lantern.html)
+  function openTokenModal(){
+    const modal = document.getElementById('token-modal');
+    const input = document.getElementById('token-text');
+    const error = document.getElementById('token-error');
+    if(modal){
+      modal.classList.remove('hidden');
+      if (input) input.value = '';
+      if (error) error.classList.add('hidden');
+      setTimeout(()=> input?.focus(), 50);
+    }
+  }
+  function closeTokenModal(){
+    const modal = document.getElementById('token-modal');
+    if(modal){ modal.classList.add('hidden'); }
+  }
+  async function submitToken(){
+    const input = document.getElementById('token-text');
+    const error = document.getElementById('token-error');
+    const token = (input?.value || '').trim().toUpperCase();
+    if(token.length !== 6){
+      if (error) error.classList.remove('hidden');
+      return;
+    }
+    const okBtn = event?.target || document.querySelector('#token-modal button');
+    if(okBtn){ okBtn.disabled = true; okBtn.classList.add('opacity-70'); }
 
-      // 2) REPLACE your old finalists object with this (add votes + optional images[])
-      const finalists = {
-        kings: [
-          {
-            name: "Final King 1",
-            batch: "HND-01",
-            bio: "Vote Me",
-            image: kingQueenImage,
-            images: [
-              "{{ url_for('serve_image', filename='king1_a.jpg')|safe }}",
-              "{{ url_for('serve_image', filename='king1_b.jpg')|safe }}",
-              "{{ url_for('serve_image', filename='king1_c.jpg')|safe }}"
-            ],
-            
-          },
-          { name: "Final King 2", batch: "HND-02", bio: "Vote Me", image: kingQueenImage },
-          { name: "Final King 3", batch: "HND-03", bio: "Vote Me", image: kingQueenImage },
-          { name: "Final King 4", batch: "HND-04", bio: "Vote Me", image: kingQueenImage },
-          { name: "Final King 5", batch: "HND-05", bio: "Vote Me", image: kingQueenImage }
-        ],
-        queens: [
-          {
-            name: "Final Queen 1",
-            batch: "HND-11",
-            bio: "Vote Me",
-            image: kingQueenImage,
-            images: [
-              "{{ url_for('serve_image', filename='queen1_a.jpg')|safe }}",
-              "{{ url_for('serve_image', filename='queen1_b.jpg')|safe }}"
-            ],
-            
-          },
-          { name: "Final Queen 2", batch: "HND-12", bio: "Vote Me", image: kingQueenImage, },
-          { name: "Final Queen 3", batch: "HND-13", bio: "Vote Me", image: kingQueenImage, },
-          { name: "Final Queen 4", batch: "HND-14", bio: "Vote Me", image: kingQueenImage, },
-          { name: "Final Queen 5", batch: "HND-15", bio: "Vote Me", image: kingQueenImage, }
-        ],
-        lanterns: [
-          {
-            name: "Final Lantern 1",
-            batch: "Lantern-01",
-            bio: "Vote Me",
-            image: kingQueenImage,
-            images: [
-              "{{ url_for('serve_image', filename='lantern1_a.jpg')|safe }}",
-              "{{ url_for('serve_image', filename='lantern1_b.jpg')|safe }}"
-            ],
-            
-          },
-          { name: "Final Lantern 2", batch: "Lantern-02", bio: "Vote Me", image: kingQueenImage, },
-          { name: "Final Lantern 3", batch: "Lantern-03", bio: "Vote Me", image: kingQueenImage, },
-          { name: "Final Lantern 4", batch: "Lantern-04", bio: "Vote Me", image: kingQueenImage, },
-          { name: "Final Lantern 5", batch: "Lantern-05", bio: "Vote Me", image: kingQueenImage, }
-        ]
-      };
+    const sel = window.selectedFinal || {};
+    const id = sel.id; const category = sel.category; const btn = sel.btn;
+    if (!id || !category){
+      showToast('No candidate selected.', 'error');
+      if(okBtn){ okBtn.disabled = false; okBtn.classList.remove('opacity-70'); }
+      closeTokenModal();
+      return;
+    }
+    if (btn) btn.disabled = true;
+    try{
+      const res = await fetch('/final_vote', {
+        method:'POST', headers:{ 'Content-Type':'application/json' },
+        body: JSON.stringify({ token, category, candidate_id: id })
+      });
+      const data = await res.json();
+      showToast(data.message, data.success ? 'success' : 'error');
+    }catch(err){
+      console.error(err);
+      showToast('Something went wrong. Please try again.', 'error');
+    }finally{
+      if(okBtn){ okBtn.disabled = false; okBtn.classList.remove('opacity-70'); }
+      if (btn) btn.disabled = false;
+      closeTokenModal();
+    }
+  }
 
-    // Create candidate cards
-      function createCandidateCard(candidate) {
-      const votes = Number.isFinite(candidate.votes) ? candidate.votes : null;
-      const bioHtml = candidate.bio
-        ? `<p class="text-gray-700 text-sm leading-relaxed mb-4 line-clamp-3">${candidate.bio}</p>`
-        : '';
+  const toastRootId = 'toast-root';
+  function ensureToastRoot(){
+    let root = document.getElementById(toastRootId);
+    if(!root){
+      root = document.createElement('div');
+      root.id = toastRootId;
+      root.className = 'fixed inset-0 z-[70] pointer-events-none flex items-center justify-center';
+      document.body.appendChild(root);
+    }
+    return root;
+  }
+  function showToast(message, type){
+    const root = ensureToastRoot();
+    const el = document.createElement('div');
+    el.className = `pointer-events-auto px-5 py-4 rounded-xl shadow-2xl text-white text-base md:text-lg ${type==='success'?'bg-green-600/95':'bg-red-600/95'} backdrop-blur-sm animate-[fadeIn_.2s_ease-out]`;
+    el.textContent = message || (type==='success' ? 'Done.' : 'Something went wrong.');
+    root.appendChild(el);
+    setTimeout(()=>{
+      el.classList.add('opacity-0','transition-opacity','duration-300');
+      setTimeout(()=> el.remove(), 320);
+    }, 1800);
+  }
+  </script>
 
-      // Right-hand info box (static label + animated number)
-      const voteBox = votes === null
-        ? `
-          <div class="shrink-0 w-[116px] rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-center">
-            <div class="text-[11px] leading-4 uppercase tracking-wide text-slate-500">Votes</div>
-            <div class="text-xl font-bold text-slate-900"
-                data-vote-count
-                data-candidate="${candidate.batch}">—</div>
-          </div>`
-        : `
-          <div class="shrink-0 w-[116px] rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-center">
-            <div class="text-[11px] leading-4 uppercase tracking-wide text-slate-500">Votes</div>
-            <div class="text-xl font-bold text-slate-900"
-                data-countup
-                data-vote-count
-                data-candidate="${candidate.batch}"
-                data-from="0"
-                data-to="${votes}"
-                data-duration="1.4"
-                data-delay="0"
-                data-separator=",">0</div>
-          </div>`;
+  <script>
+  /* ===========================
+    FINALISTS + CARDS + SLIDES + VOTING
+    =========================== */
+  document.addEventListener('DOMContentLoaded', async () => {
+    // 1) Hard-code your images here (edit paths/names as needed)
+    const finalists = {
+      kings: [
+        { name: "Bo Bo Linn", batch: "HND-65", bio: "Vote Me",
+          image: "img/King_Viewmore/Bo Bo Linn(1).jpg",
+          images: ["img/King_Viewmore/Bo Bo Linn(1).jpg","img/King_Viewmore/Bo Bo Linn(2).jpg","img/King_Viewmore/Bo Bo Linn(3).jpg"],
+          focusY: 15
+        },
+        { name: "Htoo Aung Linn", batch: "HND-69", bio: "✨Ready to wear the crown 👑",
+          image: "img/King_Viewmore/Htoo Aung Linn(1).jpg",
+          images: ["img/King_Viewmore/Htoo Aung Linn(1).jpg","img/King_Viewmore/Htoo Aung Linn(2).jpg","img/King_Viewmore/Htoo Aung Linn(3).jpg"],
+          focusY: 15
+        },
+        { name: "Lin Latt Maung", batch: "HND-52", bio: "Love is crowned with cuteness 👑",
+          image: "img/King_Viewmore/Lin Latt Maung(1).jpg",
+          images: ["img/King_Viewmore/Lin Latt Maung(1).jpg","img/King_Viewmore/Lin Latt Maung(2).jpg","img/King_Viewmore/Lin Latt Maung(3).jpg"],
+          focusY: 15
+        },
+        { name: "Naing Aung Khant", batch: "HND-59", bio: "Vote Me",
+          image: "img/King_Viewmore/Naing Aung Khant(1).jpg",
+          images: ["img/King_Viewmore/Naing Aung Khant(1).jpg","img/King_Viewmore/Naing Aung Khant(2).jpg","img/King_Viewmore/Naing Aung Khant(3).jpg"],
+          focusY: 15
+        },
+        { name: "Tun Lin Aung", batch: "HND-68", bio: "Hated, Dated, Still Celebrated.",
+          image: "img/King_Viewmore/Tun Lin Aung(1).jpg",
+          images: ["img/King_Viewmore/Tun Lin Aung(1).jpg","img/King_Viewmore/Tun Lin Aung(2).jpg","img/King_Viewmore/Tun Lin Aung(3).jpg"],
+          focusY: 15
+        }
+      ],
+      queens: [
+        { name: "Hnin Oo Shwe Yie", batch: "Level 3 B 41", bio: "Vote Me",
+          image: "img/Queen_Viewmore/Hnin Oo Shwe Yie(1).jpg",
+          images: ["img/Queen_Viewmore/Hnin Oo Shwe Yie(1).jpg","img/Queen_Viewmore/Hnin Oo Shwe Yie(2).jpg","img/Queen_Viewmore/Hnin Oo Shwe Yie(3).jpg"],
+          focusY: 15
+        },
+        { name: "Hnin Thiri", batch: "HND-68", bio: "Taste like your sweetest dreams💭 💕",
+          image: "img/Queen_Viewmore/Hnin Thiri(1).jpg",
+          images: ["img/Queen_Viewmore/Hnin Thiri(1).jpg","img/Queen_Viewmore/Hnin Thiri(2).jpg","img/Queen_Viewmore/Hnin Thiri(3).jpg"],
+          focusY: 15
+        },
+        { name: "May Thu Lwin", batch: "HND-8 Business",
+          bio: '💕 "Brains, beauty, and a heart that shines 🌸" 💕',
+          image: "img/Queen_Viewmore/May Thu Lwin(1).jpg",
+          images: ["img/Queen_Viewmore/May Thu Lwin(1).jpg","img/Queen_Viewmore/May Thu Lwin(2).jpg","img/Queen_Viewmore/May Thu Lwin(3).jpg"],
+          focusY: 15
+        },
+        { name: "Thanzin Cho", batch: "HND-69", bio: "Progress, not perfection",
+          image: "img/Queen_Viewmore/Thanzin Cho(1).jpg",
+          images: ["img/Queen_Viewmore/Thanzin Cho(1).jpg","img/Queen_Viewmore/Thanzin Cho(2).jpg","img/Queen_Viewmore/Thanzin Cho(3).jpg"],
+          focusY: 15
+        },
+        { name: "Thet Htar Shwe Zin", batch: "GUF-91",
+          bio: "A queen not only wears a crown but represents her people.",
+          image: "img/Queen_Viewmore/Thet Htar Shwe Zin(1).jpg",
+          images: ["img/Queen_Viewmore/Thet Htar Shwe Zin(1).jpg","img/Queen_Viewmore/Thet Htar Shwe Zin(2).jpg","img/Queen_Viewmore/Thet Htar Shwe Zin(3).jpg"],
+          focusY: 15
+        }
+      ],
+    };
 
+    // 1.5) Pull DB ids and merge into our hard-coded data
+    async function attachFinalIds() {
+      try {
+        const res = await fetch('/api/final-ids');
+        const data = await res.json();
+        const mapByName = (arr) =>
+          Object.fromEntries(arr.map(x => [x.name.trim().toLowerCase(), x.id]));
+
+        const kingMap = mapByName(data.kings || []);
+        const queenMap = mapByName(data.queens || []);
+
+        finalists.kings.forEach(k => {
+          const key = k.name.trim().toLowerCase();
+          k.id = kingMap[key] ?? k.id;
+        });
+        finalists.queens.forEach(q => {
+          const key = q.name.trim().toLowerCase();
+          q.id = queenMap[key] ?? q.id;
+        });
+      } catch (e) {
+        console.error('Failed to attach final IDs:', e);
+      }
+    }
+
+    // 2) Card template (shows Vote button with data-id/category)
+    function createCandidateCard(c, category) {
+      const bioHtml = c.bio ? `<p class="text-gray-700 text-sm leading-relaxed mb-4 line-clamp-3">${c.bio}</p>` : '';
       return `
         <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-          <div class="relative h-64 overflow-hidden">
-            <img src="${candidate.image}" alt="${candidate.name}"
-                class="w-full h-full object-cover transition-transform duration-300 hover:scale-105">
+          <div class="relative aspect-[4/5] overflow-hidden">
+            <div class="absolute inset-0" data-slides></div>
           </div>
           <div class="p-6">
-            <h3 class="text-xl font-bold text-gray-800 mb-1">${candidate.name}</h3>
-            <p class="text-gray-600 mb-3">${candidate.batch}</p>
+            <h3 class="text-xl font-bold text-gray-800 mb-1">${c.name}</h3>
+            <p class="text-gray-600 mb-3">${c.batch}</p>
             ${bioHtml}
-
             <div class="mt-2 flex items-stretch gap-3">
               <button
-                class="flex-1 bg-[#015486] text-white py-2 px-4 rounded-lg font-semibold hover:bg-[#0b6aa8] transition-colors duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
-                disabled
-                data-action="vote"
-                data-candidate="${candidate.batch}">
+                class="flex-1 bg-[#015486] text-white py-2 px-4 rounded-lg font-semibold hover:bg-[#0b6aa8] transition-colors duration-300"
+                data-action="final-vote"
+                data-id="${c.id ?? ''}"
+                data-category="${category}"
+                ${c.id ? '' : 'disabled'}
+              >
                 Vote
               </button>
-
-              ${voteBox}
             </div>
           </div>
         </div>
       `;
-}
-
-    // Render sections
-    function renderSections() {
-      const kingsSection = document.querySelector('section:nth-of-type(2) .grid');
-      kingsSection.innerHTML = finalists.kings.map(createCandidateCard).join('');
-
-      const queensSection = document.querySelector('section:nth-of-type(3) .grid');
-      queensSection.innerHTML = finalists.queens.map(createCandidateCard).join('');
-
-      const lanternsSection = document.querySelector('section:nth-of-type(4) .grid');
-      lanternsSection.innerHTML = finalists.lanterns.map(createCandidateCard).join('');
     }
 
-    renderSections();
+    // 3) Render grids
+    const kingsGrid  = document.getElementById('kingsGrid');
+    const queensGrid = document.getElementById('queensGrid');
 
-    // Expose for the module script
+    // Wait for ids, then render
+    await attachFinalIds();
+
+    if (kingsGrid)  kingsGrid.innerHTML  = finalists.kings.map(c => createCandidateCard(c, 'king')).join('');
+    if (queensGrid) queensGrid.innerHTML = finalists.queens.map(c => createCandidateCard(c, 'queen')).join('');
+
+    // 4) Per-card slideshow: cross-fade between images[]
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        const ctrl = e.target._slideshow;
+        if (!ctrl) return;
+        if (e.isIntersecting) ctrl.play(); else ctrl.stop();
+      });
+    }, { threshold: 0.2 });
+
+    function setupGridSlides(gridEl, data) {
+      if (!gridEl) return;
+      const hosts = gridEl.querySelectorAll('[data-slides]');
+      hosts.forEach((host, i) => {
+        const item = data[i] || {};
+        const sources = (Array.isArray(item.images) && item.images.length ? item.images : [item.image]).filter(Boolean);
+
+        host.innerHTML = '';
+        const imgs = sources.map((src, idx) => {
+          const img = document.createElement('img');
+          img.src = encodeURI(src);
+          img.alt = item.name || '';
+          img.className = 'absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-700 ease-out ' +
+                          (idx === 0 ? 'opacity-100' : 'opacity-0');
+          img.onerror = () => { img.src = 'img/fallback.jpg'; };
+          host.appendChild(img);
+          return img;
+        });
+
+        let at = 0, timer = null;
+        function show(n){
+          imgs.forEach((im,k)=>{
+            im.classList.toggle('opacity-100', k===n);
+            im.classList.toggle('opacity-0',   k!==n);
+          });
+        }
+        function play(){
+          if (timer || imgs.length < 2) return;
+          timer = setInterval(() => { at = (at+1) % imgs.length; show(at); }, 2600);
+        }
+        function stop(){ if (timer){ clearInterval(timer); timer=null; } }
+
+        host._slideshow = { play, stop };
+        if (imgs.length > 1) io.observe(host);
+      });
+    }
+
+    setupGridSlides(kingsGrid,  finalists.kings);
+    setupGridSlides(queensGrid, finalists.queens);
+
+    // 5) Final voting handler (open modal → POST /final_vote)
+    window.selectedFinal = { id: null, category: null, btn: null };
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-action="final-vote"]');
+      if (!btn) return;
+
+      const id = Number(btn.dataset.id || 0);
+      const category = btn.dataset.category;
+      if (!id || !category) {
+        showToast('Candidate is not linked to the database yet.', 'error');
+        return;
+      }
+      window.selectedFinal = { id, category, btn };
+      openTokenModal();
+    });
+
+    // Expose for the hero gallery module
     window.finalists = finalists;
-    window.__kingQueenImage = kingQueenImage;
   });
-
   </script>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const kingQueenImage = "{{ url_for('serve_image', filename='king&queen.jpg')|safe }}";
 
-  // Add 2–5 photos per person in `images` to see the transition.
-  const finalists = {
-    kings: [
-      {
-        name: "Final King 1",
-        batch: "HND-01",
-        bio: "Vote Me",
-        image: kingQueenImage,
-        images: [
-          "{{ url_for('serve_image', filename='king1_a.jpg')|safe }}",
-          "{{ url_for('serve_image', filename='king1_b.jpg')|safe }}",
-          "{{ url_for('serve_image', filename='king1_c.jpg')|safe }}"
-        ]
-      },
-      { name: "Final King 2", batch: "HND-02", bio: "Vote Me", image: kingQueenImage, images:[ "{{ url_for('serve_image', filename='king2_a.jpg')|safe }}" ] },
-      { name: "Final King 3", batch: "HND-03", bio: "Vote Me", image: kingQueenImage, images:[ "{{ url_for('serve_image', filename='king3_a.jpg')|safe }}" ] },
-      { name: "Final King 4", batch: "HND-04", bio: "Vote Me", image: kingQueenImage, images:[ "{{ url_for('serve_image', filename='king4_a.jpg')|safe }}" ] },
-      { name: "Final King 5", batch: "HND-05", bio: "Vote Me", image: kingQueenImage, images:[ "{{ url_for('serve_image', filename='king5_a.jpg')|safe }}" ] }
-    ],
-    queens: [
-      {
-        name: "Final Queen 1",
-        batch: "HND-11",
-        bio: "Vote Me",
-        image: kingQueenImage,
-        images: [
-          "{{ url_for('serve_image', filename='queen1_a.jpg')|safe }}",
-          "{{ url_for('serve_image', filename='queen1_b.jpg')|safe }}"
-        ]
-      },
-      { name: "Final Queen 2", batch: "HND-12", bio: "Vote Me", image: kingQueenImage, images:[ "{{ url_for('serve_image', filename='queen2_a.jpg')|safe }}" ] },
-      { name: "Final Queen 3", batch: "HND-13", bio: "Vote Me", image: kingQueenImage, images:[ "{{ url_for('serve_image', filename='queen3_a.jpg')|safe }}" ] },
-      { name: "Final Queen 4", batch: "HND-14", bio: "Vote Me", image: kingQueenImage, images:[ "{{ url_for('serve_image', filename='queen4_a.jpg')|safe }}" ] },
-      { name: "Final Queen 5", batch: "HND-15", bio: "Vote Me", image: kingQueenImage, images:[ "{{ url_for('serve_image', filename='queen5_a.jpg')|safe }}" ] }
-    ]
-  };
+  <script type="module">
+  /* ===========================
+    OGL HERO GALLERY (3D strip)
+    =========================== */
+  (async () => {
+    const sources = [
+      'https://cdn.jsdelivr.net/npm/ogl@0.0.103/dist/ogl.module.js',
+      'https://unpkg.com/ogl@0.0.103/dist/ogl.module.js',
+      'https://esm.sh/ogl@0.0.103'
+    ];
 
-  // ------- Card markup (no votes) -------
-  function createCandidateCard(c) {
-    const bioHtml = c.bio ? `<p class="text-gray-700 text-sm leading-relaxed mb-4 line-clamp-3">${c.bio}</p>` : '';
-    return `
-      <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-        <div class="relative h-64 overflow-hidden">
-          <div class="absolute inset-0" data-slides></div>
-        </div>
-        <div class="p-6">
-          <h3 class="text-xl font-bold text-gray-800 mb-1">${c.name}</h3>
-          <p class="text-gray-600 mb-3">${c.batch}</p>
-          ${bioHtml}
-          <div class="mt-2 flex items-stretch gap-3">
-            <button class="flex-1 bg-[#015486] text-white py-2 px-4 rounded-lg font-semibold hover:bg-[#0b6aa8] transition-colors duration-300" disabled>
-              Vote
-            </button>
-          </div>
-        </div>
-      </div>
-    `;
-  }
+    let OGL = null;
+    for (const src of sources) {
+      try { OGL = await import(src); break; } catch {}
+    }
 
-  // ------- Render grids -------
-  const kingsGrid  = document.getElementById('kingsGrid');
-  const queensGrid = document.getElementById('queensGrid');
+    const host = document.getElementById('circularGallery');
+    if (!OGL || !host) {
+      console.error('OGL failed or #circularGallery missing.');
+      if (host) {
+        host.innerHTML = `
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;">
+            <div style="padding:12px 16px;border-radius:12px;background:#fff;box-shadow:0 4px 20px rgba(0,0,0,.08);font:600 14px/1.2 Figtree, system-ui, sans-serif;color:#111827;">
+              3D gallery unavailable. Please refresh or check your connection.
+            </div>
+          </div>`;
+      }
+      return;
+    }
 
-  if (kingsGrid)  kingsGrid.innerHTML  = finalists.kings.map(createCandidateCard).join('');
-  if (queensGrid) queensGrid.innerHTML = finalists.queens.map(createCandidateCard).join('');
+    const { Camera, Mesh, Plane, Program, Renderer, Texture, Transform } = OGL;
 
-  // ------- Per-card slideshow (cross-fade) -------
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      const ctrl = e.target._slideshow;
-      if (!ctrl) return;
-      if (e.isIntersecting) ctrl.play(); else ctrl.stop();
-    });
-  }, { threshold: 0.2 });
+    const lerp = (a,b,t)=> a + (b-a)*t;
+    const debounce = (fn,ms)=>{ let t; return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn(...args),ms); }; };
+    const sleep = (ms)=> new Promise(r=>setTimeout(r,ms));
+    async function waitFor(pred, timeout=3000, step=50){
+      const start = performance.now();
+      while (!pred()){
+        if (performance.now()-start > timeout) break;
+        await sleep(step);
+      }
+    }
 
-  function setupGridSlides(gridEl, data) {
-    if (!gridEl) return;
-    const hosts = gridEl.querySelectorAll('[data-slides]');
-    hosts.forEach((host, i) => {
-      const item = data[i] || {};
-      const sources = (Array.isArray(item.images) && item.images.length ? item.images : [item.image]).filter(Boolean);
+    // fetch ids and attach by name (case-insensitive)
+    async function attachFinalIds() {
+      try {
+        const res = await fetch('/api/final-ids');
+        const data = await res.json();
+        const byName = (arr) => Object.fromEntries(
+          arr.map(x => [x.name.trim().toLowerCase(), x.id])
+        );
+        const kingMap = byName(data.kings || []);
+        const queenMap = byName(data.queens || []);
 
-      // build stacked images
-      host.innerHTML = '';
-      const imgs = sources.map((src, idx) => {
-        const img = document.createElement('img');
-        img.src = src;
-        img.alt = item.name || '';
-        img.className = 'absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-out ' +
-                        (idx === 0 ? 'opacity-100' : 'opacity-0');
-        host.appendChild(img);
-        return img;
-      });
-
-      // controller
-      let at = 0, timer = null;
-      function show(n){
-        imgs.forEach((im,k)=>{
-          im.classList.toggle('opacity-100', k===n);
-          im.classList.toggle('opacity-0',   k!==n);
+        finalists.kings.forEach(k => {
+          const key = k.name.trim().toLowerCase();
+          k.id = kingMap[key] ?? k.id;  // keep if already set
         });
+        finalists.queens.forEach(q => {
+          const key = q.name.trim().toLowerCase();
+          q.id = queenMap[key] ?? q.id;
+        });
+      } catch (e) {
+        console.error('Failed to attach final IDs:', e);
       }
-      function play(){
-        if (timer || imgs.length < 2) return;
-        timer = setInterval(() => { at = (at+1) % imgs.length; show(at); }, 2600);
+    }
+
+
+    function drawRoundRect(ctx, x, y, w, h, r) {
+      const rr = Math.min(r, h/2, w/2);
+      ctx.beginPath();
+      ctx.moveTo(x+rr, y);
+      ctx.arcTo(x+w, y, x+w, y+h, rr);
+      ctx.arcTo(x+w, y+h, x, y+h, rr);
+      ctx.arcTo(x, y+h, x, y, rr);
+      ctx.arcTo(x, y, x+w, y, rr);
+      ctx.closePath();
+    }
+
+    function createLabelTexture(gl, title, subtitle, opts = {}) {
+      const {
+        titleFont='700 32px Figtree, sans-serif',
+        subFont='600 20px Figtree, sans-serif',
+        padX=28, padY=14, gap=6,
+        bg='#015486', fg='#fff', fgSub='rgba(255,255,255,0.9)',
+        radius=18,
+      } = opts;
+
+      const c = document.createElement('canvas');
+      const ctx = c.getContext('2d');
+
+      ctx.font = titleFont; const w1 = ctx.measureText(title||'').width;
+      ctx.font = subFont;   const w2 = ctx.measureText(subtitle||'').width;
+
+      const titleH = parseInt((titleFont.match(/(\d+)px/)||[,32])[1], 10);
+      const subH   = parseInt((subFont.match(/(\d+)px/)||[,20])[1], 10);
+
+      const W = Math.ceil(Math.max(w1, w2) + padX*2);
+      const H = Math.ceil(titleH + (subtitle? gap+subH : 0) + padY*2);
+
+      c.width = Math.max(400, W);
+      c.height = H;
+
+      ctx.clearRect(0,0,c.width,c.height);
+      drawRoundRect(ctx, 0, 0, c.width, c.height, radius);
+      ctx.fillStyle = bg; ctx.fill();
+
+      ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.font = titleFont; ctx.fillStyle = fg;
+      ctx.fillText(title||'', c.width/2, padY + titleH/2);
+
+      if (subtitle){
+        ctx.font = subFont; ctx.fillStyle = fgSub;
+        ctx.fillText(subtitle, c.width/2, padY + titleH + gap + subH/2);
       }
-      function stop(){ if (timer){ clearInterval(timer); timer=null; } }
 
-      host._slideshow = { play, stop };
-      if (imgs.length > 1) io.observe(host);
-    });
-  }
-
-  setupGridSlides(kingsGrid,  finalists.kings);
-  setupGridSlides(queensGrid, finalists.queens);
-
-  // expose finalists for the hero gallery (kept as-is)
-  window.finalists = finalists;
-  window.__kingQueenImage = kingQueenImage;
-});
-</script>
-
-
-
-<script type="module">
-(async () => {
-  const sources = [
-    'https://cdn.jsdelivr.net/npm/ogl@0.0.103/dist/ogl.module.js',
-    'https://unpkg.com/ogl@0.0.103/dist/ogl.module.js',
-    'https://esm.sh/ogl@0.0.103'
-  ];
-
-  let OGL = null;
-  for (const src of sources) {
-    try { OGL = await import(src); break; } catch {}
-  }
-
-  const host = document.getElementById('circularGallery');
-  if (!OGL || !host) {
-    console.error('OGL failed or #circularGallery missing.');
-    if (host) {
-      host.innerHTML = `
-        <div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;">
-          <div style="padding:12px 16px;border-radius:12px;background:#fff;box-shadow:0 4px 20px rgba(0,0,0,.08);font:600 14px/1.2 Figtree, system-ui, sans-serif;color:#111827;">
-            3D gallery unavailable. Please refresh or check your connection.
-          </div>
-        </div>`;
-    }
-    return;
-  }
-
-  const { Camera, Mesh, Plane, Program, Renderer, Texture, Transform } = OGL;
-
-  const lerp = (a,b,t)=> a + (b-a)*t;
-  const debounce = (fn,ms)=>{ let t; return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn(...args),ms); }; };
-  const sleep = (ms)=> new Promise(r=>setTimeout(r,ms));
-  async function waitFor(pred, timeout=3000, step=50){
-    const start = performance.now();
-    while (!pred()){
-      if (performance.now()-start > timeout) break;
-      await sleep(step);
-    }
-  }
-
-  function drawRoundRect(ctx, x, y, w, h, r) {
-    const rr = Math.min(r, h/2, w/2);
-    ctx.beginPath();
-    ctx.moveTo(x+rr, y);
-    ctx.arcTo(x+w, y, x+w, y+h, rr);
-    ctx.arcTo(x+w, y+h, x, y+h, rr);
-    ctx.arcTo(x, y+h, x, y, rr);
-    ctx.arcTo(x, y, x+w, y, rr);
-    ctx.closePath();
-  }
-
-  function createLabelTexture(gl, title, subtitle, opts = {}) {
-    const {
-      titleFont='700 32px Figtree, sans-serif',
-      subFont='600 20px Figtree, sans-serif',
-      padX=28, padY=14, gap=6,
-      bg='#ea5c09', fg='#fff', fgSub='rgba(255,255,255,0.9)',
-      radius=18,
-    } = opts;
-
-    const c = document.createElement('canvas');
-    const ctx = c.getContext('2d');
-
-    ctx.font = titleFont; const w1 = ctx.measureText(title||'').width;
-    ctx.font = subFont;   const w2 = ctx.measureText(subtitle||'').width;
-
-    const titleH = parseInt((titleFont.match(/(\d+)px/)||[,32])[1], 10);
-    const subH   = parseInt((subFont.match(/(\d+)px/)||[,20])[1], 10);
-
-    const W = Math.ceil(Math.max(w1, w2) + padX*2);
-    const H = Math.ceil(titleH + (subtitle? gap+subH : 0) + padY*2);
-
-    c.width = Math.max(400, W);
-    c.height = H;
-
-    ctx.clearRect(0,0,c.width,c.height);
-    drawRoundRect(ctx, 0, 0, c.width, c.height, radius);
-    ctx.fillStyle = bg; ctx.fill();
-
-    ctx.textAlign='center'; ctx.textBaseline='middle';
-    ctx.font = titleFont; ctx.fillStyle = fg;
-    ctx.fillText(title||'', c.width/2, padY + titleH/2);
-
-    if (subtitle){
-      ctx.font = subFont; ctx.fillStyle = fgSub;
-      ctx.fillText(subtitle, c.width/2, padY + titleH + gap + subH/2);
+      const tex = new Texture(gl, { generateMipmaps:false });
+      tex.image = c;
+      return { texture: tex, width:c.width, height:c.height };
     }
 
-    const tex = new Texture(gl, { generateMipmaps:false });
-    tex.image = c;
-    return { texture: tex, width:c.width, height:c.height };
-  }
+    class LabelOverlay {
+      constructor({ gl, plane, title, subtitle }){
+        const isMobile = window.innerWidth < 768;
+        const opts = isMobile
+          ? { titleFont:'700 24px Figtree, sans-serif', subFont:'600 14px Figtree, sans-serif', padX:20, padY:10, radius:14 }
+          : {};
+        const { texture, width, height } = createLabelTexture(gl, title, subtitle, opts);
+        this.aspect = width/height;
 
-  class LabelOverlay {
-    constructor({ gl, plane, title, subtitle }){
-      const isMobile = window.innerWidth < 768;
-      const opts = isMobile
-        ? { titleFont:'700 24px Figtree, sans-serif', subFont:'600 14px Figtree, sans-serif', padX:20, padY:10, radius:14 }
-        : {};
-      const { texture, width, height } = createLabelTexture(gl, title, subtitle, opts);
-      this.aspect = width/height;
+        const geometry = new Plane(gl);
+        const program = new Program(gl, {
+          depthTest: false, depthWrite: false, transparent:true,
+          vertex:`attribute vec3 position; attribute vec2 uv;
+            uniform mat4 modelViewMatrix, projectionMatrix;
+            varying vec2 vUv; void main(){ vUv=uv;
+            gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }`,
+          fragment:`precision highp float; uniform sampler2D tMap; varying vec2 vUv;
+            void main(){ vec4 c=texture2D(tMap,vUv); if(c.a<.05) discard; gl_FragColor=c; }`,
+          uniforms:{ tMap:{ value: texture } },
+        });
 
-      const geometry = new Plane(gl);
-      const program = new Program(gl, {
-        depthTest: false, depthWrite: false, transparent:true,
-        vertex:`attribute vec3 position; attribute vec2 uv;
-          uniform mat4 modelViewMatrix, projectionMatrix;
-          varying vec2 vUv; void main(){ vUv=uv;
-          gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }`,
-        fragment:`precision highp float; uniform sampler2D tMap; varying vec2 vUv;
-          void main(){ vec4 c=texture2D(tMap,vUv); if(c.a<.05) discard; gl_FragColor=c; }`,
-        uniforms:{ tMap:{ value: texture } },
-      });
-
-      this.mesh = new Mesh(gl, { geometry, program });
-      this.mesh.setParent(plane);
-      this.mesh.position.z = 0.05;
-      this.onResize();
+        this.mesh = new Mesh(gl, { geometry, program });
+        this.mesh.setParent(plane);
+        this.mesh.position.z = 0.05;
+        this.onResize();
+      }
+      onResize(){
+        const relW = 0.90, relH = relW / this.aspect;
+        this.mesh.scale.set(relW, relH, 1);
+        this.mesh.position.y = -0.5 + relH * 0.58;
+      }
     }
-    onResize(){
-      const relW = 0.90, relH = relW / this.aspect;
-      this.mesh.scale.set(relW, relH, 1);
-      this.mesh.position.y = 0.5 - relH * 0.62;
-    }
-  }
 
-  class Media {
-    constructor({ geometry, gl, image, index, length, scene, screen, text, subtext, viewport, bend, tiltScale=1, borderRadius=0.06 }){
-      this.gl=gl; this.image=image; this.index=index; this.length=length;
-      this.scene=scene; this.screen=screen; this.viewport=viewport;
-      this.text=text; this.subtext=subtext; this.bend=bend; this.tiltScale=tiltScale;
-      this.borderRadius=borderRadius; this.extra=0;
+    class Media {
+      constructor({ geometry, gl, image, index, length, scene, screen, text, subtext, viewport, bend, tiltScale=1, borderRadius=0.06 }){
+        this.gl=gl; this.image=image; this.index=index; this.length=length;
+        this.scene=scene; this.screen=screen; this.viewport=viewport;
+        this.text=text; this.subtext=subtext; this.bend=bend; this.tiltScale=tiltScale;
+        this.borderRadius=borderRadius; this.extra=0;
 
-      const texture = new Texture(this.gl, { generateMipmaps:true });
-      this.program = new Program(this.gl, {
-        depthTest:false, depthWrite:false, transparent:true,
-        vertex:`precision highp float; attribute vec3 position; attribute vec2 uv;
-          uniform mat4 modelViewMatrix, projectionMatrix; uniform float uTime, uSpeed;
-          varying vec2 vUv; void main(){ vUv=uv; vec3 p=position;
-          p.z=(sin(p.x*4.0+uTime)*1.5+cos(p.y*2.0+uTime)*1.5)*(0.1+uSpeed*0.5);
-          gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.0); }`,
-        fragment:`precision highp float; uniform vec2 uImageSizes,uPlaneSizes;
-          uniform sampler2D tMap; uniform float uBorderRadius; varying vec2 vUv;
-          float roundedBoxSDF(vec2 p, vec2 b, float r){
-            vec2 d=abs(p)-b; return length(max(d,vec2(0.0)))+min(max(d.x,d.y),0.0)-r;
+        const texture = new Texture(this.gl, { generateMipmaps:true });
+        this.program = new Program(this.gl, {
+          depthTest:false, depthWrite:false, transparent:true,
+          vertex:`precision highp float; attribute vec3 position; attribute vec2 uv;
+            uniform mat4 modelViewMatrix, projectionMatrix; uniform float uTime, uSpeed;
+            varying vec2 vUv; void main(){ vUv=uv; vec3 p=position;
+            p.z=(sin(p.x*4.0+uTime)*1.5+cos(p.y*2.0+uTime)*1.5)*(0.1+uSpeed*0.5);
+            gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.0); }`,
+          fragment:`precision highp float; uniform vec2 uImageSizes,uPlaneSizes;
+            uniform sampler2D tMap; uniform float uBorderRadius; varying vec2 vUv;
+            float roundedBoxSDF(vec2 p, vec2 b, float r){
+              vec2 d=abs(p)-b; return length(max(d,vec2(0.0)))+min(max(d.x,d.y),0.0)-r;
+            }
+            void main(){
+              vec2 ratio=vec2(
+                min((uPlaneSizes.x/uPlaneSizes.y)/(uImageSizes.x/uImageSizes.y),1.0),
+                min((uPlaneSizes.y/uPlaneSizes.x)/(uImageSizes.y/uImageSizes.x),1.0)
+              );
+              vec2 uv = vec2(
+                vUv.x * ratio.x + (1.0 - ratio.x) * 0.5,   // center X
+                clamp(vUv.y * ratio.y + (1.0 - ratio.y),   // TOP align Y (vUv.y=0 is bottom)
+                      0.0, 1.0)
+              );
+
+
+              vec4 color=texture2D(tMap,uv);
+              float d=roundedBoxSDF(vUv-0.5, vec2(0.5-uBorderRadius), uBorderRadius);
+              float alpha=1.0-smoothstep(-0.002,0.002,d);
+              gl_FragColor=vec4(color.rgb,alpha);
+            }`,
+          uniforms:{
+            tMap:{value:texture},
+            uPlaneSizes:{value:[0,0]},
+            uImageSizes:{value:[0,0]},
+            uSpeed:{value:0},
+            uTime:{value:100*Math.random()},
+            uBorderRadius:{value:this.borderRadius}
           }
-          void main(){
-            vec2 ratio=vec2(
-              min((uPlaneSizes.x/uPlaneSizes.y)/(uImageSizes.x/uImageSizes.y),1.0),
-              min((uPlaneSizes.y/uPlaneSizes.x)/(uImageSizes.y/uImageSizes.x),1.0)
-            );
-            vec2 uv=vec2(vUv.x*ratio.x+(1.0-ratio.x)*0.5, vUv.y*ratio.y+(1.0-ratio.y)*0.5);
-            vec4 color=texture2D(tMap,uv);
-            float d=roundedBoxSDF(vUv-0.5, vec2(0.5-uBorderRadius), uBorderRadius);
-            float alpha=1.0-smoothstep(-0.002,0.002,d);
-            gl_FragColor=vec4(color.rgb,alpha);
-          }`,
-        uniforms:{
-          tMap:{value:texture},
-          uPlaneSizes:{value:[0,0]},
-          uImageSizes:{value:[0,0]},
-          uSpeed:{value:0},
-          uTime:{value:100*Math.random()},
-          uBorderRadius:{value:this.borderRadius}
+        });
+
+        const img = new Image();
+        // Use encodeURI so spaces/( )/& work from local paths
+        img.src = encodeURI(this.image);
+        img.onload = () => {
+          texture.image = img;
+          this.program.uniforms.uImageSizes.value = [img.naturalWidth, img.naturalHeight];
+        };
+        img.onerror = () => {
+          const ph = new Image();
+          ph.onload = () => { texture.image = ph; };
+          ph.src = 'img/fallback.jpg'; // optional placeholder
+        };
+
+        this.plane = new Mesh(this.gl, { geometry, program:this.program });
+        this.plane.setParent(this.scene);
+
+        this.label = new LabelOverlay({ gl:this.gl, plane:this.plane, title:this.text, subtitle:this.subtext });
+        this.onResize({});
+      }
+
+      update(scroll, dir){
+        this.plane.position.x = this.x - scroll.current - this.extra;
+        const x = this.plane.position.x;
+        const H = this.viewport.width/2;
+
+        if (this.bend === 0){
+          this.plane.position.y = 0;
+          const d = Math.min(Math.abs(x) / (this.width * 1.05), 1);
+          this.plane.rotation.z = (Math.abs(x) < this.width*0.02) ? 0 : Math.sign(x) * d * 0.09;
+        } else {
+          const B=Math.abs(this.bend), R=(H*H+B*B)/(2*B), ex=Math.min(Math.abs(x),H);
+          const arc=R-Math.sqrt(R*R-ex*ex);
+          const theta = Math.asin(ex / R) * (this.tiltScale || 1);
+          if (this.bend > 0) { this.plane.position.y = -arc; this.plane.rotation.z = -Math.sign(x) * theta; }
+          else               { this.plane.position.y =  arc; this.plane.rotation.z =  Math.sign(x) * theta; }
         }
-      });
 
-      const img = new Image();
-      if (/^https?:/i.test(this.image)) img.crossOrigin = 'anonymous';
-      img.src = this.image;
-      img.onload = () => {
-        texture.image = img;
-        this.program.uniforms.uImageSizes.value = [img.naturalWidth, img.naturalHeight];
-      };
+        const speed = scroll.current - scroll.last;
+        this.program.uniforms.uTime.value  += 0.04;
+        this.program.uniforms.uSpeed.value  = speed;
 
-      this.plane = new Mesh(this.gl, { geometry, program:this.program });
-      this.plane.setParent(this.scene);
-
-      this.label = new LabelOverlay({ gl:this.gl, plane:this.plane, title:this.text, subtitle:this.subtext });
-      this.onResize({});
-    }
-
-    update(scroll, dir){
-      this.plane.position.x = this.x - scroll.current - this.extra;
-      const x = this.plane.position.x;
-      const H = this.viewport.width/2;
-
-      if (this.bend === 0){
-        this.plane.position.y = 0;
-        const d = Math.min(Math.abs(x) / (this.width * 1.05), 1);
-        this.plane.rotation.z = (Math.abs(x) < this.width*0.02) ? 0 : Math.sign(x) * this.maxTilt * d;
-      } else {
-        const B=Math.abs(this.bend), R=(H*H+B*B)/(2*B), ex=Math.min(Math.abs(x),H);
-        const arc=R-Math.sqrt(R*R-ex*ex);
-        const theta = Math.asin(ex / R) * (this.tiltScale || 1);
-        if (this.bend > 0) { this.plane.position.y = -arc; this.plane.rotation.z = -Math.sign(x) * theta; }
-        else               { this.plane.position.y =  arc; this.plane.rotation.z =  Math.sign(x) * theta; }
-      }
-
-      const speed = scroll.current - scroll.last;
-      this.program.uniforms.uTime.value  += 0.04;
-      this.program.uniforms.uSpeed.value  = speed;
-
-      const nd = Math.min(Math.abs(this.plane.position.x) / (this.viewport.width * 0.5), 1);
-      const s  = 1 - this.shrinkEdge * nd;
-      this.plane.scale.x = this.baseScaleX * s;
-      this.plane.scale.y = this.baseScaleY * s;
-      this.program.uniforms.uPlaneSizes.value = [this.plane.scale.x, this.plane.scale.y];
-
-      const planeOffset=this.plane.scale.x/2, viewportOffset=this.viewport.width/2;
-      const before = this.plane.position.x + planeOffset < -viewportOffset;
-      const after  = this.plane.position.x - planeOffset >  viewportOffset;
-      if (dir==='right' && before) this.extra -= this.widthTotal;
-      if (dir==='left'  && after)  this.extra += this.widthTotal;
-    }
-
-    onResize({screen, viewport} = {}){
-      if (screen)   this.screen   = screen;
-      if (viewport) this.viewport = viewport;
-
-      const isMobile = this.screen.width < 768;
-
-      if (isMobile) {
-        const cardAspect = 700/900;
-        const targetPxW  = Math.min(this.screen.width * 0.62, 320);
-        const targetPxH  = targetPxW / cardAspect;
-
-        const maxPxH = this.screen.height * 0.55;
-        const pxH    = Math.min(targetPxH, maxPxH);
-        const pxW    = pxH * cardAspect;
-
-        this.plane.scale.y = (this.viewport.height * pxH) / this.screen.height;
-        this.plane.scale.x = (this.viewport.width  * pxW) / this.screen.width;
+        const nd = Math.min(Math.abs(this.plane.position.x) / (this.viewport.width * 0.5), 1);
+        const s  = 1 - 0.18 * nd;
+        this.plane.scale.x = this.baseScaleX * s;
+        this.plane.scale.y = this.baseScaleY * s;
         this.program.uniforms.uPlaneSizes.value = [this.plane.scale.x, this.plane.scale.y];
 
-        this.baseScaleX = this.plane.scale.x;
-        this.baseScaleY = this.plane.scale.y;
-
-        this.padding = 0.035 * this.baseScaleX;
-        this.width      = this.baseScaleX + this.padding;
-        this.widthTotal = this.width * this.length;
-        this.x          = this.width * this.index;
-
-        this.maxTilt    = 0.09;
-        this.shrinkEdge = 0.06;
-      } else {
-        this.scale = this.screen.height/1500;
-        this.plane.scale.y = (this.viewport.height * (900*this.scale)) / this.screen.height;
-        this.plane.scale.x = (this.viewport.width  * (700*this.scale)) / this.screen.width;
-        this.program.uniforms.uPlaneSizes.value = [this.plane.scale.x, this.plane.scale.y];
-
-        this.padding = 2;
-        this.width      = this.plane.scale.x + this.padding;
-        this.widthTotal = this.width * this.length;
-        this.x          = this.width * this.index;
-
-        this.baseScaleX = this.plane.scale.x;
-        this.baseScaleY = this.plane.scale.y;
-
-        this.maxTilt    = 0.26;
-        this.shrinkEdge = 0.18;
+        const planeOffset=this.plane.scale.x/2, viewportOffset=this.viewport.width/2;
+        const before = this.plane.position.x + planeOffset < -viewportOffset;
+        const after  = this.plane.position.x - planeOffset >  viewportOffset;
+        if (dir==='right' && before) this.extra -= this.widthTotal;
+        if (dir==='left'  && after)  this.extra += this.widthTotal;
       }
 
-      this.label?.onResize();
+      onResize({screen, viewport} = {}){
+        if (screen)   this.screen   = screen;
+        if (viewport) this.viewport = viewport;
+
+        const isMobile = this.screen.width < 768;
+
+        if (isMobile) {
+          const cardAspect = 700/900;
+          const targetPxW  = Math.min(this.screen.width * 0.62, 320);
+          const targetPxH  = targetPxW / cardAspect;
+
+          const maxPxH = this.screen.height * 0.55;
+          const pxH    = Math.min(targetPxH, maxPxH);
+          const pxW    = pxH * cardAspect;
+
+          this.plane.scale.y = (this.viewport.height * pxH) / this.screen.height;
+          this.plane.scale.x = (this.viewport.width  * pxW) / this.screen.width;
+          this.program.uniforms.uPlaneSizes.value = [this.plane.scale.x, this.plane.scale.y];
+
+          this.baseScaleX = this.plane.scale.x;
+          this.baseScaleY = this.plane.scale.y;
+
+          this.padding = 0.035 * this.baseScaleX;
+          this.width      = this.baseScaleX + this.padding;
+          this.widthTotal = this.width * this.length;
+          this.x          = this.width * this.index;
+        } else {
+          this.scale = this.screen.height/1500;
+          this.plane.scale.y = (this.viewport.height * (900*this.scale)) / this.screen.height;
+          this.plane.scale.x = (this.viewport.width  * (700*this.scale)) / this.screen.width;
+          this.program.uniforms.uPlaneSizes.value = [this.plane.scale.x, this.plane.scale.y];
+
+          this.padding = 2;
+          this.width      = this.plane.scale.x + this.padding;
+          this.widthTotal = this.width * this.length;
+          this.x          = this.width * this.index;
+
+          this.baseScaleX = this.plane.scale.x;
+          this.baseScaleY = this.plane.scale.y;
+        }
+
+        this.label?.onResize();
+      }
     }
-  }
 
-  class App {
-    constructor(container, { items, bend=3, tiltScale=1, borderRadius=0.06, scrollSpeed=2, scrollEase=0.08 }={}) {
-      this.container=container; this.scrollSpeed=scrollSpeed;
-      this.scroll={ ease:scrollEase, current:0, target:0, last:0 };
-      this.tiltScale = tiltScale;
-      this.onCheckDebounce = debounce(()=>this.onCheck(),200);
+    class App {
+      constructor(container, { items, bend=3, tiltScale=1, borderRadius=0.06, scrollSpeed=2, scrollEase=0.08 }={}) {
+        this.container=container; this.scrollSpeed=scrollSpeed;
+        this.scroll={ ease:scrollEase, current:0, target:0, last:0 };
+        this.tiltScale = tiltScale;
+        this.onCheckDebounce = debounce(()=>this.onCheck(),200);
 
-      this.renderer = new Renderer({ alpha:true, antialias:true, dpr:Math.min(window.devicePixelRatio||1,2) });
-      this.gl=this.renderer.gl; this.gl.clearColor(0,0,0,0);
+        this.renderer = new Renderer({ alpha:true, antialias:true, dpr:Math.min(window.devicePixelRatio||1,2) });
+        this.gl=this.renderer.gl; this.gl.clearColor(0,0,0,0);
 
-      this.container.innerHTML='';
-      this.container.appendChild(this.gl.canvas);
+        this.container.innerHTML='';
+        this.container.appendChild(this.gl.canvas);
 
-      this.camera = new Camera(this.gl); this.camera.fov=45; this.camera.position.z=20;
-      this.scene = new Transform();
-      this.planeGeometry = new Plane(this.gl, { heightSegments:50, widthSegments:100 });
+        this.camera = new Camera(this.gl); this.camera.fov=45; this.camera.position.z=20;
+        this.scene = new Transform();
+        this.planeGeometry = new Plane(this.gl, { heightSegments:50, widthSegments:100 });
 
-      this.onResize();
-      this.createMedias(items, bend, borderRadius);
-      this.addEventListeners();
-      this.update();
+        this.onResize();
+        this.createMedias(items, bend, borderRadius);
+        this.addEventListeners();
+        this.update();
+      }
+
+      createMedias(items, bend, borderRadius){
+        const galleryItems = (items && items.length)
+          ? items
+          : [{ image: 'img/fallback.jpg', text:'Finalist', subtext:'' }];
+
+        this.mediasImages = galleryItems.concat(galleryItems);
+        this.medias = this.mediasImages.map((d,i)=> new Media({
+          geometry:this.planeGeometry, gl:this.gl, image:d.image, index:i, length:this.mediasImages.length,
+          scene:this.scene, screen:this.screen, text:d.text, subtext:d.subtext,
+          viewport:this.viewport, bend, tiltScale:this.tiltScale, borderRadius
+        }));
+      }
+
+      onTouchDown = (e)=>{ this.isDown=true; this.scroll.position=this.scroll.current; this.start=(e.touches?e.touches[0]:e).clientX; this.container.classList.add('grabbing'); };
+      onTouchMove  = (e)=>{ if(!this.isDown) return; const x=(e.touches?e.touches[0]:e).clientX; const dist=(this.start-x)*(this.scrollSpeed*0.025); this.scroll.target=this.scroll.position+dist; };
+      onTouchUp    = ()=>{ this.isDown=false; this.container.classList.remove('grabbing'); this.onCheck(); };
+      onWheel      = (e)=>{ const d=e.deltaY||e.wheelDelta||e.detail; this.scroll.target += (d>0?this.scrollSpeed:-this.scrollSpeed)*0.2; this.onCheckDebounce(); };
+
+      onCheck(){ if(!this.medias?.[0]) return; const w=this.medias[0].width; const idx=Math.round(Math.abs(this.scroll.target)/w); const snap=w*idx; this.scroll.target = this.scroll.target<0 ? -snap : snap; }
+
+      onResize(){
+        const el=this.container;
+        this.screen={ width: el.clientWidth || el.offsetWidth || 1, height: el.clientHeight || el.offsetHeight || 400 };
+        this.renderer.setSize(this.screen.width, this.screen.height);
+        this.camera.perspective({ aspect:this.screen.width/this.screen.height });
+        const f=(this.camera.fov*Math.PI)/180, h=2*Math.tan(f/2)*this.camera.position.z, w=h*this.camera.aspect;
+        this.viewport={ width:w, height:h };
+        this.medias?.forEach(m=>m.onResize({screen:this.screen, viewport:this.viewport}));
+      }
+
+      update(){
+        this.scroll.current = lerp(this.scroll.current, this.scroll.target, this.scroll.ease);
+        const dir = this.scroll.current > this.scroll.last ? 'right' : 'left';
+        this.medias?.forEach(m=>m.update(this.scroll, dir));
+        this.renderer.render({ scene:this.scene, camera:this.camera });
+        this.scroll.last=this.scroll.current;
+        this.raf=requestAnimationFrame(()=>this.update());
+      }
+
+      destroy(){
+        cancelAnimationFrame(this.raf);
+        window.removeEventListener('resize', this.boundResize);
+        this.container.removeEventListener('wheel', this.onWheel);
+        this.container.removeEventListener('mousedown', this.onTouchDown);
+        window.removeEventListener('mousemove', this.onTouchMove);
+        window.removeEventListener('mouseup', this.onTouchUp);
+        this.container.removeEventListener('touchstart', this.onTouchDown);
+        this.container.removeEventListener('touchmove', this.onTouchMove);
+        this.container.removeEventListener('touchend', this.onTouchUp);
+        if (this.renderer?.gl?.canvas?.parentNode)
+          this.renderer.gl.canvas.parentNode.removeChild(this.renderer.gl.canvas);
+      }
+
+      addEventListeners(){
+        this.boundResize=()=>this.onResize();
+        window.addEventListener('resize', this.boundResize);
+        this.container.addEventListener('wheel', this.onWheel, { passive:true });
+        this.container.addEventListener('mousedown', this.onTouchDown);
+        window.addEventListener('mousemove', this.onTouchMove);
+        window.addEventListener('mouseup', this.onTouchUp);
+        this.container.addEventListener('touchstart', this.onTouchDown, { passive:true });
+        this.container.addEventListener('touchmove', this.onTouchMove, { passive:false });
+        this.container.addEventListener('touchend', this.onTouchUp);
+      }
     }
 
-    createMedias(items, bend, borderRadius){
-      const galleryItems = (items && items.length)
-        ? items
-        : [{ image: (window.__kingQueenImage || 'https://picsum.photos/seed/gusto/1200/900'), text:'Finalist', subtext:'' }];
+    const tabs = document.querySelectorAll('#galleryTabs .tab-btn');
 
-      this.mediasImages = galleryItems.concat(galleryItems);
-      this.medias = this.mediasImages.map((d,i)=> new Media({
-        geometry:this.planeGeometry, gl:this.gl, image:d.image, index:i, length:this.mediasImages.length,
-        scene:this.scene, screen:this.screen, text:d.text, subtext:d.subtext,
-        viewport:this.viewport, bend, tiltScale:this.tiltScale, borderRadius
+    function buildItems(cat){
+      const f = window.finalists || { kings: [], queens: [], lanterns: [] };
+      const list = (f[cat] || []);
+      return list.map((x)=>({
+        image: x.image,
+        text:  x.name  || 'Finalist',
+        subtext: x.batch || ''
       }));
     }
 
-    onTouchDown = (e)=>{ this.isDown=true; this.scroll.position=this.scroll.current; this.start=(e.touches?e.touches[0]:e).clientX; this.container.classList.add('grabbing'); };
-    onTouchMove  = (e)=>{ if(!this.isDown) return; const x=(e.touches?e.touches[0]:e).clientX; const dist=(this.start-x)*(this.scrollSpeed*0.025); this.scroll.target=this.scroll.position+dist; };
-    onTouchUp    = ()=>{ this.isDown=false; this.container.classList.remove('grabbing'); this.onCheck(); };
-    onWheel      = (e)=>{ const d=e.deltaY||e.wheelDelta||e.detail; this.scroll.target += (d>0?this.scrollSpeed:-this.scrollSpeed)*0.2; this.onCheckDebounce(); };
+    let app = null;
+    function renderOGallery(cat){
+      try {
+        const items = buildItems(cat);
+        if (app) app.destroy();
 
-    onCheck(){ if(!this.medias?.[0]) return; const w=this.medias[0].width; const idx=Math.round(Math.abs(this.scroll.target)/w); const snap=w*idx; this.scroll.target = this.scroll.target<0 ? -snap : snap; }
+        const isMobile = window.innerWidth < 768;
+        app = new App(host, {
+          items,
+          bend:        isMobile ? 0 : 3,
+          tiltScale:   isMobile ? 0.45 : 1,
+          borderRadius: 0.04,
+          scrollSpeed: isMobile ? 2.0 : 3.0,
+          scrollEase:  isMobile ? 0.12 : 0.10,
+        });
 
-    onResize(){
-      const el=this.container;
-      this.screen={ width: el.clientWidth || el.offsetWidth || 1, height: el.clientHeight || el.offsetHeight || 400 };
-      this.renderer.setSize(this.screen.width, this.screen.height);
-      this.camera.perspective({ aspect:this.screen.width/this.screen.height });
-      const f=(this.camera.fov*Math.PI)/180, h=2*Math.tan(f/2)*this.camera.position.z, w=h*this.camera.aspect;
-      this.viewport={ width:w, height:h };
-      this.medias?.forEach(m=>m.onResize({screen:this.screen, viewport:this.viewport}));
+        requestAnimationFrame(()=> app.onCheck && app.onCheck());
+      } catch (e) {
+        console.error('renderOGallery failed:', e);
+        host.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;">Failed to build gallery.</div>';
+      }
     }
 
-    update(){
-      this.scroll.current = lerp(this.scroll.current, this.scroll.target, this.scroll.ease);
-      const dir = this.scroll.current > this.scroll.last ? 'right' : 'left';
-      this.medias?.forEach(m=>m.update(this.scroll, dir));
-      this.renderer.render({ scene:this.scene, camera:this.camera });
-      this.scroll.last=this.scroll.current;
-      this.raf=requestAnimationFrame(()=>this.update());
-    }
-
-    destroy(){
-      cancelAnimationFrame(this.raf);
-      window.removeEventListener('resize', this.boundResize);
-      this.container.removeEventListener('wheel', this.onWheel);
-      this.container.removeEventListener('mousedown', this.onTouchDown);
-      window.removeEventListener('mousemove', this.onTouchMove);
-      window.removeEventListener('mouseup', this.onTouchUp);
-      this.container.removeEventListener('touchstart', this.onTouchDown);
-      this.container.removeEventListener('touchmove', this.onTouchMove);
-      this.container.removeEventListener('touchend', this.onTouchUp);
-      if (this.renderer?.gl?.canvas?.parentNode)
-        this.renderer.gl.canvas.parentNode.removeChild(this.renderer.gl.canvas);
-    }
-
-    addEventListeners(){
-      this.boundResize=()=>this.onResize();
-      window.addEventListener('resize', this.boundResize);
-      this.container.addEventListener('wheel', this.onWheel, { passive:true });
-      this.container.addEventListener('mousedown', this.onTouchDown);
-      window.addEventListener('mousemove', this.onTouchMove);
-      window.addEventListener('mouseup', this.onTouchUp);
-      this.container.addEventListener('touchstart', this.onTouchDown, { passive:true });
-      this.container.addEventListener('touchmove', this.onTouchMove, { passive:false });
-      this.container.addEventListener('touchend', this.onTouchUp);
-    }
-  }
-
-  const tabs = document.querySelectorAll('#galleryTabs .tab-btn');
-  const FALLBACKS = [
-    'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1200&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1200&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1549880338-65ddcdfd017b?q=80&w=1200&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1200&auto=format&fit=crop',
-  ];
-
-  function buildItems(cat){
-    const f = window.finalists || { kings: [], queens: [], lanterns: [] };
-    const list = (f[cat] || []);
-    return list.map((x,i)=>({
-      image: x.image || FALLBACKS[i % FALLBACKS.length],
-      text:  x.name  || 'Finalist',
-      subtext: x.batch || ''
-    }));
-  }
-
-  let app = null;
-  function renderOGallery(cat){
-    try {
-      const items = buildItems(cat);
-      if (app) app.destroy();
-
-      const isMobile = window.innerWidth < 768;
-      app = new App(host, {
-        items,
-        bend:        isMobile ? 0 : 3,  // desktop unchanged
-        tiltScale:   isMobile ? 0.45 : 1,
-        borderRadius: 0.04,
-        scrollSpeed: isMobile ? 2.0 : 3.0,
-        scrollEase:  isMobile ? 0.12 : 0.10,
+    tabs.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        btn.classList.add('active');
+        renderOGallery(btn.dataset.cat);
       });
-
-      requestAnimationFrame(()=> app.onCheck && app.onCheck());
-    } catch (e) {
-      console.error('renderOGallery failed:', e);
-      host.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;">Failed to build gallery.</div>';
-    }
-  }
-
-  tabs.forEach(btn => {
-    btn.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
-      btn.classList.add('active');
-      renderOGallery(btn.dataset.cat);
     });
-  });
 
-  const def = document.querySelector('#galleryTabs .tab-btn[data-cat="kings"]');
-  if (def) def.classList.add('active');
-  await waitFor(()=> !!window.finalists, 3000, 50);
-  renderOGallery('kings');
-})();
-</script>
+    const def = document.querySelector('#galleryTabs .tab-btn[data-cat="kings"]');
+    if (def) def.classList.add('active');
+
+    await waitFor(()=> !!window.finalists, 3000, 50);
+    renderOGallery('kings');
+  })();
+  </script>
+
 
 
 
