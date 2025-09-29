@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reward Congratulation Page</title>
+    <!-- Load Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font for a friendly, slightly cursive feel in the header title */
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+
+        .dancing-script {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        /* Set default font to Inter for consistency */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Light gray background */
+        }
+    </style>
+</head>
+<body class="min-h-screen pt-10 pb-10">
+
+    <!-- Main Content Container: Centered and responsive -->
+    <div class="max-w-md mx-auto bg-white shadow-xl rounded-lg overflow-hidden">
+
+        <!-- 1. Header Section (Dark Blue) -->
+        <header class="bg-blue-900 text-white p-6 md:p-8 text-center rounded-t-lg">
+            <h1 class="dancing-script text-4xl font-bold mb-3">
+                Congratulation!
+            </h1>
+            <div class="text-4xl md:text-5xl font-extrabold mb-2 tracking-wide">
+                Df4eoI
+            </div>
+            <p class="text-lg md:text-xl font-light">
+                သီတင်းကျွတ်မုန့်ဖိုး: <span class="font-bold">30000 MMK</span> ရရှိပါပြီ!
+            </p>
+        </header>
+
+        <!-- 2. Search Bar Section -->
+        <section class="p-4 bg-white">
+            <div class="relative w-full">
+                <input
+                    type="text"
+                    placeholder="Search by ID"
+                    class="w-full py-3 pl-5 pr-12 text-gray-700 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-150"
+                    aria-label="Search by ID"
+                >
+                <div class="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-400">
+                    <!-- Magnifying glass icon (lucide-react icon equivalent) -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. List Section (Prizes/Transactions) -->
+        <main class="text-gray-800">
+            <!-- List Items Container -->
+            <div id="prize-list">
+                <!-- Helper function to generate list items (demonstration in JS, but manually rendered here) -->
+
+                <script>
+                    /**
+                     * JavaScript to simulate the data and generate the list rows dynamically,
+                     * mimicking the look and feel of the image, including alternating colors.
+                     */
+                    const listData = [
+                        { id: "Df4eoI", amount: "30000 MMK" },
+                        { id: "Df4eoI", amount: "30000 MMK" },
+                        { id: "Df4eoI", amount: "10000 MMK" },
+                        { id: "Df4eoI", amount: "10000 MMK" },
+                        { id: "Df4eoI", amount: "10000 MMK" },
+                        { id: "Df4eoI", amount: "10000 MMK" },
+                        { id: "Df4eoI", amount: "10000 MMK" },
+                        { id: "Df4eoI", amount: "10000 MMK" },
+                        { id: "Df4eoI", amount: "10000 MMK" },
+                        { id: "Df4eoI", amount: "10000 MMK" },
+                        { id: "Df4eoI", amount: "10000 MMK" },
+                        { id: "Df4eoI", amount: "5000 MMK" },
+                    ];
+
+                    const listContainer = document.getElementById('prize-list');
+
+                    listData.forEach((item, index) => {
+                        const isEven = index % 2 === 0;
+                        const bgColor = isEven ? 'bg-amber-100' : 'bg-white';
+                        const row = document.createElement('div');
+                        row.className = `flex justify-between items-center py-3 px-6 text-base font-semibold border-b border-gray-100 ${bgColor}`;
+                        row.innerHTML = `
+                            <span class="w-1/2 text-left">${item.id}</span>
+                            <span class="w-1/2 text-right">${item.amount}</span>
+                        `;
+                        listContainer.appendChild(row);
+                    });
+
+                    // Remove the last border for a cleaner look
+                    if(listContainer.lastElementChild) {
+                        listContainer.lastElementChild.classList.remove('border-b');
+                    }
+                </script>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

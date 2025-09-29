@@ -101,10 +101,23 @@ def init_database():
             CREATE TABLE IF NOT EXISTS votes (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 user_uid VARCHAR(128) NOT NULL,
-                candidate_type ENUM('king','queen') NOT NULL,
+                candidate_type ENUM('king','queen','lantern') NOT NULL,
                 candidate_id INT NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 UNIQUE KEY unique_vote (user_uid, candidate_type)
+            )
+        """)
+        
+        # Lanterns table
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS lanterns (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                name VARCHAR(100) NOT NULL,
+                batch VARCHAR(50),
+                description TEXT,
+                image_path VARCHAR(200),
+                vote_count INT DEFAULT 0,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         """)
         
@@ -162,6 +175,27 @@ def init_database():
                 INSERT INTO queens (name, batch, bio, image_path) 
                 VALUES (%s, %s, %s, %s)
             """, queens_data)
+        
+        # Insert lantern candidates if table is empty
+        cursor.execute("SELECT COUNT(*) FROM lanterns")
+        if cursor.fetchone()[0] == 0:
+            lanterns_data = [
+                ("Aurelia light", "GED-1", "a handmade soft pink lantern, inspired by the gentle beauty of the sea. Its ribbons and lights create a dreamy glow, symbolizing hope and creativity for the Thadingyut festival.", "Lantern/ged-1.jpg"),
+                ("ကြာပန်းမီးပုံလေး", "GUF-91", "ကျွန်မတို့သုငယ်ချက်းသုံးယောက်ကဘုရားကိုကပ်လှူချင်သောဆန္ဒကိုဦးတည်ကာတီထွင်ခဲ့ကြခြင်းဖြစ်ပါတယ်။", "Lantern/guf-91.jpg"),
+                ("'Water Lantern'", "GUF-92", "'May our Lantern Flow in the river with the light of hopes and carry our dream'", "Lantern/guf-92.jpg"),
+                ("'Fairybells of Moonlight' Lantern", "HND-6,7", "လမင်းရဲ့အလင်းကို ခေါင်းလောင်းပန်းလေးတစ်ပွင့်ထဲထည့်ထားသကဲ့သို့ ဖန်းတီးပေးထားပါတယ်ရှင့်", "Lantern/hnd-6,7.jpg"),
+                ("Lantern of Thadingyut", "HND-60", "မြန်မာ့ဓ‌လေ့နဲ့ သီတင်းကျွတ်‌နွေးထွေးမှုကို ပေါင်းစပ်ဖန်တီးထားတဲ့ မြန်မာ့သီတင်းကျွတ်မီးပုံးလး ပါရှင့်", "Lantern/hnd-60.jpg"),
+                ("ပဒုမ္မာဒီပ", "HND-65", "ကြာပန်းအလင်းက သန့်ရှင်းစင်ကြယ်တဲ့ အလင်းတရားကို သတိပေးနေတယ် လို့ ကိုယ်စားပြုပါတယ်", "Lantern/hnd-65.jpg"),
+                ("HND-69", "HND-69", "မီးပုံးလေးကို မီးဖွင့်ဖို့မမေ့ပါနဲ့ မှောင်နေတာလေးက မင်းမရှိတဲ့ ဘဝနဲ့တူလို့ပါ ကိုရယ်", "Lantern/hnd-69.jpg"),
+                ("Floral", "LV3-B39", "Floral Elegance for every occasion", "Lantern/lv3-b39.jpg"),
+                ("The Beauty of nature", "LV3-B42", "နွံထဲကနေတိုးထွက်ပြီးပွင့်ဖူးရတာတောင် ညစ်ပေကျံမနေဘဲ အလှပဆုံးပွင့်လန်းကြတာကြောင့်ဖြစ်ပါတယ်ရှင့်", "Lantern/lv3-b42.jpg"),
+                ("luminous lantern", "PreIG-B5", "နှစ်ပါးပေါင်းသွားတဲ့ မီးပုံးအလင်းတွေက လူ့စိတ်ထဲမှာရှိတဲ့ အမှောင်တိမ်တွေကို ဖယ်ရှားပေးသလို သီတင်းကျွတ်ညကို မေတ္တာနဲ့ ငြိမ်းချမ်းမှုအလင်းဖြင့် အလှဆင်ပေးနေပါတယ်", "Lantern/preIG-b5.jpg")
+            ]
+            
+            cursor.executemany("""
+                INSERT INTO lanterns (name, batch, description, image_path) 
+                VALUES (%s, %s, %s, %s)
+            """, lanterns_data)
         
         conn.commit()
         print("Database initialized successfully!")
@@ -274,7 +308,7 @@ def viewmore():
 def vote():
     try:
         candidate_id = request.form.get('candidate_id')
-        candidate_type = request.form.get('candidate_type')  # 'king' or 'queen'
+        candidate_type = request.form.get('candidate_type')  # 'king', 'queen', or 'lantern'
 
         if not candidate_id or not candidate_type:
             return jsonify({"success": False, "message": "Missing candidate information"})
@@ -316,6 +350,133 @@ def vote():
     except Exception as e:
         return jsonify({"success": False, "message": f"Error: {str(e)}"})
 
+@app.route("/vote_lantern", methods=["POST"])
+@require_auth
+def vote_lantern():
+    """Handle lantern voting via AJAX"""
+    try:
+        data = request.get_json()
+        lantern_id = data.get('lantern_id')
+        token = (data.get('token') or '').strip()
+
+        if not lantern_id:
+            return jsonify({"success": False, "message": "Missing lantern ID"})
+        if not token:
+            return jsonify({"success": False, "message": "Token is required"})
+
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        # 1. Check if user already voted for lantern
+        cursor.execute(
+            "SELECT * FROM votes WHERE user_uid = %s AND candidate_type = 'lantern'",
+            (session['user_id'],)
+        )
+        if cursor.fetchone():
+            cursor.close()
+            conn.close()
+            return jsonify({"success": False, "message": "You have already voted for a lantern!"})
+
+        # 2. Update vote count in lanterns table
+        cursor.execute("UPDATE lanterns SET vote_count = vote_count + 1 WHERE id = %s", (lantern_id,))
+        if cursor.rowcount == 0:
+            conn.rollback()
+            cursor.close()
+            conn.close()
+            return jsonify({"success": False, "message": "Lantern not found"})
+
+        # 3. Record that the user has voted
+        cursor.execute(
+            "INSERT INTO votes (user_uid, candidate_type, candidate_id) VALUES (%s, 'lantern', %s)",
+            (session['user_id'], lantern_id)
+        )
+
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return jsonify({"success": True, "message": "Lantern vote recorded successfully!"})
+
+    except Exception as e:
+        return jsonify({"success": False, "message": f"Error: {str(e)}"})
+
+
+@app.route("/final_vote", methods=["POST"])
+@require_auth
+def final_vote():
+    try:
+        data = request.get_json(force=True) or {}
+        token = (data.get("token") or "").strip().upper()
+        category = (data.get("category") or "").strip().lower()
+        candidate_id = data.get("candidate_id")
+
+        if not token or not category or not candidate_id:
+            return jsonify({"success": False, "message": "Token, category, and candidate are required"}), 400
+
+        if len(token) != 6:
+            return jsonify({"success": False, "message": "Token must be exactly 6 characters"}), 400
+
+        conn = get_connection()
+        cursor = conn.cursor(dictionary=True)
+
+        # Check token existence
+        cursor.execute("SELECT * FROM final_tokens WHERE token = %s", (token,))
+        token_row = cursor.fetchone()
+        if not token_row:
+            cursor.close()
+            conn.close()
+            return jsonify({"success": False, "message": "Invalid token"}), 400
+
+        # Check if token already used for category
+        used_column = f"used_for_{category}"
+        if used_column not in token_row:
+            cursor.close()
+            conn.close()
+            return jsonify({"success": False, "message": "Invalid voting category"}), 400
+
+        if token_row[used_column]:
+            cursor.close()
+            conn.close()
+            return jsonify({"success": False, "message": f"Token already used for {category}"}), 400
+
+        # Ensure candidate exists
+        table_name = f"{category}s"
+        cursor.execute(f"SELECT id FROM {table_name} WHERE id = %s", (candidate_id,))
+        if not cursor.fetchone():
+            cursor.close()
+            conn.close()
+            return jsonify({"success": False, "message": f"{category.capitalize()} not found"}), 404
+
+        # Record vote
+        cursor.execute(
+            "INSERT INTO final_votes (token, category, candidate_id) VALUES (%s, %s, %s)",
+            (token, category, candidate_id)
+        )
+
+        # Mark token as used and store vote details
+        update_query = f"""
+            UPDATE final_tokens
+            SET {used_column} = 1,
+                candidate_{category} = %s,
+                used_by_{category} = %s,
+                used_at_{category} = NOW()
+            WHERE token = %s
+        """
+        cursor.execute(update_query, (candidate_id, session['user_id'], token))
+
+        # Increase candidate vote count
+        cursor.execute(f"UPDATE {table_name} SET vote_count = vote_count + 1 WHERE id = %s", (candidate_id,))
+
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return jsonify({"success": True, "message": f"Your vote for {category} has been recorded."})
+
+    except Exception as e:
+        return jsonify({"success": False, "message": f"Error: {str(e)}"}), 500
+
+
 
 
 @app.route("/results")
@@ -335,8 +496,18 @@ def results():
     return render_template("voting_result.html", kings=kings, queens=queens)
 
 @app.route("/lantern")
+@require_auth
 def lantern():
-    return render_template("lantern.html")
+    conn = get_connection()
+    cursor = conn.cursor(dictionary=True)
+    
+    cursor.execute("SELECT * FROM lanterns ORDER BY id")
+    lanterns = cursor.fetchall()
+    
+    cursor.close()
+    conn.close()
+    
+    return render_template("lantern.html", lanterns=lanterns)
 
 @app.route("/about")
 def about():
@@ -370,6 +541,10 @@ def serve_queen_viewmore_images(filename):
 @app.route('/King_Viewmore/<path:filename>')
 def serve_king_viewmore_images(filename):
     return send_from_directory('templates/img/King_Viewmore', filename)
+
+@app.route('/Lantern/<path:filename>')
+def serve_lantern_images(filename):
+    return send_from_directory('templates/Lantern', filename)
 
 # Serve static files (CSS, JS, etc.)
 @app.route('/static/<path:filename>')
