@@ -439,33 +439,50 @@ def final_vote():
             conn.close()
             return jsonify({"success": False, "message": f"Token already used for {category}"}), 400
 
-        # Ensure candidate exists
-        table_name = f"{category}s"
-        cursor.execute(f"SELECT id FROM {table_name} WHERE id = %s", (candidate_id,))
-        if not cursor.fetchone():
-            cursor.close()
-            conn.close()
-            return jsonify({"success": False, "message": f"{category.capitalize()} not found"}), 404
+        # Handle reward separately (no candidate table, no candidate required)
+        if category == "reward":
+            cursor.execute(
+                "INSERT INTO final_votes (token, category, candidate_id) VALUES (%s, %s, %s)",
+                (token, category, None)
+            )
+            cursor.execute(
+                """
+                UPDATE final_tokens
+                SET used_for_reward = 1,
+                    used_by_reward = %s,
+                    used_at_reward = NOW()
+                WHERE token = %s
+                """,
+                (session['user_id'], token)
+            )
+        else:
+            # Ensure candidate exists
+            table_name = f"{category}s"
+            cursor.execute(f"SELECT id FROM {table_name} WHERE id = %s", (candidate_id,))
+            if not cursor.fetchone():
+                cursor.close()
+                conn.close()
+                return jsonify({"success": False, "message": f"{category.capitalize()} not found"}), 404
 
-        # Record vote
-        cursor.execute(
-            "INSERT INTO final_votes (token, category, candidate_id) VALUES (%s, %s, %s)",
-            (token, category, candidate_id)
-        )
+            # Record vote
+            cursor.execute(
+                "INSERT INTO final_votes (token, category, candidate_id) VALUES (%s, %s, %s)",
+                (token, category, candidate_id)
+            )
 
-        # Mark token as used and store vote details
-        update_query = f"""
-            UPDATE final_tokens
-            SET {used_column} = 1,
-                candidate_{category} = %s,
-                used_by_{category} = %s,
-                used_at_{category} = NOW()
-            WHERE token = %s
-        """
-        cursor.execute(update_query, (candidate_id, session['user_id'], token))
+            # Mark token as used and store vote details
+            update_query = f"""
+                UPDATE final_tokens
+                SET {used_column} = 1,
+                    candidate_{category} = %s,
+                    used_by_{category} = %s,
+                    used_at_{category} = NOW()
+                WHERE token = %s
+            """
+            cursor.execute(update_query, (candidate_id, session['user_id'], token))
 
-        # Increase candidate vote count
-        cursor.execute(f"UPDATE {table_name} SET vote_count = vote_count + 1 WHERE id = %s", (candidate_id,))
+            # Increase candidate vote count where applicable
+            cursor.execute(f"UPDATE {table_name} SET vote_count = vote_count + 1 WHERE id = %s", (candidate_id,))
 
         conn.commit()
         cursor.close()
@@ -520,6 +537,83 @@ def final():
 @app.route("/winner")
 def winner():
     return render_template("winner.html")
+
+@app.route("/mote_phoe")
+@require_auth
+def mote_phoe():
+    return render_template("mote_phoe.html")
+
+@app.route("/reward_claim", methods=["POST"])
+@require_auth
+def reward_claim():
+    try:
+        data = request.get_json(force=True) or {}
+        token = (data.get("token") or "").strip().upper()
+
+        if not token:
+            return jsonify({"success": False, "message": "Token is required"}), 400
+        if len(token) != 6:
+            return jsonify({"success": False, "message": "Token must be exactly 6 characters"}), 400
+
+        conn = get_connection()
+        cursor = conn.cursor(dictionary=True)
+
+        cursor.execute("SELECT * FROM final_tokens WHERE token = %s", (token,))
+        token_row = cursor.fetchone()
+        if not token_row:
+            cursor.close()
+            conn.close()
+            return jsonify({"success": False, "message": "Invalid token"}), 400
+
+        used_for_reward = bool(token_row.get("used_for_reward"))
+        used_by_reward = token_row.get("used_by_reward")
+        reward_value = token_row.get("reward_value")
+
+        # If already used, only allow the same user to view again
+        if used_for_reward:
+            if used_by_reward == session.get('user_id'):
+                cursor.close()
+                conn.close()
+                return jsonify({
+                    "success": True,
+                    "message": "Already claimed. Showing your reward.",
+                    "reward_value": reward_value,
+                    "token": token
+                })
+            else:
+                cursor.close()
+                conn.close()
+                return jsonify({"success": False, "message": "This token has already been used by another user."}), 400
+
+        # Not used yet: claim it for this user and return the value
+        cursor.execute(
+            "INSERT INTO final_votes (token, category, candidate_id) VALUES (%s, %s, %s)",
+            (token, 'reward', None)
+        )
+        cursor.execute(
+            """
+            UPDATE final_tokens
+            SET used_for_reward = 1,
+                used_by_reward = %s,
+                used_at_reward = NOW()
+            WHERE token = %s
+            """,
+            (session['user_id'], token)
+        )
+
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return jsonify({
+            "success": True,
+            "message": "Token verified successfully.",
+            "reward_value": reward_value,
+            "token": token
+        })
+
+    except Exception as e:
+        return jsonify({"success": False, "message": f"Error: {str(e)}"}), 500
 
 # Serve images from templates folder
 @app.route('/img/<path:filename>')
