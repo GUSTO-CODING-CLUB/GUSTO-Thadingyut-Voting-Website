@@ -268,7 +268,7 @@ def logout():
     return redirect(url_for('login'))
 
 @app.route("/")
-@require_auth
+# @require_auth
 def home():
     return render_template("home.html")
 
