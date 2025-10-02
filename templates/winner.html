@@ -8,45 +8,67 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
   <link rel="icon" type="image/png" href="{{ url_for('serve_image', filename='favicon.png') }}" />
 
-  
-
   <style>
-    /* Professional Smooth Navigation Indicator */
+    /* Pill */
     #nav-indicator{
-      position:absolute; border-radius:.75rem; background:#015486;
-      box-shadow:0 4px 12px rgba(1, 84, 134, 0.3);
-      transition:all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      position:absolute; border-radius:.5rem; background:#015486;
+      box-shadow:0 2px 8px rgba(0,0,0,.15);
+      transition:all .2s ease-out;
       opacity:0; pointer-events:none;
-      transform-origin: center;
     }
-    /* Keep links above the pill */
     .nav-a{ position:relative; z-index:10; }
-
-    /* ✅ Desktop-only: active link becomes white */
     @media (min-width:768px){
       .nav-a.is-active, .nav-a.is-active * { color:#fff !important; }
     }
-    /* ✅ Mobile: keep active link dark on white background */
     @media (max-width:767px){
-      .nav-a.is-active, .nav-a.is-active * { color:#111827 !important; } /* Tailwind gray-900 */
+      .nav-a.is-active, .nav-a.is-active * { color:#111827 !important; }
     }
 
-    
-    @keyframes diya-glow {
-      0%   { filter: brightness(1) drop-shadow(0 0 0px #FFD700); }
-      40%  { filter: brightness(1.3) drop-shadow(0 0 16px #FFD700); }
-      60%  { filter: brightness(1.1) drop-shadow(0 0 8px #FFD700); }
-      100% { filter: brightness(1) drop-shadow(0 0 0px #FFD700); }
+    /* Winner card: same-photo halo blur */
+    .winner-card { --img: url('img/king.jpg'); }
+    .winner-card .halo{
+      position:absolute; inset:0; border-radius:9999px;
+      background-image:
+        radial-gradient(circle at 50% 45%,
+          rgba(0,0,0,.18) 0 55%,
+          rgba(0,0,0,.10) 62%,
+          rgba(0,0,0,0) 75%),
+        var(--img);
+      background-size:cover; background-position:center;
+      filter: blur(14px) saturate(1.03);
+      transform: scale(1.08);
     }
-    .animate-diya-glow {
-      animation: diya-glow 2s infinite;
+    .winner-card .photo{
+      background-image: var(--img);
+      background-size: cover; background-position: center;
+      border-radius: 9999px;
     }
-    
+
   </style>
 
-  
+    <style>
+    .card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 1rem;
+    }
+    .card video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+    .card-content {
+      position: relative;
+      z-index: 1;
+    }
+  </style>
 </head>
-<body class="flex flex-col min-h-screen bg-white text-gray-800">
+
+<body class="bg-white text-center font-sans">
 
   <!-- Navbar -->
   <nav class="bg-white shadow sticky top-0 z-50">
@@ -94,7 +116,6 @@
             <li><a href="{{ url_for('home') }}"           class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">Home</a></li>
             <li><a href="{{ url_for('candidates') }}" class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">Candidate</a></li>
             <li><a href="{{ url_for('lantern') }}"        class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">Lantern</a></li>
-            <li><a href="{{ url_for('mote_phoe') }}"        class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">Mote Phoe</a></li>
             <li><a href="{{ url_for('results') }}"  class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">Voting Result</a></li>
             <li><a href="{{ url_for('about') }}"       class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">About Us</a></li>
             <li><a href="{{ url_for('final') }}"          class="nav-a block px-3 py-2 rounded-lg text-gray-700 lg:text-2xl">Final</a></li>
@@ -107,37 +128,95 @@
   </nav>
 
   <!-- MAIN -->
-    <main class="relative flex-grow flex flex-col justify-center items-center text-center px-4 py-12 font-[fa-chevron-left] overflow-hidden min-h-[calc(100vh-180px)] md:min-h-[calc(100vh-220px)]">
-    <!-- Video background -->
-    <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover pointer-events-none">
-      <source src="img/main_page_hero.mp4" type="video/mp4">
-    </video>
-    <!-- Soft dark overlay for readability -->
-    <div class="absolute inset-0 bg-black/40 z-0"></div>
+  <main class="relative flex-grow flex flex-col items-center text-center px-4 py-12 overflow-hidden">
+    <!-- Title -->
 
-    <!-- Foreground content -->
-    <div class="relative z-10 max-w-3xl mx-auto px-3">
-      <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white drop-shadow-md">
-          မကြာမီ လာမည် မျှော်!
-      </h1>
-      <p class="mt-6 text-lg sm:text-xl text-white/95 drop-shadow mb-8">
-        စတင်ဘာလ ၃၀ ရက်နေ့ကြရင် ပြန်လာခဲ့နော်
-      </p>
-      <!-- Example button for visual contrast, can be removed if not needed -->
-      <!-- <button class="inline-block px-6 h-[54px] w-[220px] bg-orange-500/90 text-white rounded-3xl shadow-lg hover:bg-orange-600">မဲပေးလိုက်ရအောင်!</button> -->
+    <!-- Winner Hero Section -->
+    <section class="w-full max-w-3xl mx-auto flex flex-col items-center mb-10">
+      <div class="flex flex-col items-center">
+        <img src="img/crown.jpg" alt="Crown" class="w-44 md:w-56 mb-2 drop-shadow-xl animate-bounce-slow" style="animation-duration:2.5s;" />
+        <h1 class="text-5xl md:text-7xl font-extrabold italic text-orange-500 drop-shadow-lg mb-2 font-[Merriweather,serif] tracking-tight">Congratulations!</h1>
+        <p class="text-2xl md:text-3xl italic text-blue-900 font-light mb-4 font-[Merriweather,serif]">A Year of 2025 - King & Queen</p>
+      </div>
+      <div class="mt-6 flex flex-col items-center">
+        <span class="block text-2xl sm:text-3xl md:text-4xl font-extrabold italic text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-pink-500 mb-4 font-[Dancing Script,cursive] drop-shadow-lg leading-tight sm:leading-snug">
+          ✨ Our Radiant Royalty ✨<br>
+          <span class="text-base sm:text-lg md:text-xl font-normal not-italic text-orange-600 block mt-2 tracking-wide">Shining brighter than ever before</span>
+        </span>
+        <div class="flex justify-center mt-2">
+          <div class="rounded-2xl bg-white/80 shadow-2xl p-2 md:p-4 flex items-center justify-center" style="max-width:700px;">
+            <img src="img/KINGandQueen.jpg" alt="King & Queen" class="w-full h-auto rounded-xl object-contain" style="max-height:480px;" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- King & Queen Cards -->
+    <h2 class="mt-12 text-4xl md:text-5xl font-extrabold italic text-orange-500 mb-8 tracking-tight font-[Merriweather,serif]">👑 King & Queen 👑</h2>
+    <div class="flex flex-col md:flex-row justify-center gap-16 md:gap-24 mt-6 flex-wrap">
+      <!-- King Card -->
+      <div class="relative w-[340px] md:w-[400px] h-[520px] rounded-3xl overflow-hidden shadow-2xl flex flex-col items-center justify-center p-6 bg-white">
+        <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover z-0">
+          <source src="img/main_page_hero.mp4" type="video/mp4">
+        </video>
+        <div class="absolute inset-0 bg-black/40 z-0"></div>
+        <div class="relative z-10 flex flex-col items-center justify-center h-full w-full">
+          <img src="Kings/Bo Bo Linn.jpg" alt="King" class="w-64 h-64 object-contain rounded-2xl shadow-xl border-4 border-white mb-6 mt-2" />
+          <span class="text-3xl md:text-4xl font-extrabold italic text-yellow-300 drop-shadow mb-2 font-[Dancing Script,cursive]">👑 Bo Bo Linn 👑</span>
+          <span class="mt-2 bg-[#015486] px-6 py-2 rounded-full text-white text-lg font-semibold tracking-wide shadow">King</span>
+          <p class="mt-3 text-lg text-white/90 font-medium">HND-65</p>
+        </div>
+      </div>
+      <!-- Queen Card -->
+      <div class="relative w-[340px] md:w-[400px] h-[520px] rounded-3xl overflow-hidden shadow-2xl flex flex-col items-center justify-center p-6 bg-white">
+        <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover z-0">
+          <source src="img/main_page_hero.mp4" type="video/mp4">
+        </video>
+        <div class="absolute inset-0 bg-black/40 z-0"></div>
+        <div class="relative z-10 flex flex-col items-center justify-center h-full w-full">
+          <img src="Queen/Thanzin Cho.png" alt="Queen" class="w-64 h-64 object-contain rounded-2xl shadow-xl border-4 border-white mb-6 mt-2" />
+          <span class="text-3xl md:text-4xl font-extrabold italic text-pink-700 drop-shadow mb-2 font-[Dancing Script,cursive]">👑 Thanzin Cho 👑</span>
+          <span class="mt-2 bg-[#015486] px-6 py-2 rounded-full text-white text-lg font-semibold tracking-wide shadow">Queen</span>
+          <p class="mt-3 text-lg text-white/90 font-medium">HND-69</p>
+        </div>
+      </div>
     </div>
 
-    </main>
+    <!-- Lantern Winner -->
+    <h2 class="mt-16 text-3xl md:text-4xl font-extrabold italic text-yellow-500 mb-8 tracking-tight font-[Merriweather,serif]">🏮 Lantern Winner 🎉</h2>
+    <div class="flex justify-center mt-6">
+      <div class="relative w-full max-w-2xl md:w-[700px] h-auto rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row items-center justify-center p-2 sm:p-4 md:p-6 bg-white">
+        <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover z-0">
+          <source src="img/main_page_hero.mp4" type="video/mp4">
+        </video>
+        <div class="absolute inset-0 bg-black/40 z-0"></div>
+        <div class="relative z-10 flex flex-col md:flex-row items-center justify-center h-full w-full w-full gap-0 md:gap-8">
+          <!-- Image Side -->
+          <div class="flex-shrink-0 flex justify-center items-center w-full md:w-1/2 py-4 md:py-0">
+            <img src="Lantern/hnd-6,7.jpg" alt="Lantern" class="w-[80vw] max-w-[320px] md:max-w-[340px] h-auto md:h-[340px] object-contain rounded-2xl shadow-xl border-4 border-white" style="max-height:340px;" />
+          </div>
+          <!-- Text Side -->
+          <div class="flex flex-col items-center justify-center w-full md:w-1/2 px-2 md:px-0 mt-4 md:mt-0">
+            <span class="text-lg sm:text-2xl md:text-3xl font-extrabold italic text-orange-500 drop-shadow mb-2 font-[Dancing Script,cursive] text-center">'Fairybells of Moonlight' Lantern</span>
+            <p class="mt-2 sm:mt-3 text-base sm:text-lg text-white/90 font-medium text-center">HND 6 + 7</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Inspirational Text -->
+    <div class="max-w-6xl mx-auto mt-16 mb-8 px-4">
+      <p class="text-center text-base md:text-lg text-gray-700 italic font-medium leading-relaxed">
+        ✨ At GUSTO College,<br>
+        the Thadingyut Festival reminds us that true light shines from confidence, kindness, and courage. <br>
+        Being crowned King and Queen is not just a title, but an inspiration for all to lead with honor and brighten the path for others. ✨
+      </p>
+    </div>
+  </main>
 
 
-  <!-- for after page -->
-  <!-- <h1 class="text-2xl font-bold text-center mb-6">Thank you for coming back!</h1>
-    <button id="voteBtn" class="w-32 py-2 font-semibold text-lg bg-gray-200 text-black rounded-[20px] shadow-lg transition hover:bg-[#BC4501] hover:text-white hover:backdrop-blur-sm hover:scale-105">
-        Vote Now
-    </button> -->
-
-   <!-- Footer -->
-   <footer class="bg-[#03254C] py-4 px-4 md:py-5 md:px-8 h-auto md:h-[200px]">
+  <!-- Footer -->
+  <footer class="bg-[#03254C] py-4 px-4 md:py-5 md:px-8 h-auto md:h-[200px]">
     <div class="flex flex-col md:flex-row justify-between items-center h-full text-center">
 
         <div class="text-orange-400 font-medium 
@@ -184,18 +263,10 @@
   <script>
   const menuBtn = document.getElementById('menu-btn');
   const navLinks = document.getElementById('nav-links');
-  if (menuBtn && navLinks) menuBtn.addEventListener('click', () => navLinks.classList.toggle('hidden'));
+  if (menuBtn) menuBtn.addEventListener('click', () => navLinks.classList.toggle('hidden'));
   </script>
   
   <!-- Unified Navigation Script -->
   <script src="{{ url_for('static', filename='js/navigation.js') }}"></script>
-
-  <!-- for after page -->
-  <!--     <script>
-      const voteBtn = document.getElementById('voteBtn');
-      voteBtn.addEventListener('click', function () {
-          window.location.href = "final.html";
-      });
-    </script> -->
 </body>
 </html>

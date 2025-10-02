@@ -201,6 +201,50 @@
       </div>
     </div>
 
+    <!-- Footer -->
+   <footer class="bg-[#03254C] py-4 px-4 md:py-5 md:px-8 h-auto md:h-[200px]">
+    <div class="flex flex-col md:flex-row justify-between items-center h-full text-center">
+
+        <div class="text-orange-400 font-medium 
+                    text-base lg:text-xl 
+                    mb-3 md:mb-0 
+                    ml-0 md:ml-[100px] 
+                    pr-0 md:pr-4 order-1">
+        ပျော်ရွှင်စရာသတင်းကျွတ်အချိန်အခါလေးဖြစ်ပါစေ
+        </div>
+
+        <div class="flex justify-center items-center py-2 order-2 flex-grow-0">
+        <img src="img/SeMeeKut.png" alt="Diya" class="w-[36px] h-[36px] mx-1 md:w-[50px] md:h-[50px] animate-diya-glow" />
+        <img src="img/SeMeeKut.png" alt="Diya" class="w-[50px] h-[50px] -mt-3 mx-1 md:w-[70px] md:h-[70px] md:-mt-4 animate-diya-glow" />
+        <img src="img/SeMeeKut.png" alt="Diya" class="w-[36px] h-[36px] mx-1 md:w-[50px] md:h-[50px] animate-diya-glow" />
+        </div>
+
+        <div class="flex flex-col items-center md:items-end 
+                    text-orange-400 font-medium 
+                    text-base md:text-lg lg:text-xl 
+                    mt-3 md:mt-0 
+                    mr-0 md:mr-[100px] 
+                    pl-0 md:pl-4 order-3">
+        
+        <div class="flex flex-wrap justify-center md:justify-end w-[370px] lg:justify-center space-x-4 md:space-x-6 mb-1 md:mb-0 font-[fa-chevron-left]">
+            <a href="{{ url_for('home') }}" class="hover:text-yellow-400">Home</a>
+            <a href="{{ url_for('candidates') }}" class="hover:text-yellow-400">Candidate</a>
+            <a href="{{ url_for('lantern') }}" class="hover:text-yellow-400">Lantern</a>
+        </div>
+
+        <br>
+
+        <div class="flex flex-wrap justify-center md:justify-end space-x-4 md:space-x-6 mt-1 md:mt-1 font-[fa-chevron-left]">
+            <a href="{{ url_for('results') }}" class="hover:text-yellow-400">Voting Result</a>
+            <a href="{{ url_for('about') }}" class="hover:text-yellow-400">About us</a>
+            <a href="{{ url_for('final') }}" class="hover:text-yellow-400">Final</a>
+            <a href="{{ url_for('winner') }}" class="hover:text-yellow-400">Winner</a>
+        </div>
+        </div>
+
+    </div>
+    </footer>
+
   <!-- Mobile nav toggle -->
     <script>
   const menuBtn = document.getElementById('menu-btn');
@@ -390,13 +434,12 @@
             <h3 class="text-xl font-bold text-gray-800 mb-1">${c.name}</h3>
             <p class="text-gray-600 mb-3">${c.batch}</p>
             ${bioHtml}
-            <div class="mt-2 flex items-stretch gap-3">
+            <div disabled class="mt-2 flex items-stretch gap-3">
               <button
-                disabled class="flex-1 bg-[#015486] text-white py-2 px-4 rounded-lg font-semibold hover:bg-[#0b6aa8] transition-colors duration-300"
+                disabled class="flex-1 bg-[grey] text-white py-2 px-4 rounded-lg font-semibold cursor-not-allowed"
                 data-action="final-vote"
                 data-id="${c.id ?? ''}"
                 data-category="${category}"
-                ${c.id ? '' : 'disabled'}
               >
                 Vote
               </button>
